@@ -1,0 +1,478 @@
+\input{preamble.tex}
+
+\titulo{Método de classificação e comparação de build orders em StarCraft II}
+\autor
+{
+	UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL\\
+	ESCOLA DE ENGENHARIA\\
+	DEPARTAMENTO DE ENGENHARIA ELÉTRICA\\
+	\vspace*{4\baselineskip} 
+	ROGIEL JOSIAS SULZBACH
+}
+\local{Porto Alegre}
+\data{2016}
+\orientador{Prof. Dr. Altamiro Amadeu Susin}
+\coorientador{}
+\instituicao{}
+\preambulo{Projeto de Diplomação apresentado ao Departamento de Engenharia Elétrica da Escola de Engenharia da Universidade Federal do Rio Grande do Sul, como requisito parcial para Graduação em Engenharia Elétrica}
+
+\makeindex
+\begin{document}
+\selectlanguage{brazil}
+\frenchspacing 
+
+\imprimircapa
+\imprimirfolhaderosto*
+
+%\begin{fichacatalografica}
+%	\includepdf{fichaCatalog.pdf}
+%\end{fichacatalografica}
+
+%%=========================================================================
+%% FOLHA DE APROVAÇÃO
+%%=========================================================================
+%
+%\begin{folhadeaprovacao}
+%	\begin{center}
+%		{\ABNTEXchapterfont\large{VICENTE COSTAMILAN DA CUNHA}}
+%		
+%		\vspace*{\fill}
+%		\begin{center}
+%			\ABNTEXchapterfont\bfseries\Large\imprimirtitulo
+%		\end{center}
+%		
+%		\vspace*{\fill}
+%		\hspace{.45\textwidth}
+%		\begin{minipage}{.5\textwidth}
+%			\imprimirpreambulo
+%		\end{minipage}%
+%	\end{center}
+%	
+%	\assinatura{\textbf{\imprimirorientador} \\ Orientador - UFRGS} 
+%	\assinatura{\textbf{Prof. Dr. Ály Ferreira Flores Filho} \\ Chefe do Departamento de Engenharia Elétrica (DELET) - UFRGS}
+%	
+%	\begin{center}
+%		Aprovado em 03 de dezembro de 2015.
+%	\end{center}
+%	
+%	BANCA EXAMINADORA
+%	
+%	\assinatura{\textbf{Prof. Dr. Altamiro Amadeu Susin} \\ UFRGS}
+%	\assinatura{\textbf{M.ª Gabriela Winkler Favieiro} \\ UFRGS}
+%	\assinatura{\textbf{Eng. Vinicius Horn Cene} \\ UFRGS}
+%\end{folhadeaprovacao}
+
+%=========================================================================
+% DEDICATÓRIA
+%=========================================================================
+
+%\begin{dedicatoria}
+%	\vspace*{\fill}
+%	\centering
+%	\noindent
+%	\textit{A Gilberto, mi padre, torre de razón y de firme fe; \\ e a todos aqueles que tomarem interesse neste estudo.} \vspace*{\fill}
+%\end{dedicatoria}
+
+%=========================================================================
+% AGRADECIMENTOS
+%=========================================================================
+
+%\begin{agradecimentos}
+%	Aos demais colaboradores e pesquisadores do laboratório de Instrumentação Eletro-Eletrônica, em especial Vinicius Cene e Fernanda Trevisol, que desenvolveram a coleta da base de dados utilizada e prestaram auxílio de forma geral.
+%\end{agradecimentos}
+
+%=========================================================================
+% EPÍGRAFE
+%=========================================================================
+
+%\begin{epigrafe}
+%	\vspace*{\fill}
+%	\begin{flushright}
+%		\textit{Take nothing on its looks;\\ take everything on evidence.\\ There's no better rule.}\\ \vspace{\onelineskip}
+%		Charles Dickens, Great Expectations
+%	\end{flushright}
+%\end{epigrafe}
+
+%=========================================================================
+% RESUMOS
+%=========================================================================
+
+%% resumo em português
+%\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+%\begin{resumo}
+%
+%	RESUMO
+%
+%	\vspace{\onelineskip}
+%	\textbf{Palavras-chave}: ...
+%\end{resumo}
+%
+%% resumo em inglês
+%\begin{resumo}[Abstract]
+% \begin{otherlanguage*}{english}
+%	
+%	ABSTRACT
+%	
+%	\vspace{\onelineskip}
+%	\noindent 
+%	\textbf{Keywords}: ...
+% \end{otherlanguage*}
+%\end{resumo}
+
+%=========================================================================
+% SUMÁRIOS
+%=========================================================================
+
+% inserir lista de ilustrações
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+
+% inserir lista de tabelas
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+
+% inserir lista de abreviaturas e siglas
+\begin{siglas}
+	\item[BO]		\emph{Build Order}
+	\item[SC2]		\emph{StarCraft II}
+	\item[PDF]		\emph{Probability Distribution Function}
+	\item[CDF]		\emph{Cumulative Distribution Function}
+	\item[RTS]		\emph{Real Time Strategy}
+\end{siglas}
+
+% inserir o sumario
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+\textual
+%=========================================================================
+% INTRODUÇÃO
+	\chapter{Introdução}
+%=========================================================================
+		\section{Sobre o StarCraft II}
+%-------------------------------------------------------------------------
+
+StarCraft II é um jogo de estratégia militar em tempo-real desenvolvido pela \textit{Blizzard Entertainment} onde três facções disputam partidas multiplayer em modalidade 1 contra 1. O objetivo do jogo consiste em conseguir destruir todas as estruturas do adversário que provém infraestrutura para a construção e manutenção do exército.
+
+O jogo possui um sistema de economia, onde para que um jogador possa treinar ou desenvolver uma tecnologia, é necessário que primeiro sejam extraído recursos do ambiente virtual de jogo. O jogo também apresenta um sistema de "árvore tecnológica" onde há um encadeamento de pré-requisitos para o treinamento e construção de unidades de exército mais avançadas. É a existência desta árvore tecnológica que possibilita que seja possível inferir e prever uma determinada estratégia do jogador. 
+
+O modo mais comum de execução de uma estratégia é utilização de \textit{build orders}. Uma \textit{build order} é uma sequência de ações tomadas por um jogador no decorrer do jogo, que, quando executadas de forma correta, oferecem alguma vantagem estratégica para o jogador. Muitas build orders são padronizadas e otimizadas por jogadores profissionais durante o treino e são popularizadas em campeonatos mundiais.
+
+%Popularmente há 3 grandes categorias de estratégias:
+%
+%\begin{itemize}
+%	\item Econômicas: focam na defesa e no fortalecimento da economia para uma vantagem maior ao final do jogo;
+%	\item Agressivas: focam na agressão o mais rápido possível e tentam causar o maior dano no jogador que possa estar despreparado no \textit{early game};
+%	\item \textit{All-in}: estratégias tudo-ou-nada, esperam causar um grande dano no adversário caso contrário o jogador está em grande desvantagem.
+%\end{itemize}
+
+Neste trabalho será desenvolvido e implementado um método de classificação para \textit{build orders} de partidas de jogadores profissionais de StarCraft II. Foi feita a escolha de utilizar partidas profissionais pois são jogadores com elevado conhecimento do jogo e reagem de forma ótima para várias situações inusitadas ou inesperadas, o que reduz a variabilidade das medidas extraídas dos arquivos de \textit{replay} do jogo. Para a extração de dados foi utilizado um pacote de \textit{replays} (arquivo binário que codifica todas as ações tomadas em um jogo) de competições profissionais de StarCraft II durante o ano de 2016.
+
+% todo especificar quais são os campeonatos
+
+Uma aplicação direta para o método proposto é o desenvolvimento de uma inteligência artificial que seja capaz de tomar decisões ao longo de um jogo de forma verossímil à um jogador humano, conforme proposto em \cite{synnaeve2011bayesian1}.
+
+%-------------------------------------------------------------------------
+		\section{O uso de aprendizado de máquina em jogos de estratégia em tempo real}
+%-------------------------------------------------------------------------
+O uso de aprendizado de máquina em jogos de estratégia em tempo real (RTS) pode ser dividido em vários problemas: táticas, estratégias e \textit{micro management} conforme definido por \cite{synnaeve2011bayesian2}.
+
+Táticas se refere ao posicionamento de unidades no mapa e é diretamente depende da forma com a qual as unidades interagem entre si no jogo. Dessa forma, uma solução para este problema deve considerar o mapa e as interações entre as mecânicas de cada unidade.
+
+Os problemas de estratégia se referem ao plano geral de jogo. A estratégia surge de uma expectativa para o desenvolver do jogo, por exemplo, supondo que um jogador deseja investir fortemente na sua economia para que consiga construir unidades tecnológicas de maior custo. A estratégia é a forma com a qual ele vai conseguir atingir este objetivo. Em geral, a estratégia é independente do mapa em que jogo está sendo jogado, mas é diretamente relacionado à raça do oponente, suas escolhas tecnológicas e sua gerência da economia (geralmente denominado de \textit{macro management}). A estratégia de um jogador está diretamente relacionada com a sua escolha \textit{build order}.
+
+Por fim, os problemas de \textit{micro management} consistem na gerência de unidades individuais, ou seja, o jogador faz o controle de cada unidade do exercito de forma individual. O  \textit{micro management} é uma especialização das táticas, mas se refere à cada unidade individual ao invés do exército inteiro.
+
+%=========================================================================
+% REVISÃO BIBLIOGRÁFICA
+	\chapter{Revisão Bibliográfica}
+%=========================================================================
+		\section{Trabalhos anteriores}
+%-------------------------------------------------------------------------
+"A Data Mining Approach to Strategy Prediction" \cite{weber2009data} apresentaram uma forma de expressar uma \textit{build order} de StarCraft Brood War em um vetor de \textit{features} para processamento bem como a performance de quatro algoritmos de classificação. No trabalho concluíram que os diferentes algoritmos possuiam performance diferenciada nos diversos estágios de jogo. O modelo de codificação de features proposto baseava-se num critério de primeira-aparição, isto é, o vetor de \textit{features} contém o instante em que a primeira instância de uma dada unidade ou estrutura ocorria no jogo e, caso não houvesse ocorrência, utilizava um valor padronizado de zero.
+
+Adicionalmente, a fim de simular efeitos de \textit{scouting} ruído foi adicionado nos vetores de \textit{features} como forma de gerar variação nos \textit{timings} de cada ação e então analisar a performance dos algoritmos. Foi concluído que todos os algoritmos perdiam precisão proporcional à quantidade de ruído adicionada, no entanto o algoritmo de k-NN (k-\textit{nearest neighboors}) não degradou a performance de forma tão drástica quanto os outros algoritmos. Também foi adicionado outro teste de ruído para simular informação incompleta: lacunas foram inseridas no vetor de \textit{features} a fim de emular a situação em que o jogador não consegue extrair uma informação do jogo do oponente. Com este tipo de ruído, a conclusão foi de que a precisão dos algoritmos de decaía de forma linear com o nível de ruído adicionado no vetor.
+
+Em "A Bayesian Model for Opening Prediction in RTS Games with Application to StarCraft"  \cite{synnaeve2011bayesian1}, baseado no trabalho anterior de \cite{weber2009data}, realizaram o desenvolvimento de um modelo Bayesiano para classificação de build orders de StarCraft: Brood War utilizando um método de extração de \textit{features} de ações significativas dos replays. A extração do replay considerava estruturas na arvore de tecnologia e considerava apenas a primeira construção de uma estrutura e o índide da sequencia de construção era utilizado para treinar o sistema. O método era capaz de identificar a abertura do jogador após a construção de, na média, 10 estruturas. Contudo, devido ao numero de limitado de \textit{features}, era possível enumerar todas as possibilidades de jogos possíveis (em torno de 1000 por raça). O método era adequado para classificação em que a informação era limitada, por exemplo, era adequada para o contexto de uma inteligência artificial de toma suas decições baseada na sua capacidade de \textit{scouting} (tentar descobrir a estratégia de um outro jogador utilizando uma unidade que descobre cada estrutura feita pelo oponente).
+
+\cite{synnaeve2011bayesian2} apresenta uma análise extensiva para técnicas e dificuldades encontradas ao aplicar algoritmos de aprendizado de máquina em diversos tipos de jogo, incluindo jogos de estratégia em tempo real (RTS).
+
+%-------------------------------------------------------------------------
+		\section{A estrutura estatística de uma \textit{build order}}
+%-------------------------------------------------------------------------
+Uma build order genérica pode ser expressa como uma sequência de ações cujo valor tempo de execução médio e desvio padrão estão relacionados com uma função distribuição de probabilidade.
+
+Seja $A$ uma ação arbitrária, $A_n$ a sequência da ação durante o jogo (primeira vez que ela é executada, segunda, terceira, etc...), $BO$ seja uma \textit{build order} em que a sequência de ações $A_n$ foram executadas e $t$ o tempo de jogo em minutos. Dessa forma, podemos expressar a distribuição de probabilidade de uma sequência da forma indicada na Figura \ref{fig:rev-distribuicao-exemplo}:
+
+\begin{figure}[htb]
+	\caption{\label{fig:rev-distribuicao-exemplo}Exemplo de uma distribuição de probabilidade de uma ação com 2 repetições}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{../Mathematica/Distribuicao1.pdf}
+	\end{center}
+\end{figure}
+
+Na Figura \ref{fig:rev-distribuicao-exemplo} é possível observar que a primeira vez que a ação é executada, a tolerância para atraso é pequena, contudo, na segunda execução a tolerância de atraso é muito maior.
+
+A tolerância de execução se faz necessária pois um jogador pode atrasar alguns segundos por múltiplos motivos durante o jogo, embora ele ainda esteja executando a mesma build-order.
+
+Para uma \textit{build order} real, haverá uma distribuição de probabilidade para cada uma das ações que podem oscilar em torno de 30 a 40 dependendo da facção do jogador.
+
+%-------------------------------------------------------------------------
+		\section{Fator de \textit{branching} de um jogo de StarCraft: BroodWar}
+%-------------------------------------------------------------------------
+Em teoria dos jogos \todo{referencia}, \textit{branching factor} é o número de nós-filho em cada um dos nós de ações possíveis no jogo, isto é, é o número de opções que um jogador tem disponível em cada momento.
+
+Infelizmente não há análises cientificas feitas para a complexidade de um jogo de StarCraft II, mas é possível realizar uma comparação utilizando o jogo antecessor da série, StarCraft: Brood War lançado em 1998. De acordo com \cite{weber2009data}, StarCraft: BroodWar possui um fator de branching estimado médio de $1 \times 10^6$ que, comparado à um jogo de xadrez onde a média é de 35, é um valor extremamente alto. O alto nível de complexidade força que seja utilizado um modelo probabilístico ao invés de uma análise determinista, uma vez que é impossível obter, ou sequer gerar, uma amostra para todas as possibilidades de jogos. Devido a novas mecânicas de jogo introduzidas em StarCraft II espera-se a complexidade seja superior à de seu antecessor.
+
+%-------------------------------------------------------------------------
+		\section{O Teorema de Bayes}
+%-------------------------------------------------------------------------
+O Teorema de Bayes relaciona a probabilidade de um evento associado à uma restrição. A definição matemática do teorema é dada pela Equação \ref{eq}:
+
+\begin{equation}
+	P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{equation}
+
+\noindent onde $A$ é um evento, $B$ é a restrição do evento $A$. Dessa forma, é possível determinar a probabilidade do evento $A$ ter acontecido, dado que o evento $B$ foi observado.
+
+Em termos da análise de \textit{build orders}, pode-se aplicar o teorema da seguinte forma:
+
+\begin{equation}
+	P(BO|A, t) = \frac{P(A|BO, t)P(BO)}{P(A, t)}
+\end{equation}
+\noindent onde $BO$ é uma \textit{build order} qualquer que deseja-se estimar a probabilidade de estar sendo executada, dado que o jogador executou a ação $A$ no tempo $t$. Para tanto, precisa-se determinar 3 fatores:
+
+\begin{itemize}
+	\item $P(A, t)$: a probabilidade de um jogador executar a ação $A$ no instante $t$, independe da \textit{build order};
+	\item $P(BO)$: a probabilidade de um jogador executar a \textit{build order} $BO$, independente da ação que o jogador está executando;
+	\item $P(A|BO, t)$: a probabilidade de ter executado a ação $A$ supondo que o jogador está executando a \textit{build order} $BO$ no instante $t$;
+\end{itemize}
+
+%-------------------------------------------------------------------------
+		\section{Redes Bayesianas}
+%-------------------------------------------------------------------------
+Uma rede Bayesiana \cite{ruggeri2007encyclopedia} é um modelo probabilístico onde uma série de eventos, com suas probabilidades condicionais, representado utilizando um grafo acíclico. Um grafo acíclico é um grafo onde não há dependências cíclicas.\todo{referencia}
+
+\todo{explicar mais}
+
+Dessa forma, uma \textit{build order} é vista como uma rede Bayesiana onde a transição de cada conjunto ação-\textit{build order} possui uma probabilidade.
+
+%=========================================================================
+% METODOLOGIA EXPERIMENTAL
+	\chapter{Método}
+%=========================================================================
+Neste trabalho foi utilizado Python 2.7 como a linguagem de programação para a implementação do método. Este motivo foi guiado principalmente pelo fato da biblioteca oficial de processamento de replays oferecida pela Blizzard Entertainment, Inc. (desenvolvedor do StarCraft II) ser em Python. A biblioteca de processamento de replays oficial, \textit{s2protocol}\cite{s2protocol} é de código-fonte aberto e está disponível no GitHub. Demais códigos utilizados são parte de uma distribuição padrão do Python 2.7 ou foram desenvolvidos para o trabalho.
+
+%-------------------------------------------------------------------------
+\section{Extração dos dados}
+%-------------------------------------------------------------------------
+
+Os replays de StarCraft II são arquivos do tipo MoPAQ, um formato proprietário desenvolvido pela Blizzard Entertainment nos anos 90 para uso em seus jogos. Embora o formato seja proprietário é possível localizar na internet uma gama de implementações ou documentação desenvolvida por engenharia reversa. Um arquivo MPQ é análogo à um arquivo ZIP e contém um índice de arquivos e blocos de conteúdo. Nos \textit{replays} há uma série de \textit{stream} de eventos de jogo e neste trabalho somente será utilizado o stream chamado "Tracker Events" que são eventos cujo conteúdo é destinado para ferramentas que desejam processar os replays, ao contrário de informações úteis para a simulação do jogo. Este \textit{stream} está armazenado como "replay.tracker.events" dentro do MPQ.
+
+O \textit{stream} de \textit{Tracker Events} foi processado utilizando uma classe em Python que extrai as seguintes informações do evento:
+
+\begin{itemize}
+	\item Nome (tipo) do evento;
+	\item \textit{Game loop} do evento (o número de iteração do loop principal do jogo) \todo{explicar a conversão};
+	\item ID do jogador que gerou o evento;
+	\item Estrutura de dados específica de cada evento;
+\end{itemize}
+
+Dentre os vários tipos de eventos contidos neste stream, 4 destes eventos são interessantes na análise:
+
+\begin{description}
+	\item[NNet.Replay.Tracker.SPlayerStatsEvent]: contém informações sobre o estado atual do jogador. De interesse na análise: suprimento em uso pelo exército e total de suprimento disponível.
+	\item[NNet.Replay.Tracker.SUnitBornEvent] evento disparado para cada unidade/estrutura criada no jogo. Este evento somente é despachado para unidades que aparecem no campo de batalha de forma "pronta", isto é, no momento em que a unidade pode ser vista pelo jogador, ela já pode ser controlada.
+	\item[NNet.Replay.Tracker.SUnitInitEvent] semelhante ao evento SUnitBornEvent, mas este evento é despachado para unidades que são construídas diretamente no campo de batalha e não estão disponíveis para jogo imediatamente no instante do evento. Embora a unidade/estrutura neste evento não seja imediatamente utilizável, no método proposto, apenas o tempo em que usuário inicia a construção é considerado.
+	\item[NNet.Replay.Tracker.SUpgradeEvent] evento disparado para cada melhoramento de exército realizado pelo jogador. Estes eventos são muito importantes pois podem indicar ou refinar a intenção do jogador.
+\end{description}
+
+Para o evento \textbf{SPlayerStatsEvent} são extraídas duas informações: a quantidade de suprimento utilizada pelo exército do jogador e o total de suprimento disponível para o jogador. Esta informação não é utilizada pelo método de classificação, mas é utilizada popularmente em sites de \textit{build orders} de StarCraft II, uma vez que, durante o jogo, é mais simples indexar as ações baseado no suprimento usado e total do que no instante de tempo absoluto da ação.
+
+Para os eventos \textbf{SUnitBornEvent}, \textbf{SUnitInitEvent} e \textbf{SUpgradeEvent} descritos anteriormente, apenas uma informação é extraída: o nome da unidade, estrutura ou melhoramento feito pelo jogador. Este nome é único para cada tipo de unidade, estrutura ou melhoramento.
+
+Uma vez que após os 6 minutos de jogo, a partida se torna reativa, ao invés de algorítmica, a sequência de eventos é truncada até os 6 minutos de jogo. Isto garante que as informações tenham menor variabilidade. \todo{explicar melhor isso}
+
+%-------------------------------------------------------------------------
+\section{\textit{Dataset} de referência}
+%-------------------------------------------------------------------------
+Como não há nenhum índice de replays e build-orders disponível publicamente o conjunto de replays utilizado para treinamento e validação foi classificado manualmente utilizando replays de diversos campeonatos do ano de 2016:
+
+\begin{itemize}
+	\item Intel Extreme Masters 10
+	\item Intel Extreme Masters 11
+	\item WCS Spring Championship 2016
+	\item WCS Summer Championship 2016
+	\item DreamHack ZOWIE Open Valencia
+\end{itemize}
+\todo{quantidade de replays em cada}
+
+Para a classificação manual das estratégias cada replay foi assistido no jogo e classificado conforme as regras abaixo:
+
+\begin{itemize}
+	\item A composição de exército de um jogador no instante do primeiro ataque realizado por ele;
+	\item Se o jogador fosse atacado por outro e tivesse mais de 8 unidades perdidas, o \textit{replay} era descartado;
+	\item Caso não houvesse investida por parte dos dois jogadores até os 6 minutos de jogo, a composição no instante era classificada.
+\end{itemize}
+
+Um exército em StarCraft II pode ser composto por mais de 10 tipos de unidades diferentes, contudo isto é incomum. De forma geral, exércitos são compostos por um grande número de unidades básicas de ataque e algumas unidades de suporte. Na classificação, as unidades de suporte foram desprezadas na composição do exército. Esta regra é violada somente caso a unidade de suporte seja incomum ou trouxe um benefício significante para o jogador.
+
+%-------------------------------------------------------------------------
+\section{Treinamento}
+%-------------------------------------------------------------------------
+
+O treinamento foi realizado de forma simples: a sequência de ações para cada \textit{replay} era iterada e o tempo de execução da ação era gravado em uma lista. Uma lista separada era usada para cada repetição. Por exemplo, supondo que as \textit{build orders} $BO_1$ e $BO_2$ sejam duas amostras com o mesmo \textit{label}:
+
+\begin{table}[H]
+\centering
+\caption{Um exemplo de uma \textit{build order} com as ações $A_1$ e $A_2$ ocorrendo nos tempos $t_n$.}
+\label{my-label}
+\begin{tabular}{|l|l||l|l|}
+\hline
+\multicolumn{2}{|l||}{\centering $BO_1$} & \multicolumn{2}{l|}{\centering $BO_2$} \\ \hline
+\textbf{T}  & \textbf{A}  & \textbf{T}  & \textbf{A} \\ \hline
+$t_1$       & $A_1$       & $t_2$       & $A_1$      \\ \hline
+$t_3$       & $A_1$       & $t_4$       & $A_1$      \\ \hline
+$t_5$       & $A_2$       & $t_6$       & $A_1$      \\ \hline
+$t_7$       & $A_1$       & $t_8$       & $A_2$      \\ \hline
+\end{tabular}
+\end{table}
+
+Dessa forma, as duas listas terão o seguinte conteúdo:
+
+\begin{align}
+\begin{split}
+    T_{A_1} = \{
+		&\{t_1, t_2\}, 		\\
+		&\{t_3, t_4\}, 		\\
+		&\{t_6, t_7\}
+	\}
+\end{split}
+\label{eq:metodo-exemplo-vetor-tempos-a1}
+\end{align}
+\noindent onde $T_{A_1}$ é o vetor de tempos da execução de cada repetição da ação $A_1$ nos múltiplos \textit{replays} processados. $\{t_1, t_2\}$ representa os tempos da primeira repetição, $\{t_3, t_4\}$ da segunda e $\{t_6, t_7\}$ da terceira.
+
+\begin{align}
+\begin{split}
+    T_{A_2} = \{
+		&\{t_5, t_8\}
+	\}
+\end{split}
+\label{eq:metodo-exemplo-vetor-tempos-a2}
+\end{align}
+\noindent onde $T_{A_2}$ é o vetor de tempos da execução de cada repetição da ação $A_2$ nos múltiplos \textit{replays} processados. Esta ação possui uma única repetição.
+
+Seja $\mu(T_x, R)$ a média do vetor de tempo $T_x$ para a repetição $R$ e $\sigma(T_x, R)$ o desvio padrão do vetor de tempo $T_x$ para a repetição $R$, então a distribuição $p$ de probabilidade de uma ação pode ser definida como:
+
+\begin{equation}
+	p_{T_x}(t, R) = e^{-\frac{(t-\mu(T_x, R))^2}{{\sigma(T_x, R)}^2}}
+	\label{eq:metodo-funcao-distribuicao-de-probabilidade}
+\end{equation}
+
+A Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade} apresenta a função distribuição de probabilidade para uma ação. Isto é, representa a probabilidade de uma ação qualquer $A$ pertencer a uma \textit{build order} $BO_1$ dado que a ação foi executada pelo jogador no instante $t$.
+
+\todo{explicar porque esta função}
+
+Para o cálculo da média ($\mu$) e desvio padrão ($\sigma$) os itens internos do vetor $T_x$ são utilizados. Para o exemplo apresentado nas Equações \ref{eq:metodo-exemplo-vetor-tempos-a1} e \ref{eq:metodo-exemplo-vetor-tempos-a2}, as médias são dadas pelos vetores das Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-media} e \ref{eq:metodo-exemplo-vetor-tempos-a2-media}, respectivamente:
+
+\begin{equation}
+    \mu_{A_1} = \left\{
+		\frac{t_1 + t_2}{2}, 
+		\frac{t_3 + t_4}{2}, 		
+		\frac{t_6 + t_7}{2}
+	\right\}
+	\label{eq:metodo-exemplo-vetor-tempos-a1-media}
+\end{equation}
+
+\begin{equation}
+    \mu_{A_1} = \left\{
+		\frac{t_5 + t_8}{2}
+	\right\}
+	\label{eq:metodo-exemplo-vetor-tempos-a2-media}
+\end{equation}
+
+O cálculo de desvio padrão para os vetores das Equações \ref{eq:metodo-exemplo-vetor-tempos-a1} e \ref{eq:metodo-exemplo-vetor-tempos-a2} foi omitido no exemplo pois a expressão é complexa e não influencia no entendimento e um valor genérico é apresentado nas Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-desvio} e \ref{eq:metodo-exemplo-vetor-tempos-a2-desvio}.\todo{reescrever}
+
+\begin{equation}
+    \sigma_{A_1} = \left\{
+		\sigma_{{A_1},1}, 
+		\sigma_{{A_1},2}, 	
+		\sigma_{{A_1},3}
+	\right\}
+	\label{eq:metodo-exemplo-vetor-tempos-a1-desvio}
+\end{equation}
+
+\begin{equation}
+    \sigma_{A_1} = \left\{
+		\sigma_{{A_2},1}
+	\right\}
+	\label{eq:metodo-exemplo-vetor-tempos-a2-desvio}
+\end{equation}
+
+Com os resultados de média (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-media} e \ref{eq:metodo-exemplo-vetor-tempos-a2-media}) e desvio padrão (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-desvio} e \ref{eq:metodo-exemplo-vetor-tempos-a2-desvio}), é possível obter um gráfico do formato da distribuição de probabilidade conforme representado nas Figuras \ref{fig:metodo-exemplo-bo-media-a1} e \ref{fig:metodo-exemplo-bo-media-a2}.
+
+\begin{figure}[htb]
+	\caption{\label{fig:metodo-exemplo-bo-media-a1} Exemplo da distribuição de probabilidade da ação $A_1$. A curva em azul representa a primeira repetição da ação (nos tempos $t_1$ e $t_2$), a curva em laranja representa a segunda repetição (nos tempos $t_3$ e $t_4$) e a curva em verde representa a terceira repetição da ação (tempos $t_6$ e $t_7$).}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{../Mathematica/Images/Exemplo_BO_Media_A1.pdf}
+	\end{center}
+\end{figure}
+
+\begin{figure}[htb]
+	\caption{\label{fig:metodo-exemplo-bo-media-a2} Exemplo da distribuição de probabilidade da ação $A_1$. Como a ação $A_2$ somente é executada uma única vez no exemplo, apenas uma repetição é mostrada no gráfico. A ação corresponde aos instantes de tempo $t_5$ e $t_8$.}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{../Mathematica/Images/Exemplo_BO_Media_A2.pdf}
+	\end{center}
+\end{figure}
+
+%-------------------------------------------------------------------------
+\section{Classificação}
+%-------------------------------------------------------------------------
+
+%=========================================================================
+% RESULTADOS E DISCUSSÕES
+	\chapter{Resultados e Discussões}
+%=========================================================================
+
+
+%=========================================================================
+% CONCLUSÃO
+	\chapter{Conclusões}
+%=========================================================================
+
+
+
+%=========================================================================
+% PROPOSTA DE TRABALHOS FUTUROS
+	\chapter{Propostas de Trabalhos Futuros}
+%=========================================================================
+
+
+%=========================================================================
+% REFERÊNCIAS BIBLIOGRÁFICAS
+	\postextual
+	\bibliography{Referencias.bib}
+%=========================================================================
+
+%%=========================================================================
+%% APÊNDICES
+%\begin{apendicesenv}
+%\partapendices
+%%=========================================================================
+%
+%\end{apendicesenv}
+%
+%%=========================================================================
+%% ANEXOS
+%	\begin{anexosenv}
+%	\partanexos
+%%=========================================================================
+%
+%
+%%-------------------------------------------------------------------------
+%\end{anexosenv}
+
+\end{document}

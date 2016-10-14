@@ -57,15 +57,16 @@ def parse(replay_file, truncate=True):
             playerID = event['m_playerId']
             stats[playerID] = event
 
+            if gameLoopOffset == 0:
+                gameLoopOffset = gameLoop
+            gameLoop = gameLoop - gameLoopOffset
+
         if eventName == 'NNet.Replay.Tracker.SUnitBornEvent' or eventName == 'NNet.Replay.Tracker.SUnitInitEvent' or eventName == 'NNet.Replay.Tracker.SUpgradeEvent':
             if eventName != 'NNet.Replay.Tracker.SUpgradeEvent':
                 unitTags[event['m_unitTagIndex']] = event
 
             if gameLoop == 0:
                 continue
-            if gameLoopOffset == 0:
-                gameLoopOffset = gameLoop
-            gameLoop = gameLoop - gameLoopOffset
             # exit()
 
             if eventName == 'NNet.Replay.Tracker.SUpgradeEvent':

@@ -5,7 +5,10 @@ terran_units = {
     'TerranInfantryArmorsLevel1': {},
     'TerranInfantryArmorsLevel2': {},
     'TerranInfantryArmorsLevel3': {},
-    'PersonalCloaking': {},
+    'PersonalCloaking': {
+        'tag': ['upgrade-tech'],
+        'replay-label': 'Cloak'
+    },
     'TerranVehicleWeaponsLevel1': {},
     'TerranVehicleWeaponsLevel2': {},
     'TerranVehicleWeaponsLevel3': {},
@@ -17,8 +20,14 @@ terran_units = {
     'TerranShipWeaponsLevel1': {},
     'TerranShipWeaponsLevel2': {},
     'TerranShipWeaponsLevel3': {},
-    'BansheeCloak': {},
-    'BansheeSpeed': {},
+    'BansheeCloak': {
+        'tag': ['upgrade-tech'],
+        'replay-label': 'Cloak'
+    },
+    'BansheeSpeed': {
+        'tag': ['upgrade-tech'],
+        'replay-label': 'Speed'
+    },
     'RavenCorvidReactor': {},
     'RavenDamageUpgrade': {},
     'BattlecruiserEnableSpecializations': {},
@@ -32,26 +41,54 @@ terran_units = {
     'TerranBuildingArmor': {},
     'NeosteelFrame': {},
     'HiSecAutoTracking': {},
-    'Ghost': {},
+
+    'Ghost': {
+        'tag': ['support']
+    },
     'Nuke': {},
-    'MULE': {},
-    'WidowMine': {},
-    'Liberator': {},
-    'Banshee': {},
+    # 'MULE': {},
+    'WidowMine': {
+        'tag': ['support']
+    },
+    'Liberator': {
+        'tag': ['support']
+    },
+    'Banshee': {
+        'tag': ['tech']
+    },
     'Raven': {},
-    'Battlecruiser': {},
-    'Thor': {},
-    'SiegeTank': {},
+    'Battlecruiser': {
+        'tag': ['tech']
+    },
+    'Thor': {
+        'tag': ['tech']
+    },
+    'SiegeTank': {
+        'tag': ['support']
+    },
     'VikingAssault': {},
-    'Reaper': {},
+    'Reaper': {
+        'tag': ['tech']
+    },
     'VikingFighter': {},
-    'Hellion': {},
-    'Cyclone': {},
-    'Medivac': {},
-    # 'SCV': {},
-    'Marine': {},
+    'Hellion': {
+        'tag': ['tech']
+    },
+    'Cyclone': {
+        'tag': ['tech']
+    },
+    'Medivac': {
+        'tag': ['support']
+    },
+    'SCV': {},
+    'Marine': {
+        'tag': ['bulk']
+    },
     'BattleHellion': {},
-    'Marauder': {},
+    'Marauder': {
+        'tag': ['bulk']
+    },
+
     'GhostAcademy': {},
     'FusionCore': {},
     'FactoryTechLab': {},
@@ -62,7 +99,7 @@ terran_units = {
     'Factory': {},
     'Refinery': {},
     'Starport': {},
-    # 'SupplyDepot': {},
+    'SupplyDepot': {},
     'StarportReactor': {},
     'CommandCenter': {},
     'Bunker': {},
@@ -82,7 +119,10 @@ zerg_units = {
     'ZergGroundArmorsLevel1': {},
     'ZergGroundArmorsLevel2': {},
     'ZergGroundArmorsLevel3': {},
-    'Burrow': {},
+    'Burrow': {
+        'tag': ['upgrade-tech'],
+        'replay-label': 'Burrow'
+    },
     'CentrificalHooks': {},
     'zerglingattackspeed': {},
     'zerglingmovementspeed': {},
@@ -102,25 +142,49 @@ zerg_units = {
     'overlordspeed': {},
     'GlialReconstitution': {},
     'TunnelingClaws': {},
+
     'Baneling': {},
     'NydusWorm': {},
-    'Zergling': {},
+    'Zergling': {
+        'tag': ['bulk']
+    },
     'SwarmHost': {},
-    'Mutalisk': {},
-    'Hydralisk': {},
+
+    'Mutalisk': {
+        'tag': ['tech']
+    },
+    'Hydralisk': {
+        'tag': ['tech']
+    },
+    'Infestor': {
+        'tag': ['support']
+    },
     'Queen': {},
-    'Infestor': {},
-    'Corruptor': {},
+
+    'Corruptor': {
+        'tag': ['support']
+    },
     'NydusCanal': {},
-    # 'Drone': {},
-    'Ultralisk': {},
-    'Viper': {},
-    'Ravager': {},
+    'Drone': {},
+    'Ultralisk': {
+        'tag': ['support']
+    },
+    'Viper': {
+        'tag': ['support']
+    },
+    'Ravager': {
+        'tag': ['support']
+    },
     'Overseer': {},
-    'LurkerMP': {},
-    'Roach': {},
-    # 'Overlord': {},
+    'LurkerMP': {
+        'tag': ['tech']
+    },
+    'Roach': {
+        'tag': ['bulk']
+    },
+    'Overlord': {},
     'BroodLord': {},
+
     'Extractor': {},
     'UltraliskCavern': {},
     'SpineCrawler': {},
@@ -161,47 +225,114 @@ protoss_units = {
     'ObserverGraviticBooster': {},
     'ExtendedThermalLance': {},
     'PsiStormTech': {},
-    'AdeptPiercingAttack': {},
-    'Charge': {},
+
+    'AdeptPiercingAttack': {
+        'tag': ['upgrade-tech'],
+        'replay-label': 'Glaives'
+    },
+    'Charge': {
+        'tag': ['upgrade-tech'],
+        'replay-label': 'Chargelot'
+    },
+    'BlinkTech': {
+        'tag': ['upgrade-tech'],
+        'replay-label': 'Blink'
+    },
+
     'GraviticDrive': {},
-    'BlinkTech': {},
     'CarrierLaunchSpeedUpgrade': {},
     'WarpGateResearch': {},
-    'DarkTemplar': {},
-    'Phoenix': {},
-    'Sentry': {},
-    'Observer': {},
-    'Colossus': {},
-    'Disruptor': {},
+
     'MothershipCore': {},
-    'Mothership': {},
+    'Observer': {},
+
     # 'Probe': {},
-    'Immortal': {},
-    'HighTemplar': {},
-    'Adept': {},
-    'Zealot': {},
-    'WarpPrism': {},
-    'Stalker': {},
-    'Oracle': {},
-    'Tempest': {},
-    'Archon': {},
-    'Carrier': {},
-    'Interceptor': {},
-    'VoidRay': {},
+    # 'Pylon': {},
+
+    'DarkTemplar': {
+        'tag': ['tech'],
+        'replay-label': 'DT',
+        'threshold': 2
+    },
+
+    'Phoenix': {
+        'tag': ['tech'],
+        'threshold': 3
+    },
+    'Sentry': {
+        # 'tag': ['support'],
+        # 'threshold': 4
+    },
+    'Colossus': {
+        'tag': ['support']
+    },
+    'Disruptor': {
+        'tag': ['support']
+    },
+    'Mothership': {
+        'tag': ['mothership']
+    },
+
+    'Adept': {
+        'tag': ['bulk']
+    },
+    'Zealot': {
+        'tag': ['bulk']
+    },
+    'Stalker': {
+        # 'tag': ['support']
+    },
+
+    'Immortal': {
+        'tag': ['support'],
+        'threshold': 2
+    },
+    'HighTemplar': {
+        'tag': ['support'],
+        'replay-label': 'HT'
+    },
+    'WarpPrism': {
+        'tag': ['support'],
+        'replay-label': 'Prism'
+    },
+    'Oracle': {
+        'tag': ['tech']
+    },
+
+    'RoboticsBay': {
+        'tag': ['tech-path'],
+        'replay-label': 'Robo'
+    },
+    'Stargate': {
+        'tag': ['tech-path'],
+        'replay-label': 'Stargate'
+    },
+
+    'Tempest': {
+        'tag': ['tech']
+    },
+    'Archon': {
+        'tag': ['tech']
+    },
+    'Carrier': {
+        'tag': ['tech']
+    },
+
+    'VoidRay': {
+        'tag': ['tech']
+    },
+
     'TwilightCouncil': {},
     'TemplarArchive': {},
     'RoboticsFacility': {},
     'CyberneticsCore': {},
     'PhotonCannon': {},
-    'RoboticsBay': {},
     'WarpGate': {},
-    'Stargate': {},
     'Forge': {},
     'Assimilator': {},
     'DarkShrine': {},
     'Nexus': {},
     'FleetBeacon': {},
-    # 'Pylon': {},
     'Gateway': {},
 }
 
@@ -228,3 +359,32 @@ for units in races.itervalues():
     for unit in units.itervalues():
         unit['id'] = index
         index += 1
+
+
+def has_tag(race, unit_name, tag):
+    unit = races[race][unit_name]
+    if 'tag' not in unit:
+        return False
+    return tag in unit['tag']
+
+
+def is_bulk_unit(race, unit_name):
+    return has_tag(race, unit_name, 'bulk')
+
+
+def is_support_unit(race, unit_name):
+    return has_tag(race, unit_name, 'support')
+
+
+def match_threshold(race, unit_name, n):
+    unit = races[race][unit_name]
+    if 'threshold' not in unit:
+        return True
+    return n >= unit['threshold']
+
+
+def get_replay_label(race, unit_name):
+    unit = races[race][unit_name]
+    if 'replay-label' not in unit:
+        return unit_name
+    return unit['replay-label']

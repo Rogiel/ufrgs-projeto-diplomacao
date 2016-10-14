@@ -2,10 +2,10 @@ import operator
 import collections
 
 def convert_gameloops_to_seconds(gameloops):
-    return gameloops / 16.0 * (26.0 / 36.0)
+    return gameloops / 16.0 * (26.0 / 36.0) * (131.0 / 148.0)
 
 def convert_seconds_to_gameloops(seconds):
-    return seconds * 16.0 / (26.0 / 36.0)
+    return seconds * 16.0 / (26.0 / 36.0) / (131.0 / 148.0)
 
 def simplify_probabilities(results, threshold = 0.1):
     def map(v):

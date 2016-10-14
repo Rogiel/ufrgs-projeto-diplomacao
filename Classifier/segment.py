@@ -30,7 +30,7 @@ for replay_file in filter(lambda file: file.endswith('.SC2Replay'), list_replays
             if len(bo['BuildOrder'].actions) < 20:
                 continue
             bo['BuildOrder'].name = replay_file + '#'+bo['Name']
-            matchers[bo['Race']].train([bo['BuildOrder']])
+            matchers[bo['Race']].train([bo['BuildOrder']], label=bo['BuildOrder'].name)
             print len(bo['BuildOrder'].actions), bo['BuildOrder'].name
     except:
         pass
@@ -38,6 +38,10 @@ for replay_file in filter(lambda file: file.endswith('.SC2Replay'), list_replays
 print "Terran:  ", len(matchers['Terran'].training)
 print "Zerg:    ", len(matchers['Zerg'].training)
 print "Protoss: ", len(matchers['Protoss'].training)
+
+matchers['Terran'].build_distribution()
+matchers['Zerg'].build_distribution()
+matchers['Protoss'].build_distribution()
 
 groups = {
     'Terran':  dict(),

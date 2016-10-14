@@ -45,32 +45,37 @@ for (race, builds) in foo.training_set_replays.iteritems():
 for matcher in matchers.itervalues():
     matcher.build_distribution()
 
-rates = dict()
-for (race, builds) in foo.training_set_replays.iteritems():
-    for (name, replay_files) in builds.iteritems():
-        if name not in rates:
-            rates[name] = {
-                'Total': 0,
-                'OK': 0
-            }
+max_time = 8 * 60
 
-        for (replay_file, pid) in replay_files.iteritems():
-            bos = parser.parse(replay_file, truncate=True)
-            for (playerID, bo) in bos.iteritems():
-                if playerID != pid:
-                    continue
-                results = matchers[bo['Race']].classify(bo['BuildOrder'])
-                probable = utils.get_most_probable_build(results)[0]
+for race, matcher in matchers.iteritems():
+    for bo_name in matcher.distribution.iterkeys():
+        for unit_name in matcher.distribution[bo_name].iterkeys():
+            lengends = list()
+            for unit, actions in matcher.distribution[bo_name].iteritems():
+                for (n, action) in actions.iteritems():
+                    t = list()
+                    s = list()
+                    i = 0
 
-                rates[name]['Total'] += 1
-                if probable == name:
-                    rates[name]['OK'] += 1
+                    if unit != unit_name:
+                        continue
 
-                print name, "->", probable
+                    print action
+                    lengends.append(unit_name+" #"+str(n))
+                    for x in range(0, max_time*10, 1):
+                        s.append(0.0)
+                        t.append(x)
 
-for (name, rate) in rates.iteritems():
-    print name, float(rate['OK']) / float(rate['Total']), "(" + str(rate['OK']) + "/" + str(rate['Total']) + ")"
+                        s[i] += action.apply(x/10.0)
+                        i += 1
+                    pyplot.plot(t, s)
+            pyplot.legend(lengends)
 
-# print "Terran:  ", len(matchers['Terran'].training)
-# print "Zerg:    ", len(matchers['Zerg'].training)
-# print "Protoss: ", len(matchers['Protoss'].training)
+            dir = os.path.join('Graphs', race, bo_name)
+            if not os.path.exists(os.path.dirname(dir)):
+                os.mkdir(os.path.dirname(dir))
+            if not os.path.exists(dir):
+                os.mkdir(dir)
+            pyplot.savefig(os.path.join(dir, unit_name+'.png'))
+            pyplot.close()
+

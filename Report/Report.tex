@@ -31,36 +31,37 @@
 %%=========================================================================
 %% FOLHA DE APROVAÇÃO
 %%=========================================================================
-%
-%\begin{folhadeaprovacao}
-%	\begin{center}
-%		{\ABNTEXchapterfont\large{VICENTE COSTAMILAN DA CUNHA}}
-%		
-%		\vspace*{\fill}
-%		\begin{center}
-%			\ABNTEXchapterfont\bfseries\Large\imprimirtitulo
-%		\end{center}
-%		
-%		\vspace*{\fill}
-%		\hspace{.45\textwidth}
-%		\begin{minipage}{.5\textwidth}
-%			\imprimirpreambulo
-%		\end{minipage}%
-%	\end{center}
-%	
-%	\assinatura{\textbf{\imprimirorientador} \\ Orientador - UFRGS} 
-%	\assinatura{\textbf{Prof. Dr. Ály Ferreira Flores Filho} \\ Chefe do Departamento de Engenharia Elétrica (DELET) - UFRGS}
-%	
-%	\begin{center}
-%		Aprovado em 03 de dezembro de 2015.
-%	\end{center}
-%	
-%	BANCA EXAMINADORA
-%	
-%	\assinatura{\textbf{Prof. Dr. Altamiro Amadeu Susin} \\ UFRGS}
-%	\assinatura{\textbf{M.ª Gabriela Winkler Favieiro} \\ UFRGS}
-%	\assinatura{\textbf{Eng. Vinicius Horn Cene} \\ UFRGS}
-%\end{folhadeaprovacao}
+
+\begin{folhadeaprovacao}
+	\begin{center}
+		{\ABNTEXchapterfont\large{ROGIEL JOSIAS SULZBACH}}
+		
+		\vspace*{\fill}
+		\begin{center}
+			\ABNTEXchapterfont\bfseries\Large\imprimirtitulo
+		\end{center}
+		
+		\vspace*{\fill}
+		\hspace{.45\textwidth}
+		\begin{minipage}{.5\textwidth}
+			\imprimirpreambulo
+		\end{minipage}%
+	\end{center}
+	
+	\assinatura{\textbf{\imprimirorientador} \\ Orientador - UFRGS} 
+	\assinatura{\textbf{Prof. Dr. Ály Ferreira Flores Filho} \\ Chefe do Departamento de Engenharia Elétrica (DELET) - UFRGS}
+	
+	\begin{center}
+		Aprovado em ??? de dezembro de 2016.
+		\todo{data}
+	\end{center}
+	
+	BANCA EXAMINADORA
+	
+	\assinatura{\textbf{Prof. Dr. Marcelo Soares Lubaszewski} \\ UFRGS}
+	\assinatura{\textbf{Prof. Dr. Gilson Inácio Wirth} \\ UFRGS}
+	\assinatura{\textbf{Prof. Dr. Tiago Roberto Balen} \\ UFRGS}
+\end{folhadeaprovacao}
 
 %=========================================================================
 % DEDICATÓRIA
@@ -97,27 +98,27 @@
 % RESUMOS
 %=========================================================================
 
-%% resumo em português
-%\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
-%\begin{resumo}
-%
-%	RESUMO
-%
-%	\vspace{\onelineskip}
-%	\textbf{Palavras-chave}: ...
-%\end{resumo}
-%
-%% resumo em inglês
-%\begin{resumo}[Abstract]
-% \begin{otherlanguage*}{english}
-%	
-%	ABSTRACT
-%	
-%	\vspace{\onelineskip}
-%	\noindent 
-%	\textbf{Keywords}: ...
-% \end{otherlanguage*}
-%\end{resumo}
+% resumo em português
+\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+\begin{resumo}
+
+	RESUMO
+
+	\vspace{\onelineskip}
+	\textbf{Palavras-chave}: ...
+\end{resumo}
+
+% resumo em inglês
+\begin{resumo}[Abstract]
+ \begin{otherlanguage*}{english}
+	
+	ABSTRACT
+	
+	\vspace{\onelineskip}
+	\noindent 
+	\textbf{Keywords}: ...
+ \end{otherlanguage*}
+\end{resumo}
 
 %=========================================================================
 % SUMÁRIOS
@@ -315,7 +316,7 @@ Para a classificação manual das estratégias cada replay foi assistido no jogo
 \begin{itemize}
 	\item A composição de exército de um jogador no instante do primeiro ataque realizado por ele;
 	\item Se o jogador fosse atacado por outro e tivesse mais de 8 unidades perdidas, o \textit{replay} era descartado;
-	\item Caso não houvesse investida por parte dos dois jogadores até os 6 minutos de jogo, a composição no instante era classificada.
+	\item Caso não houvesse investida por parte dos dois jogadores até os 6 minutos de jogo, a composição de exército do jogador aos 6 minutos de jogo era classificada.
 \end{itemize}
 
 Um exército em StarCraft II pode ser composto por mais de 10 tipos de unidades diferentes, contudo isto é incomum. De forma geral, exércitos são compostos por um grande número de unidades básicas de ataque e algumas unidades de suporte. Na classificação, as unidades de suporte foram desprezadas na composição do exército. Esta regra é violada somente caso a unidade de suporte seja incomum ou trouxe um benefício significante para o jogador.
@@ -368,9 +369,10 @@ Dessa forma, as duas listas terão o seguinte conteúdo:
 Seja $\mu(T_x, R)$ a média do vetor de tempo $T_x$ para a repetição $R$ e $\sigma(T_x, R)$ o desvio padrão do vetor de tempo $T_x$ para a repetição $R$, então a distribuição $p$ de probabilidade de uma ação pode ser definida como:
 
 \begin{equation}
-	p_{T_x}(t, R) = e^{-\frac{(t-\mu(T_x, R))^2}{{\sigma(T_x, R)}^2}}
+	p_{T_x}(t, R) = A e^{-\frac{(t-\mu(T_x, R))^2}{{\sigma(T_x, R)}^2}}
 	\label{eq:metodo-funcao-distribuicao-de-probabilidade}
 \end{equation}
+\noindent onde $A$ é a frequência com que um par ação-repetição ocorre dentre todas as amostras de treinamento utilizadas, $\mu$ é o tempo médio de execução do par ação-repetição e $\sigma$ e o correspondente desvio-padrão.
 
 A Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade} apresenta a função distribuição de probabilidade para uma ação. Isto é, representa a probabilidade de uma ação qualquer $A$ pertencer a uma \textit{build order} $BO_1$ dado que a ação foi executada pelo jogador no instante $t$.
 
@@ -412,6 +414,10 @@ O cálculo de desvio padrão para os vetores das Equações \ref{eq:metodo-exemp
 	\label{eq:metodo-exemplo-vetor-tempos-a2-desvio}
 \end{equation}
 
+Neste exemplo, de forma a simplificar o cálculo, assume-se que a frequência de cada par ação-repetição é unitária.
+
+É possível substituir os valores de média e desvio-padrão das Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-media}, \ref{eq:metodo-exemplo-vetor-tempos-a2-media}, \ref{eq:metodo-exemplo-vetor-tempos-a1-desvio} e \ref{eq:metodo-exemplo-vetor-tempos-a2-desvio} na função distribuição de probabilidade da Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}. O vetor final é denominado de "vetor de probabilidades".
+
 Com os resultados de média (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-media} e \ref{eq:metodo-exemplo-vetor-tempos-a2-media}) e desvio padrão (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-desvio} e \ref{eq:metodo-exemplo-vetor-tempos-a2-desvio}), é possível obter um gráfico do formato da distribuição de probabilidade conforme representado nas Figuras \ref{fig:metodo-exemplo-bo-media-a1} e \ref{fig:metodo-exemplo-bo-media-a2}.
 
 \begin{figure}[htb]
@@ -429,14 +435,127 @@ Com os resultados de média (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-m
 \end{figure}
 
 %-------------------------------------------------------------------------
+\subsection{Forma Matricial}
+%-------------------------------------------------------------------------
+O treinamento pode ser realizado de forma matricial. Onde as colunas indicam as ações e as linhas indicam as repetições de cada ação respectiva. Dessa forma, é possível definir uma matriz de médias e desvios padrões.
+
+Dado um conjunto de $N$ ações que podem se repetir até $M$ vezes, então, é possível definir uma matriz $M \times N$, cujos elementos são formatos pelo tempo médio de execução de cada par ação-repetição, denominada de "matriz de média do tempo de execução", expressa na Equação \ref{eq:metodo-matriz-media-simbolico}.
+
+\newcommand{\RogielBOMatrix}[1]{
+	\ensuremath{
+		\left(\begin{array}{cccc}
+ 			{#1}_{A_1,1} & {#1}_{A_2,1} & \cdots & {#1}_{A_N,1} \\
+ 			{#1}_{A_1,2} & {#1}_{A_2,2} & \cdots & {#1}_{A_N,2} \\
+ 			\vdots 		 & \vdots 	    & \ddots & \vdots 		\\
+ 			{#1}_{A_1,M} & {#1}_{A_2,M} & \cdots & {#1}_{A_N,M}
+		\end{array}\right)
+	}
+}
+
+\begin{equation}
+	\mu = \RogielBOMatrix{\mu}
+	\label{eq:metodo-matriz-media-simbolico}
+\end{equation}
+
+De forma análoga a matriz de média do tempo de execução, é possível definir a "matriz de desvio padrão do tempo de execução" para os valores de desvio padrão do tempo de execução de cada par ação-repetição e a outra matriz denominada "matriz de frequência de ocorrência de repetição" que define a frequência de ocorrência de um dado par ação-repetição no conjunto de amostras observadas. A definição formal da matriz de desvio padrão do tempo de execução está apresentada na Equação \ref{eq:metodo-matriz-desvio-simbolico}. A definição formal da matriz de frequência de repetição está apresentada na Equação \ref{eq:metodo-matriz-frequencia-simbolico}.
+
+\begin{equation}
+	\sigma = \RogielBOMatrix{\sigma}
+	\label{eq:metodo-matriz-desvio-simbolico}
+\end{equation}
+
+\begin{equation}
+	F = \RogielBOMatrix{F}
+	\label{eq:metodo-matriz-frequencia-simbolico}
+\end{equation}
+
+
+Substituindo-se as matrizes de média e desvio padrão do tempo de execução e de frequência de ocorrência de repetição, Equações \ref{eq:metodo-matriz-media-simbolico}, \ref{eq:metodo-matriz-desvio-simbolico} e \ref{eq:metodo-matriz-frequencia-simbolico}, respectivamente, na função de distribuição de probabilidade dada pela Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}, é possível construir um vetor de probabilidade. Todas as operações entre matrizes são realizadas utilizando operadores de Hadamard\todo{referencia} ou operações termo-a-termo.
+
+Por convenção matemática, e evitar um problema de indeterminação no cálculo de probabilidade associada, uma ação cuja repetição não ocorre nas amostras encontradas, deve ter o valor de média não-nulo e o valor de desvio padrão deve ser infinito. Por convenção, neste trabalho utiliza-se o valor de média $0.0$. Este escolha foi feita para que a função distribuição de probabilidade seja avaliada com valor $1.0$ para ações inexistentes na amostra de treinamento, independente da ação ser executada pelo jogador numa \textit{build order} utilizada no processo de classificação.
+
+\newcommand{\RPME}[4]{
+	\ensuremath{
+		{#1} e^{-\frac{(#4-{#2})^2}{{{#3}}^2}}
+	}
+}
+\newcommand{\RPMGE}[1]{
+	\RPME{F_{{#1}}}{\mu_{{#1}}}{\sigma_{{#1}}}{t_{{#1}}}
+}
+
+
+\begin{equation}
+	p(t) = \left(
+		\begin{array}{cccc}
+			\RPMGE{A_1,1} & \RPMGE{A_2,1} & \cdots & \RPMGE{A_N,1} \\
+ 			\RPMGE{A_1,2} & \RPMGE{A_2,2} & \cdots & \RPMGE{A_N,2} \\
+ 			\vdots 	  	  & \vdots 	  	  & \ddots & \vdots 	       \\
+ 			\RPMGE{A_1,M} & \RPMGE{A_2,M} & \cdots & \RPMGE{A_N,M}
+		\end{array}
+	\right)
+	\label{eq:metodo-matriz-probabilidade-simbolico}
+\end{equation}
+\noindent onde $t$ é uma matriz que indica o tempo de execução dos pares ação-repetição de uma \textit{build order} que se deseja classificar.
+
+%-------------------------------------------------------------------------
 \section{Classificação}
 %-------------------------------------------------------------------------
+O processo de classificação é realizado de forma independente para cada \textit{label} (\textit{build order}) utilizado no processo de treinamento. Os valores de probabilidade para cada par de ação-tempo de um \textit{replay} são multiplicados e o valor final determina a semelhança de uma \textit{build order} treinada e a executada.
+
+Considerando-se o exemplo anterior, é possível aplicar o instante de execução de cada ação do jogador no vetor de ações correspondente e obter a probabilidade de que uma ação qualquer $A$. Dessa forma, a probabilidade total de que um conjunto de ações seja parte de uma \textit{build order} qualquer é dada pela Equação \ref{eq:metodo-exemplo-classificacao-produto}:
+
+\begin{equation}
+	p_{BO} = \prod_{n,i} p(BO|A_{(n,i)}, t)
+	\label{eq:metodo-exemplo-classificacao-produto}
+\end{equation}
+\noindent onde $n$ indica o tipo da ação, $i$ a sua repetição e $p(BO|A_{(n,i)}, t)$ é a probabilidade de que a ação seja parte de uma build order $BO$ dado que $A_{(n,i)}$ foi executada no instante de tempo $t$, conforme a Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}.
+
+%-------------------------------------------------------------------------
+\subsection{Forma Matricial}
+%-------------------------------------------------------------------------
+Dada a matriz de probabilidades de uma \textit{build order} treinada, conforme a Equação \ref{eq:metodo-matriz-probabilidade-simbolico}, a probabilidade final de uma \textit{build order} treinada é dada pela redução da matriz através da operação de multiplicação de seus termos, conforme Equação \ref{eq:metodo-matriz-reducao}.
+
+\begin{equation}
+	p_{BO} = \prod_{i,j} p(t)_{ij}
+	\label{eq:metodo-matriz-reducao}
+\end{equation}
+\noindent onde $i$ e $j$ são respectivamente as linhas e as colunas das matrizes de probabilidade e de tempo de execução da \textit{build order} a ser classificada, $t$ é a matriz de tempo de execução da \textit{build order} para ser classificada, $p$ é a matriz de probabilidades de uma \textit{build order} qualquer $BO$ e $p_{BO}$ é a probabilidade reduzida da matriz $p$ cujo valor é equivalente à operação da Equação \ref{eq:metodo-exemplo-classificacao-produto}.
+
+%-------------------------------------------------------------------------
+\section{Comparação}
+%-------------------------------------------------------------------------
+Para realizar a comparação entre \textit{build orders} é feita uma tabela que compara a taxa de vitória de cada \textit{build order} contra a \textit{build order} do oponente.
 
 %=========================================================================
 % RESULTADOS E DISCUSSÕES
 	\chapter{Resultados e Discussões}
 %=========================================================================
 
+No processo de treinamento, é extraído a sequência de construção de cada jogador (a \textit{build order}), calculadas estatísticas de primeira ordem (média e desvio padrão) e a frequência de cada par ação-repetição em relação ao conjunto de replays correspondentes a mesma \textit{build order}.
+
+A Figura \ref{fig:resultados-protoss-immortal-gateway} apresenta a \todo{}
+
+\begin{figure}[htb]
+	\caption{\label{fig:resultados-protoss-immortal-gateway} Forma gráfica de distribuição estatística de uma ação \textit{Gateway} e suas repetições}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{{"../Classifier/Graphs/Protoss/Adept Immortal"}/Gateway.png}
+	\end{center}
+\end{figure}
+
+Observa-se que a frequência de ocorrência das repetições no \textit{dataset} de treinamento é decrescente. Isto é uma consequência do método escolhido para classificação. A primeira execução de uma ação, irá, independentemente do tempo em que for executada, considerada como a primeira repetição. A redução da frequência tem duas causas principais:
+
+\begin{description}
+	\item[Alteração da estratégia do jogador]: um jogador pode ter escolhido uma estratégia levemente diferente devido ao contexto do jogo ou em resposta à \textit{build order} do oponente;
+	\item[Ações opcionais]: algumas ações podem ser opcionais e somente são executadas em alguns mapas. 
+\end{description}
+
+Há uma tendência no desvio-padrão e variância do tempo de execução do par ação-repetição de crescerem ao decorrer da partida. Os principais motivos deste crescimento é a incapacidade de jogadores humanos executarem as ações de forma perfeita e sem qualquer variabilidade. Este fator é agravado com a característica da "árvore tecnológica" onde algumas ações possuem dependências tecnológicas em outras anteriores. Embora a tendência seja visível na maior parte das ações, ainda é possível que ela reduza em alguns casos específicos.
+
+Um exemplo onde o desvio padrão reduz de forma significante é visível na Figura \todo{} onde a primeira repetição possui um desvio padrão significantemente maior ao da segunda repetição. Este comportamento é esperado quando a primeira ação é considerada opcional e incorre num erro onde a primeira repetição deveria ter frequência menor que a segunda. Infelizmente, devido à forma de como o método de separação foi estabelecido, não é possível evitar este efeito.
+
+\todo{figura adept}
+
+O resultado da classificação é validado utilizando um método de validação cruzada onde o primeiro item da lista de \textit{replays} é removido do treinamento e utilizado como item de validação.
 
 %=========================================================================
 % CONCLUSÃO
@@ -444,12 +563,13 @@ Com os resultados de média (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-m
 %=========================================================================
 
 
-
 %=========================================================================
 % PROPOSTA DE TRABALHOS FUTUROS
 	\chapter{Propostas de Trabalhos Futuros}
 %=========================================================================
-
+\begin{itemize}
+	\item Utilização de um refinamento utilizando ações-chave
+\end{itemize}
 
 %=========================================================================
 % REFERÊNCIAS BIBLIOGRÁFICAS

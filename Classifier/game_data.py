@@ -280,7 +280,7 @@ protoss_units = {
         'tag': ['bulk']
     },
     'Stalker': {
-        # 'tag': ['support']
+        'tag': ['bulk']
     },
 
     'Immortal': {

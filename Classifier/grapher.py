@@ -76,6 +76,6 @@ for race, matcher in matchers.iteritems():
                 os.mkdir(os.path.dirname(dir))
             if not os.path.exists(dir):
                 os.mkdir(dir)
-            pyplot.savefig(os.path.join(dir, unit_name+'.png'))
+            pyplot.savefig(os.path.join(dir, unit_name+'.png'), transparent=True)
             pyplot.close()
 

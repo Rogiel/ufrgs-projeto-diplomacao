@@ -87,7 +87,7 @@ all_builds = {
     "Terran": {}
 }
 
-replays_dir = os.path.join(os.path.dirname(__file__), 'Replays', 'IEM11')
+replays_dir = os.path.join(os.path.dirname(__file__), 'Replays', 'IEM10')
 for replay_file in filter(lambda file: file.endswith('.SC2Replay'), list_replays(replays_dir)):
     # print 'Parsing', replay_file
     # try:

@@ -41,6 +41,10 @@ def parse(replay_file, truncate=True):
         }
         bos[playerIndex] = players[playerIndex]['BuildOrder']
         bos[playerIndex].worker_kills = 0
+        if player['m_result'] == 1:
+            players[playerIndex]['Win'] = True
+        else:
+            players[playerIndex]['Win'] = False
         playerIndex += 1
 
     gameLoopOffset = 0
@@ -115,5 +119,18 @@ def parse(replay_file, truncate=True):
         #         continue
         #
         #     break
+
+    # contents = archive.read_file('replay.game.events')
+    # for event in protocol.decode_replay_game_events(contents):
+    #     eventName = event['_event']
+    #
+    #     if eventName == 'NNet.Game.SGameUserLeaveEvent':
+    #         userid = event['_userid']['m_userId']
+    #
+    #         if userid in bos:
+    #
+    #
+    #         print event
+    #         exit()
 
     return players

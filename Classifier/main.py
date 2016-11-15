@@ -5,6 +5,9 @@ import matcher
 import os
 import imp
 import utils
+import random
+import copy
+import collections
 from itertools import islice
 
 matchers = {
@@ -44,38 +47,118 @@ for (race, builds) in foo.training_set_replays.iteritems():
 
 for matcher in matchers.itervalues():
     matcher.build_distribution()
+#
+# print ' == SELF-VALIDATION =='
+# rates = dict()
+#
+# for (race, builds) in foo.training_set_replays.iteritems():
+#     for (name, replay_files) in builds.iteritems():
+#         if name not in rates:
+#             rates[name] = {
+#                 'Total': 0,
+#                 'OK': 0
+#             }
+#
+#         # skip = int(len(replay_files) * 0.2)
+#         # n = 0
+#
+#         for (replay_file, pid) in replay_files.iteritems():
+#             bos = parser.parse(replay_file, truncate=True)
+#             for (playerID, bo) in bos.iteritems():
+#                 if playerID != pid:
+#                     continue
+#                 results = matchers[bo['Race']].classify(bo['BuildOrder'])
+#                 (probable, p) = utils.get_most_probable_build(results)
+#
+#                 rates[name]['Total'] += 1
+#                 if probable == name:
+#                     rates[name]['OK'] += 1
+#
+#                 print name, "->", probable, p
+#             # n += 1
+#             # if n == skip:
+#             #     break
+#
+# for (name, rate) in rates.iteritems():
+#     print name, float(rate['OK']) / float(rate['Total']), "(" + str(rate['OK']) + "/" + str(rate['Total']) + ")"
+#
+# print ' == VALIDATION =='
+# rates = dict()
+#
+validationSet = imp.load_source('ValidationSet.index', 'TrainingSet/validation.py')
+# for (race, builds) in validationSet.validation_set_replays.iteritems():
+#     for (name, replay_files) in builds.iteritems():
+#         if name not in rates:
+#             rates[name] = {
+#                 'Total': 0,
+#                 'OK': 0
+#             }
+#
+#         # skip = int(len(replay_files) * 0.2)
+#         # n = 0
+#
+#         for (replay_file, pid) in replay_files.iteritems():
+#             bos = parser.parse(replay_file, truncate=True)
+#             for (playerID, bo) in bos.iteritems():
+#                 if playerID != pid:
+#                     continue
+#                 results = matchers[bo['Race']].classify(bo['BuildOrder'])
+#                 (probable, p) = utils.get_most_probable_build(results)
+#
+#                 rates[name]['Total'] += 1
+#                 if probable == name:
+#                     rates[name]['OK'] += 1
+#
+#                 print name, "->", probable, p
+#
+# for (name, rate) in rates.iteritems():
+#     print name, float(rate['OK']) / float(rate['Total']), "(" + str(rate['OK']) + "/" + str(rate['Total']) + ")"
 
-rates = dict()
-for (race, builds) in foo.training_set_replays.iteritems():
+noise_results = dict()
+
+print ' == NOISE TEST =='
+
+for (race, builds) in validationSet.validation_set_replays.iteritems():
     for (name, replay_files) in builds.iteritems():
-        if name not in rates:
-            rates[name] = {
-                'Total': 0,
-                'OK': 0
-            }
-
-        # skip = int(len(replay_files) * 0.2)
-        # n = 0
+        if name not in noise_results:
+            noise_results[name] = collections.OrderedDict()
 
         for (replay_file, pid) in replay_files.iteritems():
             bos = parser.parse(replay_file, truncate=True)
-            for (playerID, bo) in bos.iteritems():
+            for (playerID, realBO) in bos.iteritems():
                 if playerID != pid:
                     continue
-                results = matchers[bo['Race']].classify(bo['BuildOrder'])
-                (probable, p) = utils.get_most_probable_build(results)
 
-                rates[name]['Total'] += 1
-                if probable == name:
-                    rates[name]['OK'] += 1
+                bo = copy.deepcopy(realBO)
 
-                print name, "->", probable, p
-            # n += 1
-            # if n == skip:
-            #     break
+                for i in [0.02, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.8]:
+                    if i not in noise_results[name]:
+                        noise_results[name][i] = {
+                            'Total': 0,
+                            'OK': 0
+                        }
 
-for (name, rate) in rates.iteritems():
-    print name, float(rate['OK']) / float(rate['Total']), "(" + str(rate['OK']) + "/" + str(rate['Total']) + ")"
+                    random.seed(replay_file)
+
+                    length = len(bo['BuildOrder'].actions)
+                    to_remove = int(length * i)
+
+                    for r in range(0, to_remove):
+                        d = random.randrange(0, len(bo['BuildOrder'].actions))
+                        del bo['BuildOrder'].actions[d]
+
+                    results = matchers[bo['Race']].classify(bo['BuildOrder'])
+                    (probable, p) = utils.get_most_probable_build(results)
+
+                    noise_results[name][i]['Total'] += 1
+                    if probable == name:
+                        noise_results[name][i]['OK'] += 1
+
+for (name, rates) in noise_results.iteritems():
+    print '\\textbf{'+name+'}',
+    for (percent, rate) in rates.iteritems():
+        print "&", round(float(rate['OK']) / float(rate['Total']), 2),
+    print "\\\\"
 
 # print "Terran:  ", len(matchers['Terran'].training)
 # print "Zerg:    ", len(matchers['Zerg'].training)

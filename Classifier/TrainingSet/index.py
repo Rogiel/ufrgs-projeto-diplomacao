@@ -6,7 +6,7 @@ training_set_replays = {
             'Replays/IEM11/1. Ro16/3. Need vs TooDming/Map 2/Frozen Temple (4).SC2Replay': 1,
             'Replays/IEM11/1. Ro16/6. Elazer vs puCK/Map 2/Dasan Station LE.SC2Replay': 2,
             'Replays/IEM11/1. Ro16/3. Need vs TooDming/Map 3/Apotheosis LE (7).SC2Replay': 1,
-            'Replays/IEM10/1. Quarter Finals/4. herO vs Snute/Map 4/Central Protocol (2).SC2Replay': 1
+            'Replays/IEM10/1. Quarter Finals/4. herO vs Snute/Map 4/Central Protocol (2).SC2Replay': 1,
         },
         'Adept Stargate': {
             'Replays/IEM11/3. Semi Finals/1. ShoWTimE vs Neeb/Map 3/Apotheosis LE.SC2Replay': 1,
@@ -23,6 +23,7 @@ training_set_replays = {
             'Replays/IEM11/1. Ro16/1. iAsonu vs ShoWTimE/Map 4/Frost LE.SC2Replay': 2,
             'Replays/IEM11/1. Ro16/7. viOLet vs Has/Map 2/Frozen Temple (5).SC2Replay': 1,
             'Replays/IEM11/3. Semi Finals/1. ShoWTimE vs Neeb/Map 1/King Sejong Station LE (5).SC2Replay': 2,
+
             # 'Replays/IEM10/1. Quarter Finals/4. herO vs Snute/Map 2/Lerilak Crest (2).SC2Replay': 2,
             # 'Replays/IEM10/3. Final/Map 2/Dusk Towers (6).SC2Replay': 1,
             # 'Replays/IEM10/2. Semi Finals/2. sOs vs herO/Map 2/Prion Terraces.SC2Replay': 2
@@ -40,26 +41,26 @@ training_set_replays = {
             'Replays/IEM11/2. Quarter Finals/2. Neeb vs Hydra/Map 2/Frozen Temple.SC2Replay': 1,
             'Replays/IEM11/1. Ro16/6. Elazer vs puCK/Map 4/Galactic Process LE (3).SC2Replay': 2,
             'Replays/IEM11/2. Quarter Finals/2. Neeb vs Hydra/Map 3/Frost LE.SC2Replay': 2,
-            'Replays/IEM11/1. Ro16/8. Nerchio vs Cyan/Map 4/Frost LE (5).SC2Replay': 1,
+            'Replays/IEM11/1. Ro16/8. Nerchio vs Cyan/Map 4/Frost LE (5).SC2Replay': 1
         },
         'Stalker Immortal': {
             'Replays/IEM10/2. Semi Finals/2. sOs vs herO/Map 5/Lerilak Crest (4).SC2Replay': 2,
             'Replays/IEM10/1. Quarter Finals/3. sOs vs MC/Map 2/Ruins of Seras (2).SC2Replay': 1,
-            'Replays/IEM10/1. Quarter Finals/3. sOs vs MC/Map 3/Orbital Shipyard (2).SC2Replay': 1
+            'Replays/IEM10/1. Quarter Finals/3. sOs vs MC/Map 3/Orbital Shipyard (2).SC2Replay': 1,
         },
         'Adept Prism DT': {
             'Replays/IEM11/4. Final/Neeb vs uThermal/Map 5/King Sejong Station LE (7).SC2Replay': 1,
             'Replays/IEM11/4. Final/Neeb vs uThermal/Map 2/Galactic Process LE (4).SC2Replay': 2,
             'Replays/IEM11/1. Ro16/8. Nerchio vs Cyan/Map 3/Frozen Temple (6).SC2Replay': 1,
             'Replays/IEM10/3. Final/Map 5/Lerilak Crest (5).SC2Replay': 2,
-            'Replays/IEM10/1. Quarter Finals/3. sOs vs MC/Map 1/Dusk Towers (3).SC2Replay': 2
+            'Replays/IEM10/1. Quarter Finals/3. sOs vs MC/Map 1/Dusk Towers (3).SC2Replay': 2,
         },
         'Stalker Disruptor': {
             'Replays/IEM10/2. Semi Finals/2. sOs vs herO/Map 5/Lerilak Crest (4).SC2Replay': 2,
             'Replays/IEM10/1. Quarter Finals/3. sOs vs MC/Map 2/Ruins of Seras (2).SC2Replay': 1,
             'Replays/IEM10/1. Quarter Finals/3. sOs vs MC/Map 3/Orbital Shipyard (2).SC2Replay': 1,
             'Replays/IEM10/2. Semi Finals/2. sOs vs herO/Map 2/Prion Terraces.SC2Replay': 1,
-            'Replays/IEM10/1. Quarter Finals/1. Lilbow vs ByuN/Map 3/Orbital Shipyard.SC2Replay': 2
+            'Replays/IEM10/1. Quarter Finals/1. Lilbow vs ByuN/Map 3/Orbital Shipyard.SC2Replay': 2,
         },
         'Blink Stalker': {
             'Replays/IEM10/2. Semi Finals/2. sOs vs herO/Map 4/Ruins of Seras (5).SC2Replay': 2,
@@ -70,7 +71,7 @@ training_set_replays = {
             'Replays/IEM10/2. Semi Finals/2. sOs vs herO/Map 5/Lerilak Crest (4).SC2Replay': 1,
             'Replays/IEM10/3. Final/Map 1/Ruins of Seras (6).SC2Replay': 1,
             'Replays/IEM10/1. Quarter Finals/4. herO vs Snute/Map 1/Dusk Towers (4).SC2Replay': 2,
-            'Replays/IEM10/3. Final/Map 3/Prion Terraces (3).SC2Replay': 2
+            'Replays/IEM10/3. Final/Map 3/Prion Terraces (3).SC2Replay': 2,
         },
     }
     # 'Stalker Stargate': {

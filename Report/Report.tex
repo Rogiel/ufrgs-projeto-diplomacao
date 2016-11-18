@@ -1,6 +1,6 @@
 \input{preamble.tex}
 
-\titulo{Método de classificação e comparação de build orders em StarCraft II}
+\titulo{Método de classificação de build orders em StarCraft II}
 \autor
 {
 	UNIVERSIDADE FEDERAL DO RIO GRANDE DO SUL\\
@@ -16,7 +16,148 @@
 \instituicao{}
 \preambulo{Projeto de Diplomação apresentado ao Departamento de Engenharia Elétrica da Escola de Engenharia da Universidade Federal do Rio Grande do Sul, como requisito parcial para Graduação em Engenharia Elétrica}
 
+% ---
+% INDICE
+% ---
 \makeindex
+% ---
+% GLOSSARIO
+% ---
+\makeglossaries
+
+% ---
+% entradas do glossario
+% ---
+\newglossaryentry{build-order}{
+                name={build order},
+                plural={build orders},
+                description={conjunto de ações ordenadas que formam a estratégia inicial de um jogador}
+}
+\newglossaryentry{raca}{
+                name={raça},
+                plural={raças},
+                see=protoss,
+                description={facção, espécie das \glspl{unidade} do jogador. Existem 3 raças disponíveis: Terran, Zerg e \glspl{protoss}. Cada raça possuí mecânicas, \glspl{unidade}, \glspl{estrutura} e \glspl{melhoramento} completamente diferentes}
+}
+\newglossaryentry{protoss}{
+                name={Protoss},
+                plural={Protoss},
+%                parent=raca,
+                description={uma das 3 \glspl{raca} disponíveis no jogo}
+}
+
+\newglossaryentry{estrutura}{
+                name={estrutura},
+                plural={estruturas},
+                description={uma construção (semelhante à um edifício) construído dentro do jogo com objetivo de treinar \glspl{unidade}, \glspl{melhoramento} ou liberações da \gls{tech-tree}}
+}
+
+ \newglossaryentry{gateway}{
+                 name={Gateway},
+                 plural={Gateways},
+%                 parent=estrutura,
+                 see=protoss,
+                 description={\gls{estrutura} de treinamento de \glspl{unidade} básicas terrestes da \gls{raca} \Gls{protoss}}
+ }
+ 
+ \newglossaryentry{stargate}{
+                 name={Stargate},
+                 plural={Stargates},
+%                 parent=estrutura,
+                 see=protoss,
+                 description={\gls{estrutura} de treinamento de \glspl{unidade} aéreas da \gls{raca} \Gls{protoss}}
+ }
+ 
+ \newglossaryentry{robo}{
+                 name={Robo},
+                 plural={Robo},
+%                 parent=estrutura,
+                 see=protoss,
+                 description={apelido para "Robotics Bay", \gls{estrutura} de treinamento de \glspl{unidade} terrestres avançadas da \gls{raca} \Gls{protoss}}
+ }
+
+\newglossaryentry{unidade}{
+                name={unidade},
+                plural={unidades},
+                description={soldado, personagem do jogo com objetivo militar}
+}
+
+ \newglossaryentry{adept}{
+                 name={Adept},
+                 plural={Adepts},
+%                 parent=unidade,
+                 see=protoss,
+                 description={unidade básica de exército da \gls{raca} \Gls{protoss}}
+ }
+
+\newglossaryentry{melhoramento}{
+                name={melhoramento},
+                plural={melhoramentos},
+                see={estrutura,unidade},
+                description={melhoramento de atributos de alguma \gls{unidade} ou \gls{estrutura}. Exemplo: aumento de velocidade de deslocamento, aumento de dano por ataque, aumento de velocidade de ataque}
+}
+
+ \newglossaryentry{glaives}{
+                 name={Glaives},
+%                 parent=melhoramento,
+                 see=adept,
+                 description={apelido para o melhoramento "Resonating Glaives". Aumenta a velocidade de ataque  da \gls{unidade} \Gls{adept} aumentando significantemente seu poder bélico}
+ }
+
+\newglossaryentry{recurso}{
+                name={recurso},
+                plural={recursos},
+                description={análogo à dinheiro ou matéria prima. Recursos básicos necessários para construir \glspl{estrutura} ou \gls{treinar} \glspl{unidade}}
+}
+
+ \newglossaryentry{minerio}{
+                 name={minério},
+                 plural={minérios},
+%                 parent=recurso,
+                 description={recurso mais básico e abundante do jogo. Requisito para todas \glspl{unidade}, \glspl{estrutura} ou \glspl{melhoramento}}
+ }
+ 
+ \newglossaryentry{gas}{
+                 name={gás},
+%                 parent=recurso,
+                 description={recurso utilizado para \glspl{unidade}, \glspl{estrutura} ou \glspl{melhoramento} mais avançados tecnologicamente}
+ }
+
+\newglossaryentry{tech-tree}{
+                name={arvore tecnológica},
+                description={árvore de dependências que define pré-requisitos tecnológicos (\glspl{melhoramento} ou \glspl{estrutura}) para aquisição de uma nova tecnologia}
+}
+
+\newglossaryentry{replay}{
+                name={replay},
+                plural={replays},
+                description={arquivo binário que contém todas ações realizadas durante um jogo, contém informações o suficiente para que seja possível reexecutar uma simulação do jogo caso seja necessário assistir o jogo. Também incluí algumas informações pré-processadas para uso de ferramentas externas.}
+}
+
+\newglossaryentry{treinar}{
+                name={treinar},
+                description={ato de criar uma \gls{unidade} durante o jogo. Requer que os pré-requisitos para cada \gls{unidade} sejam fornecidos e que haja \glspl{recurso} o suficiente (\glspl{minerio} e \gls{gas})}
+}
+
+\newglossaryentry{repeticao}{
+                name={repetição},
+                plural={repetições},
+                description={execução de uma ação múltiplas vezes}
+}
+
+%\newglossaryentry{repeticao}{
+%                name={repetição},
+%                plural={repetições},
+%                description={execução de uma ação múltiplas vezes}
+%}
+
+% ---
+% Exemplo de configurações do glossairo
+\renewcommand*{\glsseeformat}[3][\seename]{\textit{#1}  
+\glsseelist{#2}}
+
+% ---
+
 \begin{document}
 \selectlanguage{brazil}
 \frenchspacing 
@@ -58,8 +199,8 @@
 	
 	BANCA EXAMINADORA
 	
-	\assinatura{\textbf{Prof. Dr. Marcelo Soares Lubaszewski} \\ UFRGS}
 	\assinatura{\textbf{Prof. Dr. Luiz Fernando Ferreira} \\ UFRGS}
+	\assinatura{\textbf{Prof. Dr. Marcelo Soares Lubaszewski} \\ UFRGS}
 	\assinatura{\textbf{Prof. Dr. Tiago Roberto Balen} \\ UFRGS}
 \end{folhadeaprovacao}
 
@@ -103,9 +244,10 @@
 \begin{resumo}
 
 	RESUMO
+	\todo{resumo}
 
 	\vspace{\onelineskip}
-	\textbf{Palavras-chave}: ...
+	\textbf{Palavras-chave}: ... \todo{keywords}
 \end{resumo}
 
 % resumo em inglês
@@ -113,10 +255,11 @@
  \begin{otherlanguage*}{english}
 	
 	ABSTRACT
+	\todo{abstract}
 	
 	\vspace{\onelineskip}
 	\noindent 
-	\textbf{Keywords}: ...
+	\textbf{Keywords}: ... \todo{keywords}
  \end{otherlanguage*}
 \end{resumo}
 
@@ -156,13 +299,13 @@
 		\section{Sobre o StarCraft II}
 %-------------------------------------------------------------------------
 
-StarCraft II é um jogo de estratégia militar em tempo-real desenvolvido pela \textit{Blizzard Entertainment} onde três facções disputam partidas multiplayer em modalidade 1 contra 1. O objetivo do jogo consiste em conseguir destruir todas as estruturas do adversário que provém infraestrutura para a construção e manutenção do exército.
+StarCraft II é um jogo de estratégia militar em tempo-real desenvolvido pela \textit{Blizzard Entertainment} onde três facções disputam partidas \textit{multiplayer} (online com múltiplos jogadores) em modalidade 1 contra 1. O objetivo do jogo consiste em conseguir destruir todas as \glspl{estrutura} do adversário que provém infraestrutura para a construção e manutenção do exército.
 
-O jogo possui um sistema de economia, onde para que um jogador possa treinar ou desenvolver uma tecnologia, é necessário que primeiro sejam extraído recursos do ambiente virtual de jogo. O jogo também apresenta um sistema de "árvore tecnológica" onde há um encadeamento de pré-requisitos para o treinamento e construção de unidades de exército mais avançadas. É a existência desta árvore tecnológica que possibilita que seja possível inferir e prever uma determinada estratégia do jogador. 
+O jogo possui um sistema de economia, onde para que um jogador possa treinar ou desenvolver uma tecnologia, é necessário que primeiro sejam extraído \glspl{recurso} do ambiente virtual de jogo. O jogo também apresenta um sistema de "\gls{tech-tree}" onde há um encadeamento de pre-requisitos para o treinamento e construção de \glspl{unidade} de exército mais avançadas. É a existência desta \gls{tech-tree} que possibilita que seja possível inferir e prever uma determinada estratégia do jogador. 
 
-O modo mais comum de execução de uma estratégia é utilização de \textit{build orders}. Uma \textit{build order} é uma sequência de ações tomadas por um jogador no decorrer do jogo, que, quando executadas de forma correta, oferecem alguma vantagem estratégica para o jogador. Muitas build orders são padronizadas e otimizadas por jogadores profissionais durante o treino e são popularizadas em campeonatos mundiais.
+O modo mais comum de execução de uma estratégia é utilização de \textit{\glspl{build-order}}. Uma \textit{\gls{build-order}} é uma sequência de ações tomadas por um jogador no decorrer do jogo, que, quando executadas de forma correta, oferecem alguma vantagem estratégica para o jogador. Muitas \glspl{build-order} são padronizadas e otimizadas por jogadores profissionais durante o treino e são popularizadas em campeonatos mundiais.
 
-Neste trabalho será desenvolvido e implementado um método de classificação para \textit{build orders} de partidas de jogadores profissionais de StarCraft II. Foi feita a escolha de utilizar partidas profissionais pois são jogadores com elevado conhecimento do jogo e reagem de forma ótima para várias situações inusitadas ou inesperadas, o que reduz a variabilidade das medidas extraídas dos arquivos de \textit{replay} do jogo. Para a extração de dados foi utilizado um pacote de \textit{replays} (arquivo binário que codifica todas as ações tomadas em um jogo) de competições profissionais de StarCraft II durante o ano de 2016.
+Neste trabalho será desenvolvido e implementado um método de classificação para \textit{\gls{build-order}} de partidas de jogadores profissionais de StarCraft II. Foi feita a escolha de utilizar partidas profissionais pois são jogadores com elevado conhecimento do jogo e reagem de forma ótima para várias situações inusitadas ou inesperadas, o que reduz a variabilidade das medidas extraídas dos arquivos de \textit{\gls{replay}} do jogo. Para a extração de dados foi utilizado um pacote de \textit{\glspl{replay}} (arquivo binário que codifica todas as ações tomadas em um jogo) de competições profissionais de StarCraft II durante o ano de 2016.
 
 Uma aplicação direta para o método proposto é o desenvolvimento de uma inteligência artificial que seja capaz de tomar decisões ao longo de um jogo de forma verossímil à um jogador humano, conforme proposto em \cite{synnaeve2011bayesian1}.
 
@@ -171,11 +314,11 @@ Uma aplicação direta para o método proposto é o desenvolvimento de uma intel
 %-------------------------------------------------------------------------
 O uso de aprendizado de máquina em jogos de estratégia em tempo real (RTS) pode ser dividido em vários problemas: táticas, estratégias e \textit{micro management} conforme definido por \cite{synnaeve2011bayesian2}.
 
-Táticas se refere ao posicionamento de unidades no mapa e é diretamente depende da forma com a qual as unidades interagem entre si no jogo. Dessa forma, uma solução para este problema deve considerar o mapa e as interações entre as mecânicas de cada unidade.
+Táticas se refere ao posicionamento de \glspl{unidade} no mapa e é diretamente dependente da forma com a qual as \glspl{unidade} interagem entre si no jogo. Dessa forma, uma solução para este problema deve considerar o mapa e as interações entre as mecânicas de cada \gls{unidade}.
 
-Os problemas de estratégia se referem ao plano geral de jogo. A estratégia surge de uma expectativa para o desenvolver do jogo, por exemplo, supondo que um jogador deseja investir fortemente na sua economia para que consiga construir unidades tecnológicas de maior custo. A estratégia é a forma com a qual ele vai conseguir atingir este objetivo. Em geral, a estratégia é independente do mapa em que jogo está sendo jogado, mas é diretamente relacionado à raça do oponente, suas escolhas tecnológicas e sua gerência da economia (geralmente denominado de \textit{macro management}). A estratégia de um jogador está diretamente relacionada com a sua escolha \textit{build order}.
+Os problemas de estratégia se referem ao plano geral de jogo. A estratégia surge de uma expectativa para o desenvolver do jogo, por exemplo, supondo que um jogador deseja investir fortemente na sua economia para que consiga construir \glspl{unidade} tecnológicas de maior custo. A estratégia é a forma com a qual ele vai conseguir atingir este objetivo. Em geral, a estratégia é independente do mapa em que jogo está sendo jogado, mas é diretamente relacionado à \gls{raca} do oponente, suas escolhas tecnológicas e sua gerência da economia (geralmente denominado de \textit{macro management}). A estratégia de um jogador está diretamente relacionada com a sua escolha \textit{\gls{build-order}}.
 
-Por fim, os problemas de \textit{micro management} consistem na gerência de unidades individuais, ou seja, o jogador faz o controle de cada unidade do exercito de forma individual. O  \textit{micro management} é uma especialização das táticas, mas se refere à cada unidade individual ao invés do exército inteiro.
+Por fim, os problemas de \textit{micro management} consistem na gerência de \glspl{unidade} individuais, ou seja, o jogador faz o controle de cada \gls{unidade} do exercito de forma individual. O  \textit{micro management} é uma especialização das táticas, mas se refere à cada \gls{unidade} individual ao invés do exército inteiro.
 
 %=========================================================================
 % REVISÃO BIBLIOGRÁFICA
@@ -183,33 +326,33 @@ Por fim, os problemas de \textit{micro management} consistem na gerência de uni
 %=========================================================================
 		\section{Trabalhos anteriores}
 %-------------------------------------------------------------------------
-"A Data Mining Approach to Strategy Prediction" \cite{weber2009data} apresentaram uma forma de expressar uma \textit{build order} de StarCraft Brood War em um vetor de \textit{features} para processamento bem como a performance de quatro algoritmos de classificação. No trabalho concluíram que os diferentes algoritmos possuiam performance diferenciada nos diversos estágios de jogo. O modelo de codificação de features proposto baseava-se num critério de primeira-aparição, isto é, o vetor de \textit{features} contém o instante em que a primeira instância de uma dada unidade ou estrutura ocorria no jogo e, caso não houvesse ocorrência, utilizava um valor padronizado de zero.
+"A Data Mining Approach to Strategy Prediction" \cite{weber2009data} apresentaram uma forma de expressar uma \textit{\gls{build-order}} de StarCraft Brood War em um vetor de \textit{features} para processamento bem como a performance de quatro algoritmos de classificação. No trabalho concluíram que os diferentes algoritmos possuiam performance diferenciada nos diversos estágios de jogo. O modelo de codificação de features proposto baseava-se num critério de primeira-aparição, isto é, o vetor de \textit{features} contém o instante em que a primeira instância de uma dada \gls{unidade} ou \gls{estrutura} ocorria no jogo e, caso não houvesse ocorrência, utilizava um valor padronizado de zero.
 
 Adicionalmente, a fim de simular efeitos de \textit{scouting} ruído foi adicionado nos vetores de \textit{features} como forma de gerar variação nos \textit{timings} de cada ação e então analisar a performance dos algoritmos. Foi concluído que todos os algoritmos perdiam precisão proporcional à quantidade de ruído adicionada, no entanto o algoritmo de k-NN (k-\textit{nearest neighboors}) não degradou a performance de forma tão drástica quanto os outros algoritmos. Também foi adicionado outro teste de ruído para simular informação incompleta: lacunas foram inseridas no vetor de \textit{features} a fim de emular a situação em que o jogador não consegue extrair uma informação do jogo do oponente. Com este tipo de ruído, a conclusão foi de que a precisão dos algoritmos de decaía de forma linear com o nível de ruído adicionado no vetor.
 
-Em "A Bayesian Model for Opening Prediction in RTS Games with Application to StarCraft"  \cite{synnaeve2011bayesian1}, baseado no trabalho anterior de \cite{weber2009data}, realizaram o desenvolvimento de um modelo Bayesiano para classificação de build orders de StarCraft: Brood War utilizando um método de extração de \textit{features} de ações significativas dos replays. A extração do replay considerava estruturas na arvore de tecnologia e considerava apenas a primeira construção de uma estrutura e o índide da sequencia de construção era utilizado para treinar o sistema. O método era capaz de identificar a abertura do jogador após a construção de, na média, 10 estruturas. Contudo, devido ao numero de limitado de \textit{features}, era possível enumerar todas as possibilidades de jogos possíveis (em torno de 1000 por raça). O método era adequado para classificação em que a informação era limitada, por exemplo, era adequada para o contexto de uma inteligência artificial de toma suas decições baseada na sua capacidade de \textit{scouting} (tentar descobrir a estratégia de um outro jogador utilizando uma unidade que descobre cada estrutura feita pelo oponente).
+Em "A Bayesian Model for Opening Prediction in RTS Games with Application to StarCraft"  \cite{synnaeve2011bayesian1}, baseado no trabalho anterior de \cite{weber2009data}, realizaram o desenvolvimento de um modelo Bayesiano para classificação de \glspl{build-order} de StarCraft: Brood War utilizando um método de extração de \textit{features} de ações significativas dos \glspl{replay}. A extração do \gls{replay} considerava \glspl{estrutura} na arvore de tecnologia e considerava apenas a primeira construção de uma \gls{estrutura} e o índide da sequencia de construção era utilizado para treinar o sistema. O método era capaz de identificar a abertura do jogador após a construção de, na média, 10 \glspl{estrutura}. Contudo, devido ao numero de limitado de \textit{features}, era possível enumerar todas as possibilidades de jogos possíveis (em torno de 1000 por \gls{raca}). O método era adequado para classificação em que a informação era limitada, por exemplo, era adequada para o contexto de uma inteligência artificial de toma suas decições baseada na sua capacidade de \textit{scouting} (tentar descobrir a estratégia de um outro jogador utilizando uma \gls{unidade} que descobre cada \gls{estrutura} feita pelo oponente).
 
 \cite{synnaeve2011bayesian2} apresenta uma análise extensiva para técnicas e dificuldades encontradas ao aplicar algoritmos de aprendizado de máquina em diversos tipos de jogo, incluindo jogos de estratégia em tempo real (RTS).
 
 %-------------------------------------------------------------------------
 		\section{A estrutura estatística de uma \textit{build order}}
 %-------------------------------------------------------------------------
-Uma build order genérica pode ser expressa como uma sequência de ações cujo valor tempo de execução médio e desvio padrão estão relacionados com uma função distribuição de probabilidade.
+Uma \gls{build-order} genérica pode ser expressa como uma sequência de ações cujo valor tempo de execução médio e desvio padrão estão relacionados com uma função distribuição de probabilidade.
 
-Seja $A$ uma ação arbitrária, $A_n$ a sequência da ação durante o jogo (primeira vez que ela é executada, segunda, terceira, etc...), $BO$ seja uma \textit{build order} em que a sequência de ações $A_n$ foram executadas e $t$ o tempo de jogo em minutos. Dessa forma, podemos expressar a distribuição de probabilidade de uma sequência da forma indicada na Figura \ref{fig:rev-distribuicao-exemplo}:
+Seja $A$ uma ação arbitrária, $A_n$ a sequência da ação durante o jogo (primeira vez que ela é executada, segunda, terceira, etc...), $BO$ seja uma \textit{\gls{build-order}} em que a sequência de ações $A_n$ foram executadas e $t$ o tempo de jogo em minutos. Dessa forma, podemos expressar a distribuição de probabilidade de uma sequência da forma indicada na Figura \ref{fig:rev-distribuicao-exemplo}:
 
 \begin{figure}[htb]
-	\caption{\label{fig:rev-distribuicao-exemplo}Exemplo de uma distribuição de probabilidade de uma ação com 2 repetições}
+	\caption{\label{fig:rev-distribuicao-exemplo}Exemplo de uma distribuição de probabilidade de uma ação com 2 \glspl{repeticao}}
 	\begin{center}
 	    \includegraphics[width=\linewidth]{../Mathematica/Distribuicao1.pdf}
 	\end{center}
 \end{figure}
 
-Na Figura \ref{fig:rev-distribuicao-exemplo} é possível observar que a primeira vez que a ação é executada, a tolerância para atraso é pequena, contudo, na segunda execução a tolerância de atraso é muito maior.
+Na Figura \ref{fig:rev-distribuicao-exemplo} é possível observar que a primeira vez que a ação é executada, a tolerância para atraso é pequena, contudo, na segunda execução a tolerância de atraso é muito maior, pois o efeito da \gls{tech-tree} implica que uma ação atrasada irá atrasar as duas ações dependentes.
 
 A tolerância de execução se faz necessária pois um jogador pode atrasar alguns segundos por múltiplos motivos durante o jogo, embora ele ainda esteja executando a mesma build-order.
 
-Para uma \textit{build order} real, haverá uma distribuição de probabilidade para cada uma das ações que podem oscilar em torno de 30 a 40 dependendo da facção do jogador.
+Para uma \textit{\gls{build-order}} real, haverá uma distribuição de probabilidade para cada uma das ações que podem oscilar em torno de 30 a 40 dependendo da facção do jogador.
 
 %-------------------------------------------------------------------------
 		\section{Fator de \textit{branching} de um jogo de StarCraft: BroodWar}
@@ -221,38 +364,40 @@ Infelizmente não há análises cientificas feitas para a complexidade de um jog
 %-------------------------------------------------------------------------
 		\section{O Teorema de Bayes}
 %-------------------------------------------------------------------------
-O Teorema de Bayes relaciona a probabilidade de um evento associado à uma restrição. A definição matemática do teorema é dada pela Equação \ref{eq}:
+O Teorema de Bayes relaciona a probabilidade de um evento associado à uma restrição. A definição matemática do teorema é dada pela Equação \ref{eq:revisao-teorema-bayes}:
 
 \begin{equation}
 	P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+	\label{eq:revisao-teorema-bayes}
 \end{equation}
 
 \noindent onde $A$ é um evento, $B$ é a restrição do evento $A$. Dessa forma, é possível determinar a probabilidade do evento $A$ ter acontecido, dado que o evento $B$ foi observado.
 
-Em termos da análise de \textit{build orders}, pode-se aplicar o teorema da seguinte forma:
+Em termos da análise de \textit{\glspl{build-order}}, pode-se aplicar o teorema conforme a Equação \ref{eq:revisao-teorema-bayes-aplicado}:
 
 \begin{equation}
 	P(BO|A, t) = \frac{P(A|BO, t)P(BO)}{P(A, t)}
+	\label{eq:revisao-teorema-bayes-aplicado}
 \end{equation}
-\noindent onde $BO$ é uma \textit{build order} qualquer que deseja-se estimar a probabilidade de estar sendo executada, dado que o jogador executou a ação $A$ no tempo $t$. Para tanto, precisa-se determinar 3 fatores:
+\noindent onde $BO$ é uma \textit{\gls{build-order}} qualquer que deseja-se estimar a probabilidade de estar sendo executada, dado que o jogador executou a ação $A$ no tempo $t$. Para tanto, precisa-se determinar 3 fatores:
 
 \begin{itemize}
-	\item $P(A, t)$: a probabilidade de um jogador executar a ação $A$ no instante $t$, independe da \textit{build order};
-	\item $P(BO)$: a probabilidade de um jogador executar a \textit{build order} $BO$, independente da ação que o jogador está executando;
-	\item $P(A|BO, t)$: a probabilidade de ter executado a ação $A$ supondo que o jogador está executando a \textit{build order} $BO$ no instante $t$;
+	\item $P(A, t)$: a probabilidade de um jogador executar a ação $A$ no instante $t$, independe da \textit{\gls{build-order}};
+	\item $P(BO)$: a probabilidade de um jogador executar a \textit{\gls{build-order}} $BO$, independente da ação que o jogador está executando;
+	\item $P(A|BO, t)$: a probabilidade de ter executado a ação $A$ supondo que o jogador está executando a \textit{\gls{build-order}} $BO$ no instante $t$;
 \end{itemize}
 
 %=========================================================================
 % METODOLOGIA EXPERIMENTAL
 	\chapter{Método}
 %=========================================================================
-Neste trabalho foi utilizado Python 2.7 como a linguagem de programação para a implementação do método. Este motivo foi guiado principalmente pelo fato da biblioteca oficial de processamento de replays oferecida pela Blizzard Entertainment, Inc. (desenvolvedor do StarCraft II) ser em Python. A biblioteca de processamento de replays oficial, \textit{s2protocol}\cite{s2protocol} é de código-fonte aberto e está disponível no GitHub. Demais códigos utilizados são parte de uma distribuição padrão do Python 2.7 ou foram desenvolvidos para o trabalho.
+Neste trabalho foi utilizado Python 2.7 como a linguagem de programação para a implementação do método. Este motivo foi guiado principalmente pelo fato da biblioteca oficial de processamento de \glspl{replay} oferecida pela Blizzard Entertainment, Inc. (desenvolvedor do StarCraft II) ser em Python. A biblioteca de processamento de \glspl{replay} oficial, \textit{s2protocol}\cite{s2protocol} é de código-fonte aberto e está disponível no GitHub. Demais códigos utilizados são parte de uma distribuição padrão do Python 2.7 ou foram desenvolvidos para o trabalho.
 
 %-------------------------------------------------------------------------
 		\section{Extração dos dados}
 %-------------------------------------------------------------------------
 
-Os replays de StarCraft II são arquivos do tipo MoPAQ, um formato proprietário desenvolvido pela Blizzard Entertainment nos anos 90 para uso em seus jogos. Embora o formato seja proprietário é possível localizar na internet uma gama de implementações ou documentação desenvolvida por engenharia reversa. Um arquivo MPQ é análogo à um arquivo ZIP e contém um índice de arquivos e blocos de conteúdo. Nos \textit{replays} há uma série de \textit{stream} de eventos de jogo e neste trabalho somente será utilizado o stream chamado "Tracker Events" que são eventos cujo conteúdo é destinado para ferramentas que desejam processar os replays, ao contrário de informações úteis para a simulação do jogo. Este \textit{stream} está armazenado como "replay.tracker.events" dentro do MPQ.
+Os \glspl{replay} de StarCraft II são arquivos do tipo MoPAQ, um formato proprietário desenvolvido pela Blizzard Entertainment nos anos 90 para uso em seus jogos. Embora o formato seja proprietário é possível localizar na internet uma gama de implementações ou documentação desenvolvida por engenharia reversa. Um arquivo MPQ é análogo à um arquivo ZIP e contém um índice de arquivos e blocos de conteúdo. Nos \textit{\glspl{replay}} há uma série de \textit{stream} de eventos de jogo e neste trabalho somente será utilizado o stream chamado "Tracker Events" que são eventos cujo conteúdo é destinado para ferramentas que desejam processar os \glspl{replay}, ao contrário de informações úteis para a simulação do jogo. Este \textit{stream} está armazenado como "replay.tracker.events" dentro do MPQ.
 
 O \textit{stream} de \textit{Tracker Events} foi processado utilizando uma classe em Python que extrai as seguintes informações do evento:
 
@@ -271,53 +416,51 @@ A expressão de conversão de \textit{game loops} para o tempo, em segundos é d
 \end{equation}
 \noindent onde $t_{seg}$ é o tempo em segundos, $n_{loops}$ é o número de \textit{game loops}.
 
-Dentre os vários tipos de eventos contidos neste stream, 4 destes eventos são interessantes na análise:
+Dentre os vários tipos de eventos contidos neste stream, 3 destes eventos são interessantes na análise:
 
 \begin{description}
-	\item[NNet.Replay.Tracker.SPlayerStatsEvent]: contém informações sobre o estado atual do jogador. De interesse na análise: suprimento em uso pelo exército e total de suprimento disponível.
-	\item[NNet.Replay.Tracker.SUnitBornEvent] evento disparado para cada unidade/estrutura criada no jogo. Este evento somente é despachado para unidades que aparecem no campo de batalha de forma "pronta", isto é, no momento em que a unidade pode ser vista pelo jogador, ela já pode ser controlada.
-	\item[NNet.Replay.Tracker.SUnitInitEvent] semelhante ao evento SUnitBornEvent, mas este evento é despachado para unidades que são construídas diretamente no campo de batalha e não estão disponíveis para jogo imediatamente no instante do evento. Embora a unidade/estrutura neste evento não seja imediatamente utilizável, no método proposto, apenas o tempo em que usuário inicia a construção é considerado.
-	\item[NNet.Replay.Tracker.SUpgradeEvent] evento disparado para cada melhoramento de exército realizado pelo jogador. Estes eventos são muito importantes pois podem indicar ou refinar a intenção do jogador.
+	\item[NNet.Replay.Tracker.SUnitBornEvent] evento disparado para cada \gls{unidade}/\gls{estrutura} criada no jogo. Este evento somente é despachado para \glspl{unidade} que aparecem no campo de batalha de forma "pronta", isto é, no momento em que a \gls{unidade} pode ser vista pelo jogador, ela já pode ser controlada.
+	\item[NNet.Replay.Tracker.SUnitInitEvent] semelhante ao evento SUnitBornEvent, mas este evento é despachado para \glspl{unidade} que são construídas diretamente no campo de batalha e não estão disponíveis para jogo imediatamente no instante do evento. Embora a \gls{unidade}/\gls{estrutura} neste evento não seja imediatamente utilizável, no método proposto, apenas o tempo em que usuário inicia a construção é considerado.
+	\item[NNet.Replay.Tracker.SUpgradeEvent] evento disparado para cada \gls{melhoramento} de exército realizado pelo jogador. Estes eventos são muito importantes pois podem indicar ou refinar a intenção do jogador.
 \end{description}
 
-Para o evento \textbf{SPlayerStatsEvent} são extraídas duas informações: a quantidade de suprimento utilizada pelo exército do jogador e o total de suprimento disponível para o jogador. Esta informação não é utilizada pelo método de classificação, mas é utilizada popularmente em sites de \textit{build orders} de StarCraft II, uma vez que, durante o jogo, é mais simples indexar as ações baseado no suprimento usado e total do que no instante de tempo absoluto da ação.
+Apenas uma informação é extraída da \gls{estrutura} de dados específica dos eventos: o nome da \gls{unidade}, \gls{estrutura} ou \gls{melhoramento} feito pelo jogador. Este nome é único para cada tipo de \gls{unidade}, \gls{estrutura} ou \gls{melhoramento} e cada um desses nomes são considerados como ações individuais que podem ser executadas pelo jogador. A única exceção é a exclusão de \glspl{unidade} do tipo trabalhadoras e \glspl{estrutura} que oferecem suprimento ao jogador. Estas \glspl{unidade} foram removidas porque num jogo regular estas ações ocorrem muitas vezes e há muita variância na execução delas, logo, incorrendo num prejuízo na qualidade do resultado final.
 
-Para os eventos \textbf{SUnitBornEvent}, \textbf{SUnitInitEvent} e \textbf{SUpgradeEvent} descritos anteriormente, apenas uma informação é extraída: o nome da unidade, estrutura ou melhoramento feito pelo jogador. Este nome é único para cada tipo de unidade, estrutura ou melhoramento.
-
-Uma vez que após os 6 minutos de jogo, a partida se torna reativa, ao invés de algorítmica, a sequência de eventos é truncada até os 6 minutos de jogo. Isto garante que as informações tenham menor variabilidade. Ao decorrer da partida, as ações executadas por um jogador começam a se tornar em resposta das ações do outro jogador e, portanto, não há sentido realizar uma classificação de \textit{build order} para ações que ocorrem além de um certo limite de tempo.
+Uma vez que após os 6 minutos de jogo, a partida se torna reativa, ao invés de algorítmica, a sequência de eventos é truncada até os 6 minutos de jogo. Isto garante que as informações tenham menor variabilidade. Ao decorrer da partida, as ações executadas por um jogador começam a se tornar em resposta das ações do outro jogador e, portanto, não há sentido realizar uma classificação de \textit{\gls{build-order}} para ações que ocorrem além de um certo limite de tempo.
 
 %-------------------------------------------------------------------------
 		\section{\textit{Dataset} de referência}
 %-------------------------------------------------------------------------
-Como não há nenhum índice de replays e build-orders disponível publicamente o conjunto de replays utilizado para treinamento e validação foi classificado manualmente utilizando replays de diversos campeonatos do ano de 2016
+Como não há nenhum índice de \glspl{replay} e \glspl{build-order} disponível publicamente o conjunto de \glspl{replay} utilizado para treinamento e validação foi classificado manualmente utilizando \glspl{replay} de diversos campeonatos do ano de 2016
 
 \begin{description}
-	\item[Intel Extreme Masters 10]: 19 \textit{replays}
-	\item[Intel Extreme Masters 11]: 35 \textit{replays}
-	\item[WCS Spring Championship 2016]: 54 \textit{replays}
+	\item[Intel Extreme Masters 10]: 19 \textit{\glspl{replay}}
+	\item[Intel Extreme Masters 11]: 35 \textit{\glspl{replay}}
+	\item[WCS Spring Championship 2016]: 54 \textit{\glspl{replay}}
 \end{description}
 
-\noindent totalizando $108$ \textit{replays}.
+\noindent totalizando $108$ \textit{\glspl{replay}}.
 
-Para a classificação manual das estratégias cada replay foi assistido no jogo e classificado conforme as regras abaixo:
+Para a classificação manual das estratégias cada \gls{replay} foi assistido no jogo e classificado conforme as regras abaixo:
 
 \begin{itemize}
 	\item A composição de exército de um jogador no instante do primeiro ataque realizado por ele;
-	\item Se o jogador fosse atacado por outro e tivesse mais de 8 unidades perdidas, o \textit{replay} era descartado;
+	\item Se o jogador fosse atacado por outro e tivesse mais de 8 \glspl{unidade} perdidas, o \textit{\gls{replay}} era descartado;
 	\item Caso não houvesse investida por parte dos dois jogadores até os 6 minutos de jogo, a composição de exército do jogador aos 6 minutos de jogo era classificada.
 \end{itemize}
 
-Um exército em StarCraft II pode ser composto por mais de 10 tipos de unidades diferentes, contudo isto é incomum. De forma geral, exércitos são compostos por um grande número de unidades básicas de ataque e algumas unidades de suporte. Na classificação, as unidades de suporte foram desprezadas na composição do exército. Esta regra é violada somente caso a unidade de suporte seja incomum ou trouxe um benefício significante para o jogador.
+Um exército em StarCraft II pode ser composto por mais de 10 tipos de \glspl{unidade} diferentes, contudo isto é incomum. De forma geral, exércitos são compostos por um grande número de \glspl{unidade} básicas de ataque e algumas \glspl{unidade} de suporte. Na classificação, as \glspl{unidade} de suporte foram desprezadas na composição do exército. Esta regra é violada somente caso a \gls{unidade} de suporte seja incomum ou trouxe um benefício significante para o jogador, como estratégias do tipo \textit{rush} (criar um exército o mais rápido possível, geralmente em sacrifício da economia).
 
 %-------------------------------------------------------------------------
 		\section{Treinamento}
+		\label{sec:treinamento}
 %-------------------------------------------------------------------------
 
-O treinamento foi realizado de forma simples: a sequência de ações para cada \textit{replay} era iterada e o tempo de execução da ação era gravado em uma lista. Uma lista separada era usada para cada repetição. Por exemplo, supondo que as \textit{build orders} $BO_1$ e $BO_2$ sejam duas amostras com o mesmo \textit{label}:
+O treinamento foi realizado de forma simples: a sequência de ações para cada \textit{\gls{replay}} era iterada e o tempo de execução da ação era gravado em uma lista. Uma lista separada era usada para cada \gls{repeticao}. Por exemplo, supondo que as \textit{\glspl{build-order}} $BO_1$ e $BO_2$ sejam duas amostras com o mesmo \textit{label}:
 
 \begin{table}[H]
 \centering
-\caption{Um exemplo de uma \textit{build order} com as ações $A_1$ e $A_2$ ocorrendo nos tempos $t_n$.}
+\caption{Um exemplo de uma \textit{\gls{build-order}} com as ações $A_1$ e $A_2$ ocorrendo nos tempos $t_n$. Observa-se nas últimas 2 linhas da tabela que há uma inversão de sequência de execução das ações. Esta alteração não implica que as \textit{\gls{build-order}} sejam diferentes, é muito provável que os tempos $t_5$, $t_6$, $t_7$ e $t_8$ sejam muitos próximos e são independentes.}
 \label{my-label}
 \begin{tabular}{|l|l||l|l|}
 \hline
@@ -342,7 +485,7 @@ Dessa forma, as duas listas terão o seguinte conteúdo:
 \end{split}
 \label{eq:metodo-exemplo-vetor-tempos-a1}
 \end{align}
-\noindent onde $T_{A_1}$ é o vetor de tempos da execução de cada repetição da ação $A_1$ nos múltiplos \textit{replays} processados. $\{t_1, t_2\}$ representa os tempos da primeira repetição, $\{t_3, t_4\}$ da segunda e $\{t_6, t_7\}$ da terceira.
+\noindent onde $T_{A_1}$ é o vetor de tempos da execução de cada \gls{repeticao} da ação $A_1$ nos múltiplos \textit{\glspl{replay}} processados. $\{t_1, t_2\}$ representa os tempos da primeira \gls{repeticao}, $\{t_3, t_4\}$ da segunda e $\{t_6, t_7\}$ da terceira.
 
 \begin{align}
 \begin{split}
@@ -352,17 +495,17 @@ Dessa forma, as duas listas terão o seguinte conteúdo:
 \end{split}
 \label{eq:metodo-exemplo-vetor-tempos-a2}
 \end{align}
-\noindent onde $T_{A_2}$ é o vetor de tempos da execução de cada repetição da ação $A_2$ nos múltiplos \textit{replays} processados. Esta ação possui uma única repetição.
+\noindent onde $T_{A_2}$ é o vetor de tempos da execução de cada \gls{repeticao} da ação $A_2$ nos múltiplos \textit{\glspl{replay}} processados. Esta ação possui uma única \gls{repeticao}.
 
-Seja $\mu(T_x, R)$ a média do vetor de tempo $T_x$ para a repetição $R$ e $\sigma(T_x, R)$ o desvio padrão do vetor de tempo $T_x$ para a repetição $R$, então a distribuição $p$ de probabilidade de uma ação pode ser definida como:
+Seja $\mu(T_x, R)$ a média do vetor de tempo $T_x$ para a \gls{repeticao} $R$ e $\sigma(T_x, R)$ o desvio padrão do vetor de tempo $T_x$ para a \gls{repeticao} $R$, então a distribuição $p$ de probabilidade de uma ação pode ser definida como:
 
 \begin{equation}
 	p_{T_x}(t, R) = A e^{-\frac{(t-\mu(T_x, R))^2}{{\sigma(T_x, R)}^2}}
 	\label{eq:metodo-funcao-distribuicao-de-probabilidade}
 \end{equation}
-\noindent onde $A$ é a frequência com que um par ação-repetição ocorre dentre todas as amostras de treinamento utilizadas, $\mu$ é o tempo médio de execução do par ação-repetição e $\sigma$ e o correspondente desvio-padrão.
+\noindent onde $A$ é a frequência com que um par ação-\gls{repeticao} ocorre dentre todas as amostras de treinamento utilizadas, $\mu$ é o tempo médio de execução do par ação-\gls{repeticao} e $\sigma$ e o correspondente desvio-padrão.
 
-A Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade} apresenta a função distribuição de probabilidade para uma ação. Isto é, representa a probabilidade de uma ação qualquer $A$ pertencer a uma \textit{build order} $BO_1$ dado que a ação foi executada pelo jogador no instante $t$.
+A Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade} apresenta a função distribuição de probabilidade para uma ação. Isto é, representa a probabilidade de uma ação qualquer $A$ pertencer a uma \textit{\gls{build-order}} $BO_1$ dado que a ação foi executada pelo jogador no instante $t$.
 
 Esta função é uma variação da função distribuição de probabilidade Gaussiana, no entanto, é ajustada de forma que, para o ponto médio, seu valor seja unitário (para $A=1$) ou tenha o valor de $A$, que indica a frequência com que uma ação ocorreu nos \textit{datasets} de treinamento.
 
@@ -402,21 +545,21 @@ O cálculo de desvio padrão para os vetores das Equações \ref{eq:metodo-exemp
 	\label{eq:metodo-exemplo-vetor-tempos-a2-desvio}
 \end{equation}
 
-Neste exemplo, de forma a simplificar o cálculo, assume-se que a frequência de cada par ação-repetição é unitária.
+Neste exemplo, de forma a simplificar o cálculo, assume-se que a frequência de cada par ação-\gls{repeticao} é unitária.
 
 É possível substituir os valores de média e desvio-padrão das Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-media}, \ref{eq:metodo-exemplo-vetor-tempos-a2-media}, \ref{eq:metodo-exemplo-vetor-tempos-a1-desvio} e \ref{eq:metodo-exemplo-vetor-tempos-a2-desvio} na função distribuição de probabilidade da Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}. O vetor final é denominado de "vetor de probabilidades".
 
 Com os resultados de média (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-media} e \ref{eq:metodo-exemplo-vetor-tempos-a2-media}) e desvio padrão (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-desvio} e \ref{eq:metodo-exemplo-vetor-tempos-a2-desvio}), é possível obter um gráfico do formato da distribuição de probabilidade conforme representado nas Figuras \ref{fig:metodo-exemplo-bo-media-a1} e \ref{fig:metodo-exemplo-bo-media-a2}.
 
 \begin{figure}[htb]
-	\caption{\label{fig:metodo-exemplo-bo-media-a1} Exemplo da distribuição de probabilidade da ação $A_1$. A curva em azul representa a primeira repetição da ação (nos tempos $t_1$ e $t_2$), a curva em laranja representa a segunda repetição (nos tempos $t_3$ e $t_4$) e a curva em verde representa a terceira repetição da ação (tempos $t_6$ e $t_7$).}
+	\caption{\label{fig:metodo-exemplo-bo-media-a1} Exemplo da distribuição de probabilidade da ação $A_1$. A curva em azul representa a primeira \gls{repeticao} da ação (nos tempos $t_1$ e $t_2$), a curva em laranja representa a segunda \gls{repeticao} (nos tempos $t_3$ e $t_4$) e a curva em verde representa a terceira \gls{repeticao} da ação (tempos $t_6$ e $t_7$).}
 	\begin{center}
 	    \includegraphics[width=\linewidth]{../Mathematica/Images/Exemplo_BO_Media_A1.pdf}
 	\end{center}
 \end{figure}
 
 \begin{figure}[htb]
-	\caption{\label{fig:metodo-exemplo-bo-media-a2} Exemplo da distribuição de probabilidade da ação $A_1$. Como a ação $A_2$ somente é executada uma única vez no exemplo, apenas uma repetição é mostrada no gráfico. A ação corresponde aos instantes de tempo $t_5$ e $t_8$.}
+	\caption{\label{fig:metodo-exemplo-bo-media-a2} Exemplo da distribuição de probabilidade da ação $A_1$. Como a ação $A_2$ somente é executada uma única vez no exemplo, apenas uma \gls{repeticao} é mostrada no gráfico. A ação corresponde aos instantes de tempo $t_5$ e $t_8$.}
 	\begin{center}
 	    \includegraphics[width=\linewidth]{../Mathematica/Images/Exemplo_BO_Media_A2.pdf}
 	\end{center}
@@ -425,9 +568,9 @@ Com os resultados de média (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-m
 %-------------------------------------------------------------------------
 			\subsection{Forma Matricial}
 %-------------------------------------------------------------------------
-O treinamento pode ser realizado de forma matricial. Onde as colunas indicam as ações e as linhas indicam as repetições de cada ação respectiva. Dessa forma, é possível definir uma matriz de médias e desvios padrões.
+O treinamento pode ser realizado de forma matricial. Onde as colunas indicam as ações e as linhas indicam as \glspl{repeticao} de cada ação respectiva. Dessa forma, é possível definir uma matriz de médias e desvios padrões.
 
-Dado um conjunto de $N$ ações que podem se repetir até $M$ vezes, então, é possível definir uma matriz $M \times N$, cujos elementos são formatos pelo tempo médio de execução de cada par ação-repetição, denominada de "matriz de média do tempo de execução", expressa na Equação \ref{eq:metodo-matriz-media-simbolico}.
+Dado um conjunto de $N$ ações que podem se repetir até $M$ vezes, então, é possível definir uma matriz $M \times N$, cujos elementos são formatos pelo tempo médio de execução de cada par ação-\gls{repeticao}, denominada de "matriz de média do tempo de execução", expressa na Equação \ref{eq:metodo-matriz-media-simbolico}.
 
 \newcommand{\RogielBOMatrix}[1]{
 	\ensuremath{
@@ -445,7 +588,7 @@ Dado um conjunto de $N$ ações que podem se repetir até $M$ vezes, então, é 
 	\label{eq:metodo-matriz-media-simbolico}
 \end{equation}
 
-De forma análoga a matriz de média do tempo de execução, é possível definir a "matriz de desvio padrão do tempo de execução" para os valores de desvio padrão do tempo de execução de cada par ação-repetição e a outra matriz denominada "matriz de frequência de ocorrência de repetição" que define a frequência de ocorrência de um dado par ação-repetição no conjunto de amostras observadas. A definição formal da matriz de desvio padrão do tempo de execução está apresentada na Equação \ref{eq:metodo-matriz-desvio-simbolico}. A definição formal da matriz de frequência de repetição está apresentada na Equação \ref{eq:metodo-matriz-frequencia-simbolico}.
+De forma análoga a matriz de média do tempo de execução, é possível definir a "matriz de desvio padrão do tempo de execução" para os valores de desvio padrão do tempo de execução de cada par ação-\gls{repeticao} e a outra matriz denominada "matriz de frequência de ocorrência de \gls{repeticao}" que define a frequência de ocorrência de um dado par ação-\gls{repeticao} no conjunto de amostras observadas. A definição formal da matriz de desvio padrão do tempo de execução está apresentada na Equação \ref{eq:metodo-matriz-desvio-simbolico}. A definição formal da matriz de frequência de \gls{repeticao} está apresentada na Equação \ref{eq:metodo-matriz-frequencia-simbolico}.
 
 \begin{equation}
 	\sigma = \RogielBOMatrix{\sigma}
@@ -458,9 +601,9 @@ De forma análoga a matriz de média do tempo de execução, é possível defini
 \end{equation}
 
 
-Substituindo-se as matrizes de média e desvio padrão do tempo de execução e de frequência de ocorrência de repetição, Equações \ref{eq:metodo-matriz-media-simbolico}, \ref{eq:metodo-matriz-desvio-simbolico} e \ref{eq:metodo-matriz-frequencia-simbolico}, respectivamente, na função de distribuição de probabilidade dada pela Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}, é possível construir um vetor de probabilidade. Todas as operações entre matrizes são realizadas utilizando operadores de Hadamard \cite{matrix-analysis} ou operações termo-a-termo.
+Substituindo-se as matrizes de média e desvio padrão do tempo de execução e de frequência de ocorrência de \gls{repeticao}, Equações \ref{eq:metodo-matriz-media-simbolico}, \ref{eq:metodo-matriz-desvio-simbolico} e \ref{eq:metodo-matriz-frequencia-simbolico}, respectivamente, na função de distribuição de probabilidade dada pela Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}, é possível construir uma matriz de probabilidade. Todas as operações entre matrizes são realizadas utilizando operadores de Hadamard \cite{matrix-analysis} ou operações termo-a-termo.
 
-Por convenção matemática, e evitar um problema de indeterminação no cálculo de probabilidade associada, uma ação cuja repetição não ocorre nas amostras encontradas, deve ter o valor de média não-nulo e o valor de desvio padrão deve ser infinito. Por convenção, neste trabalho utiliza-se o valor de média $0.0$. Este escolha foi feita para que a função distribuição de probabilidade seja avaliada com valor $1.0$ para ações inexistentes na amostra de treinamento, independente da ação ser executada pelo jogador numa \textit{build order} utilizada no processo de classificação.
+Por convenção matemática, e para evitar um problema de indeterminação no cálculo de probabilidade associada, uma ação cuja \gls{repeticao} não ocorre nas amostras encontradas, deve ter o valor de média não-nulo e o valor de desvio padrão deve ser infinito. Por convenção, neste trabalho utiliza-se o valor de média $0.0$. Esta escolha foi feita para que a função distribuição de probabilidade seja avaliada com valor $1.0$ para ações inexistentes na amostra de treinamento, independente da ação ser executada pelo jogador numa \textit{\gls{build-order}} utilizada no processo de classificação.
 
 \newcommand{\RPME}[4]{
 	\ensuremath{
@@ -483,94 +626,174 @@ Por convenção matemática, e evitar um problema de indeterminação no cálcul
 	\right)
 	\label{eq:metodo-matriz-probabilidade-simbolico}
 \end{equation}
-\noindent onde $t$ é uma matriz que indica o tempo de execução dos pares ação-repetição de uma \textit{build order} que se deseja classificar.
+\noindent onde $t$ é uma matriz que indica o tempo de execução dos pares ação-\gls{repeticao} de uma \textit{\gls{build-order}} que se deseja classificar.
 
 %-------------------------------------------------------------------------
 		\section{Classificação}
+		\label{sec:classificacao}
 %-------------------------------------------------------------------------
-O processo de classificação é realizado de forma independente para cada \textit{label} (\textit{build order}) utilizado no processo de treinamento. Os valores de probabilidade para cada par de ação-tempo de um \textit{replay} são multiplicados e o valor final determina a semelhança de uma \textit{build order} treinada e a executada.
+O processo de classificação é realizado de forma independente para cada \textit{label} (\textit{\gls{build-order}}) utilizado no processo de treinamento. Os valores de probabilidade para cada par de ação-tempo de um \textit{\gls{replay}} são multiplicados e o valor final determina a semelhança de uma \textit{\gls{build-order}} treinada e a executada.
 
-Considerando-se o exemplo anterior, é possível aplicar o instante de execução de cada ação do jogador no vetor de ações correspondente e obter a probabilidade de que uma ação qualquer $A$. Dessa forma, a probabilidade total de que um conjunto de ações seja parte de uma \textit{build order} qualquer é dada pela Equação \ref{eq:metodo-exemplo-classificacao-produto}:
+Considerando-se o exemplo anterior, é possível aplicar o instante de execução de cada ação do jogador no vetor de ações correspondente e obter a probabilidade de que uma ação qualquer $A$. Dessa forma, a probabilidade total de que um conjunto de ações seja parte de uma \textit{\gls{build-order}} qualquer é dada pela Equação \ref{eq:metodo-exemplo-classificacao-produto}:
 
 \begin{equation}
 	p_{BO} = \prod_{n,i} p(BO|A_{(n,i)}, t)
 	\label{eq:metodo-exemplo-classificacao-produto}
 \end{equation}
-\noindent onde $n$ indica o tipo da ação, $i$ a sua repetição e $p(BO|A_{(n,i)}, t)$ é a probabilidade de que a ação seja parte de uma build order $BO$ dado que $A_{(n,i)}$ foi executada no instante de tempo $t$, conforme a Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}.
+\noindent onde $n$ indica o tipo da ação, $i$ a sua \gls{repeticao} e $p(BO|A_{(n,i)}, t)$ é a probabilidade de que a ação seja parte de uma \gls{build-order} $BO$ dado que $A_{(n,i)}$ foi executada no instante de tempo $t$, conforme a Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}.
 
 %-------------------------------------------------------------------------
 			\subsection{Forma Matricial}
 %-------------------------------------------------------------------------
-Dada a matriz de probabilidades de uma \textit{build order} treinada, conforme a Equação \ref{eq:metodo-matriz-probabilidade-simbolico}, a probabilidade final de uma \textit{build order} treinada é dada pela redução da matriz através da operação de multiplicação de seus termos, conforme Equação \ref{eq:metodo-matriz-reducao}.
+Dada a matriz de probabilidades de uma \textit{\gls{build-order}} treinada, conforme a Equação \ref{eq:metodo-matriz-probabilidade-simbolico}, a probabilidade final de uma \textit{\gls{build-order}} treinada é dada pela redução da matriz através da operação de multiplicação de seus termos, conforme Equação \ref{eq:metodo-matriz-reducao}.
 
 \begin{equation}
 	p_{BO} = \prod_{i,j} p(t)_{ij}
 	\label{eq:metodo-matriz-reducao}
 \end{equation}
-\noindent onde $i$ e $j$ são respectivamente as linhas e as colunas das matrizes de probabilidade e de tempo de execução da \textit{build order} a ser classificada, $t$ é a matriz de tempo de execução da \textit{build order} para ser classificada, $p$ é a matriz de probabilidades de uma \textit{build order} qualquer $BO$ e $p_{BO}$ é a probabilidade reduzida da matriz $p$ cujo valor é equivalente à operação da Equação \ref{eq:metodo-exemplo-classificacao-produto}.
+\noindent onde $i$ e $j$ são respectivamente as linhas e as colunas das matrizes de probabilidade e de tempo de execução da \textit{\gls{build-order}} a ser classificada, $t$ é a matriz de tempo de execução da \textit{\gls{build-order}} para ser classificada, $p$ é a matriz de probabilidades de uma \textit{\gls{build-order}} qualquer $BO$ e $p_{BO}$ é a probabilidade reduzida da matriz $p$ cujo valor é equivalente à operação da Equação \ref{eq:metodo-exemplo-classificacao-produto}.
 
 %-------------------------------------------------------------------------
-		\section{Comparação}
+		\section{Implementação}
 %-------------------------------------------------------------------------
-Para realizar a comparação entre \textit{build orders} é feita uma tabela que compara a taxa de vitória de cada \textit{build order} contra a \textit{build order} do oponente.
+
+A implementação do método foi feita em Python 2.7 utilizando a biblioteca s2protocol \cite{s2protocol} para processamento dos arquivos de \textit{\gls{replay}}, disponibilizada em licença de código fonte aberto no GitHub.
+
+Para realizar a extração dos eventos do uma função chamada \textit{\textit{parse()}} foi definida. Esta função é responsável por extrair todas a \textit{\glspl{build-order}} de todos jogadores que participaram na partida contida num arquivo de \textit{\gls{replay}}. A função pode ser dividida em 3 etapas.
+
+Na primeira etapa, extrai-se do cabeçalho do arquivo informações que associam um identificador inteiro, denominado de \textit{player ID} com o nome do jogador e a \gls{raca}. O identificador inteiro é usado nas estruturas de dados dos eventos para associar o evento com um jogador. Com estes dados, é construído um dicionário contendo as seguintes informações.
+
+\begin{lstlisting}
+players = {
+	playerID: {
+		'Name':       ..., // nome do jogador
+		'BuildOrder': ..., // estrutura que lista as ações da build order
+		'Race':       ...  // nome da raça do jogador
+	}
+}
+\end{lstlisting}
+
+Depois de criada a estrutura de dados do jogador, é possível realizar a extração de cada evento do \textit{\gls{replay}}. Para cada estrutura de dados de evento recebida pela biblioteca de processamento conforme o exemplo abaixo:
+
+\begin{lstlisting}
+	{'_bits': 296,
+	 '_event': 'NNet.Replay.Tracker.SUnitBornEvent',
+	 '_eventid': 1,
+	 '_gameloop': 2467,
+	 'm_controlPlayerId': 2,
+	 'm_unitTagIndex': 261,
+	 'm_unitTagRecycle': 1,
+	 'm_unitTypeName': 'Adept',
+	 'm_upkeepPlayerId': 2,
+	 'm_x': 34,
+	 'm_y': 152}
+\end{lstlisting}
+
+Antes de processar qualquer elemento do evento, converte-se o campo \_gameloop que representa o número de loops de jogo transcorridos até o momento do evento. A conversão para tempo em segundos é feita utilizando a expressão da Equação \ref{eq:metodo-conversao-loops-tempo}. Se o tempo de execução é superior à 6 minutos, o evento é descartado.
+
+Caso o tempo seja inferior ou igual à 6 minutos, checa-se o tipo de evento. Se o evento for do tipo \textbf{SUnitBornEvent}, \textbf{SUnitInitEvent} ou \textbf{SUpgradeEvent} extrai-se alguns atributos da sua estrutura de evento. Caso contrário, o evento é descartado.
+
+Se o evento for do tipo \textbf{SUnitBornEvent} ou \textbf{SUnitInitEvent}, então extrai-se do campo m\_unitTypeName o nome da \gls{unidade} treinada e a ID do jogador que executou a ação, contida em m\_upkeepPlayerId. A ID é usada para obter a estrutura de \gls{build-order} apresentada anteriormente e uma ação com nome m\_unitTypeName e tempo de execução correspondente à \_gameloop é adicionada na estrutura de dados de \gls{build-order} do jogador.
+
+Se o evento for do tipo \textbf{SUpgradeEvent}, então extrai-se do campo m\_upgradeTypeName o nome do \gls{melhoramento} executado e a ID do jogador que executou a ação, contida em m\_playerId. A ID é usada para obter a estrutura de \gls{build-order} apresentada anteriormente e uma ação com nome m\_upgradeTypeName e tempo de execução correspondente à \_gameloop é adicionada na estrutura de dados de \gls{build-order} do jogador.
+
+Nem todos valores de m\_unitTypeName ou m\_upgradeTypeName são válidos e é necessário checar em uma lista de valores permitidos antes que os valores sejam adicionados à estrutura de dados de \gls{build-order} do jogador. A lista de todas ações permitidas estão no Anexo \ref{an:lista-acoes}.
+
+É importante observar que não há sobreposição entre os nomes de \glspl{unidade} treinadas em m\_unitTypeName e os nomes dos \glspl{melhoramento} feitos em m\_upgradeTypeName e portanto os próprios nomes são utilizados como ações. Isto é, conforme o exemplo dado, a sua ação correspondente no processo de treinamento do método é chamada de \gls{adept} pois é o valor contido no campo m\_unitTypeName.
+
+Após a construção da estrutura de dados de uma \textit{\gls{build-order}}, é possível executar o algoritmo de treinamento. Este algoritmo é responsável pelo cálculo de média e desvio padrão de cada ação coletada na etapa anterior. O cálculo é feito conforme descrito na seção \ref{sec:treinamento}.
+
+O classificador foi implementado numa classe em Python chamada de \textit{BuildOrderMatcher}. Esta classe é responsável pela organização das estruturas de dados do treinamento e classificação das \textit{\glspl{build-order}}.
+
+O processo de treinamento foi implementado num método denominado \textit{train()} na classe \textit{BuildOrderMatcher} onde é dado um conjunto de estruturas de \textit{\gls{build-order}}, conforme extraído pelo método descrito na função \textit{parse()}, e um \textit{label} que identifica o nome que representa o conjunto de \textit{\glspl{build-order}} dado. A função de treino itera sobre cada uma das \textit{\glspl{build-order}} dadas e acumula o tempo de execução de cada uma das ações em termos das suas \glspl{repeticao} em uma lista. A \gls{repeticao} é definida como a sequência em que uma mesma ação é executada. Se uma ação é executada ao total 3 vezes numa \textit{\gls{build-order}}, então a primeira vez que ela é executada é definida como a repetição 1, a segunda vez que ela é executada é definida como a repetição 2 e a terceira como a repetição 3. Os valores de tempo de cada par ação-repetição são adicionados em uma estrutura de dicionário com 3 níveis. O primeiro nível representa o \textit{label} de treinamento, o segundo nível representa o nome a ação e o terceiro nível representa a repetição.
+
+Após a adição de todas \textit{\glspl{build-order}} e seus \textit{labels} pelo método \textit{train()} da classe \textit{BuildOrderMatcher}, um segundo método \textit{build\_distribution()} deve ser invocado para que sejam geradas as funções distribuição de probabilidade conforme a Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}. Esta função é responsável pelo cálculo dos parâmetros da função distribuição de probabilidade. Um conjunto distinta de atributos da função distribuição de probabilidade é calculado e associado a cada par ação-repetição para cada \textit{label} dado no método \textit{train()}.
+
+A função \textit{build\_distribution()} itera por repetição de cada ação de cada um dos labels dados em \textit{train()} e verifica que o par ação-repetição ocorre em pelo menos 2 amostras, caso contrário não seria possível atribuir um valor de desvio padrão para o par. Se há ao menos 2 elementos, calcula-se o parâmetro $A$ da Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade} pelo tamanho de elementos (valores de tempo em segundos em que cada amostra executou uma ação, se uma ação não foi executada em alguma amostra, a lista possui um item a menos). O parâmetro é calculado dividindo-se o número de elementos de tempo na lista do par ação-repetição pelo número total de \textit{\glspl{build-order}} dada para treinamento. De forma que, se um par ação-repetição ocorre em todas as amostras, seu valor é de $1.0$ ou se um par ação-repetição ocorre em apenas duas de dez amostras de treinamento, seu valor é de $0.2$.
+
+Por fim, calcula-se o valor de média e desvio padrão do tempo de execução de cada par e constrói-se um objeto que representa de forma abstraída a função distribuição de probabilidade utilizando os parâmetros $A$, $\mu$ e $\sigma$. Ao invocar o método \textit{apply()} com um valor de tempo $t$, é retornado o valor correspondente da função distribuição de probabilidade.
+
+\begin{lstlisting}[breaklines=true]
+	class NormalDistributionFunction:
+    	def __init__(self, mean, sigma=1.0, amplitude=1.0):
+        	self.mean = mean
+        	self.sigma = sigma
+        	self.amplitude = amplitude
+
+    	def apply(self, t):
+        	if t is None:
+            	return 0.0
+        	return self.amplitude * math.exp(-(math.pow(t-self.mean, 2) / (2 * math.pow(self.sigma, 2))))
+\end{lstlisting}
+
+O objeto representando a função distribuição de probabilidade é adicionado à uma estrutura de dicionário com 3 níveis. O primeiro nível representa o \textit{label} de treinamento, o segundo nível representa o nome a ação e o terceiro nível representa a repetição.
+
+Após a chamada do método \textit{build\_distribution()} a classe está pronta para classificação de outras \textit{\glspl{build-order}} desconhecidas através do método \textit{classify()} onde é dado a estrutura de dados de uma \textit{\gls{build-order}} desconhecida e o algoritmo calcula os valores de probabilidade associada à cada \textit{label}. O cálculo é feito conforme descrito na seção \ref{sec:classificacao}.
+
+O método \textit{classify()} itera nos \textit{labels} de treinamento e itera sobre a sequência de ações executadas na \textit{\gls{build-order}} dada. Um contador é mantido por \textit{label} e por ação que indexa o índice de repetição que é incrementado a cada ocorrência de uma ação com mesmo nome. Com isto, dado o \textit{label} da iteração, a ação ta iteração e o índice da repetição da ação, pode-se utilizar a função distribuição de probabilidade e calcular o valor de probabilidade associado ao par ação-repetição. O valor invidual de probabilidade de cada par é multiplicado pelo valor total de probabilidade do \textit{label}. A função retorna um dicionário indexado pelo \textit{label} e cujo valor é produto das probabilidades.
+
+A seleção da \textit{\gls{build-order}} correta é feita escolhendo o label que possui o maior valor de probabilidade agregada.
 
 %=========================================================================
 % RESULTADOS E DISCUSSÕES
 	\chapter{Resultados e Discussões}
 %=========================================================================
 
-No processo de treinamento, é extraído a sequência de construção de cada jogador (a \textit{build order}), calculadas estatísticas de primeira ordem (média e desvio padrão) e a frequência de cada par ação-repetição em relação ao conjunto de replays correspondentes a mesma \textit{build order}.
+No processo de treinamento, é extraído a sequência de construção de cada jogador (a \textit{\gls{build-order}}), calculadas estatísticas de primeira ordem (média e desvio padrão) e a frequência de cada par ação-\gls{repeticao} em relação ao conjunto de \glspl{replay} correspondentes a mesma \textit{\gls{build-order}}.
 
-O método foi treinado utilizando 7 build orders da raça Protoss.
+No processo de classificação, as probabilidades individuais de cada ação executada são calculadas e multiplicadas para obter um número que indica a probabilidade de que uma dado conjunto de ações pertença à uma \textit{\gls{build-order}} conhecida.
+
+O método foi treinado utilizando 7 \gls{build-order} da \gls{raca} \Gls{protoss}.
 
 \begin{description}
-	\item[Adept Glaives]: 6 replays
-	\item[Adept Stargate]: 14 replays
-	\item[Adept Immortal]: 13 replays
-	\item[Stalker Immortal]: 3 replays
-	\item[Adept Prism DT]: 5 replays
-	\item[Stalker Disruptor]: 5 replays
-	\item[Blink Stalker]: 8 replays
+	\item[Adept Glaives]: 6 \glspl{replay}
+	\item[Adept Stargate]: 14 \glspl{replay}
+	\item[Adept Immortal]: 13 \glspl{replay}
+	\item[Stalker Immortal]: 3 \glspl{replay}
+	\item[Adept Prism DT]: 5 \glspl{replay}
+	\item[Stalker Disruptor]: 5 \glspl{replay}
+	\item[Blink Stalker]: 8 \glspl{replay}
 \end{description}
 
-A Figura \ref{fig:resultados-protoss-immortal-gateway} apresenta uma exemplo das funções distribuição de probabilidade para uma ação do tipo "Gateway" da \textit{build order} "Adept Immortal".
+A Figura \ref{fig:resultados-protoss-immortal-gateway} apresenta um exemplo das funções distribuição de probabilidade para uma ação do tipo "Gateway" da \textit{\gls{build-order}} "Adept Immortal".
 
 \begin{figure}[htb]
-	\caption{\label{fig:resultados-protoss-immortal-gateway} Forma gráfica de distribuição estatística de uma ação \textit{Gateway} e suas repetições}
+	\caption{\label{fig:resultados-protoss-immortal-gateway} Forma gráfica de distribuição estatística de uma ação \textit{Gateway} e suas \glspl{repeticao}}
 	\begin{center}
 	    \includegraphics[width=\linewidth]{{"../Classifier/Graphs/Protoss/Adept Immortal"}/Gateway.png}
 	\end{center}
 \end{figure}
 
-Observa-se que a frequência de ocorrência das repetições no \textit{dataset} de treinamento é decrescente. Isto é uma consequência do método escolhido para classificação. A primeira execução de uma ação, irá, independentemente do tempo em que for executada, considerada como a primeira repetição. A redução da frequência tem duas causas principais:
+Observa-se que a frequência de ocorrência das \glspl{repeticao} no \textit{dataset} de treinamento é decrescente. Isto é uma consequência do método escolhido para classificação. A primeira execução de uma ação, irá, independentemente do tempo em que for executada, considerada como a primeira \gls{repeticao}. A redução da frequência tem duas causas principais:
 
 \begin{description}
-	\item[Alteração da estratégia do jogador]: um jogador pode ter escolhido uma estratégia levemente diferente devido ao contexto do jogo ou em resposta à \textit{build order} do oponente;
+	\item[Alteração da estratégia do jogador]: um jogador pode ter escolhido uma estratégia levemente diferente devido ao contexto do jogo ou em resposta à \textit{\gls{build-order}} do oponente;
 	\item[Ações opcionais]: algumas ações podem ser opcionais e somente são executadas em alguns mapas. 
 \end{description}
 
-Há uma tendência no desvio-padrão e variância do tempo de execução do par ação-repetição de crescerem ao decorrer da partida. Os principais motivos deste crescimento é a incapacidade de jogadores humanos executarem as ações de forma perfeita e sem qualquer variabilidade. Este fator é agravado com a característica da "árvore tecnológica" onde algumas ações possuem dependências tecnológicas em outras anteriores. Embora a tendência seja visível na maior parte das ações, ainda é possível que ela reduza em alguns casos específicos.
+Há uma tendência no desvio-padrão e variância do tempo de execução do par ação-\gls{repeticao} de crescerem ao decorrer da partida. Os principais motivos deste crescimento é a incapacidade de jogadores humanos executarem as ações de forma perfeita e sem qualquer variabilidade. Este fator é agravado com a característica da "\gls{tech-tree}" onde algumas ações possuem dependências tecnológicas em outras anteriores. Embora a tendência seja visível na maior parte das ações, ainda é possível que ela reduza em alguns casos específicos.
 
-Um exemplo onde o desvio padrão reduz de forma significante é visível na Figura \ref{fig:resultados-protoss-immortal-adept}, a primeira repetição possui um desvio padrão significantemente maior ao da segunda repetição. Este comportamento é esperado quando a primeira ação é considerada opcional e incorre num erro onde a primeira repetição deveria ter frequência menor que a segunda. Infelizmente, devido à forma de como o método de separação foi estabelecido, não é possível evitar este efeito.
+Um exemplo onde o desvio padrão reduz de forma significante é visível na Figura \ref{fig:resultados-protoss-immortal-adept}, a primeira \gls{repeticao} possui um desvio padrão significantemente maior ao da segunda \gls{repeticao}. Este comportamento é esperado quando a primeira ação é considerada opcional e incorre num erro onde a primeira \gls{repeticao} deveria ter frequência menor que a segunda. Infelizmente, devido à forma de como o método de separação foi estabelecido, não é possível evitar este efeito.
 
 \begin{figure}[htb]
-	\caption{\label{fig:resultados-protoss-immortal-adept} Forma gráfica de distribuição estatística de uma ação \textit{Adept} e suas repetições}
+	\caption{\label{fig:resultados-protoss-immortal-adept} Forma gráfica de distribuição estatística de uma ação \textit{Adept} e suas \glspl{repeticao}}
 	\begin{center}
 	    \includegraphics[width=\linewidth]{{"../Classifier/Graphs/Protoss/Adept Immortal"}/Adept.png}
 	\end{center}
+	%todo figura errada
 \end{figure}
 
 %-------------------------------------------------------------------------
 		\section{Autoclassificação}
 %-------------------------------------------------------------------------
-Após o treinamento, foi calculado o índice de "autoclassificação" que é a taxa de acerto do método ao classificar os mesmos \textit{replays} utilizados no treinamento. Os resultados deste teste estão expostos na Tabela \ref{tab:resultados-autoclassificacao}.
+Após o treinamento, foi calculado o índice de "autoclassificação" que é a taxa de acerto do método ao classificar os mesmos \textit{\glspl{replay}} utilizados no treinamento. Os resultados deste teste estão expostos na Tabela \ref{tab:resultados-autoclassificacao}.
 
 \begin{table}[H]
 \centering
 \caption{Resultado da autoclassificação}
 \label{tab:resultados-autoclassificacao}
 \begin{tabular}{l|l|l|l}
-	\textit{Build order} 		& Acertos 	& Total & Taxa de acerto 	\\ \hline
+	\textit{\Gls{build-order}} 		& Acertos 	& Total & Taxa de acerto 	\\ \hline
 	\textbf{Adept Glaives} 		& 6  		& 6  	& 1.0				\\
 	\textbf{Adept Stargate} 		& 7  		& 14 	& 0.5				\\
 	\textbf{Adept Immortal} 		& 11 		& 13 	& 0.85				\\
@@ -581,19 +804,19 @@ Após o treinamento, foi calculado o índice de "autoclassificação" que é a t
 \end{tabular}
 \end{table}
 
-Estes resultados apontam para um erro de classificação alto para as \textit{build orders} "Adept Stargate", que possui engloba 3 \textit{build orders} diferentes, sob uma sequência de ações iniciais semelhantes. A alta taxa de erro é justificada pela frequência de ocorrência das últimas ações, onde, como há 3 \textit{branches} possíveis, implica na redução do valor da função distribuição de probabilidade do par ação-repetição. A taxa de erro de "Stalker Disruptor" é justificada pelo fato das duas builds "Stalker Disruptor" e "Stalker Immortal" serem muito semelhantes, a divergência entre as duas ocorre muito próximo do marco de 6 minutos onde as ações foram truncadas uma vez que todos os erros de classificação da \textit{build order} "Stalker Disruptor" apontam para "Stalker Immortal".
+Estes resultados apontam para um erro de classificação alto para as \textit{\glspl{build-order}} "Adept Stargate", que engloba 3 \textit{\glspl{build-order}} diferentes, sob uma sequência de ações iniciais semelhantes. A alta taxa de erro é justificada pela frequência de ocorrência das últimas ações com 3 \textit{branches} possíveis, implica na redução do valor da função distribuição de probabilidade do par ação-\gls{repeticao}. A taxa de erro de "Stalker Disruptor" é justificada pelo fato das duas builds "Stalker Disruptor" e "Stalker Immortal" serem muito semelhantes, a divergência entre as duas ocorre muito próximo do marco de 6 minutos onde as ações foram truncadas uma vez que todos os erros de classificação da \textit{\gls{build-order}} "Stalker Disruptor" apontam para "Stalker Immortal".
 
 %-------------------------------------------------------------------------
 		\section{Validação cruzada}
 %-------------------------------------------------------------------------
-A fim de realizar uma validação do resultado, utilizou-se um \textit{dataset} individual de \textit{replays} que não foram utilizados no treinamento para validar os resultados do método. Neste dataset, um número variável de \textit{replays} foi utilizado.
+A fim de realizar a validação do resultado, utilizou-se um \textit{dataset} individual de \textit{\glspl{replay}} que não foram utilizados no treinamento para validar os resultados do método. O número de \textit{\glspl{replay}} foi limitado pela capacidade manual de classificação. Neste dataset, um número variável de \textit{\glspl{replay}} foi utilizado.
 
 \begin{table}[H]
 \centering
 \caption{Resultado da validação cruzada}
 \label{tab:resultados-cruzada}
 \begin{tabular}{l|l|l|l}
-	\textit{Build order} 		& Acertos 	& Total & Taxa de acerto 	\\ \hline
+	\textit{\Gls{build-order}} 		& Acertos 	& Total & Taxa de acerto 	\\ \hline
 	\textbf{Adept Glaives} 		& 3  		& 3  	& 1.0				\\
 	\textbf{Adept Stargate} 		& 3  		& 4 		& 0.75				\\
 	\textbf{Adept Immortal} 		& 10 		& 11 	& 0.90				\\
@@ -609,14 +832,14 @@ A fim de realizar uma validação do resultado, utilizou-se um \textit{dataset} 
 %-------------------------------------------------------------------------
 Para testar a robustez do método sob condições de informações incompletas, como seria necessário caso uma inteligência artificial (AI) estivesse testando as possibilidades de ações de um jogador humano.
 
-Neste teste, foi removido de forma aleatória um percentual de ações de cada \textit{build order} do \textit{dataset} de validação. Para que o teste seja replicável, utilizou-se o nome do replay (conforme indicado no índice dos \textit{replays} do \textit{dataset} de treinamento) como \textit{seed} para a geração da sequência de exclusão das ações. Isto garante que independente de onde e quem execute o algoritmo, o resultado deve ser o mesmo.
+Neste teste, foi removido de forma aleatória um percentual de ações de cada \textit{\gls{build-order}} do \textit{dataset} de validação. Para que o teste seja replicável, utilizou-se o nome do \gls{replay} (conforme indicado no índice dos \textit{\glspl{replay}} do \textit{dataset} de treinamento) como \textit{seed} para a geração da sequência de exclusão das ações. Isto garante que independente de onde e quem execute o algoritmo, o resultado será o mesmo.
 
 \begin{table}[H]
 \centering
 \caption{Resultado da validação cruzada}
 \label{tab:resultados-cruzada}
 \begin{tabular}{l|l|l|l|l|l|l|l|l}
-	\textit{Build order} 		& 2\%  & 5\%  & 10\% & 20\% & 30\% & 50\% & 70\% & 80\% \\ \hline
+	\textit{\Gls{build-order}} 		& 2\%  & 5\%  & 10\% & 20\% & 30\% & 50\% & 70\% & 80\% \\ \hline
 	\textbf{Stalker Immortal} 	& 0.86 & 0.57 & 0.43 & 0.14 & 0.29 & 0.14 & 0.29 & 0.43 \\
 	\textbf{Adept Glaives} 		& 1.00 & 1.00 & 0.33 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
 	\textbf{Adept Stargate} 		& 0.75 & 0.75 & 0.50 & 0.25 & 0.50 & 0.00 & 0.00 & 0.00 \\
@@ -627,15 +850,19 @@ Neste teste, foi removido de forma aleatória um percentual de ações de cada \
 \end{tabular}
 \end{table}
 
-No teste de ruído é observável que algumas das \textit{build orders} cujo classificador obteve o melhor desempenho, como é o caso da "Adept Prism DT", o classificador também foi capaz de suportar maior nível de ruído. Isto se deve provavelmente ao fato desta \textit{build order} em especial, ser bastante diferente das demais.
+No teste de ruído é observável que algumas das \textit{\glspl{build-order}} onde o classificador obteve o melhor desempenho, como é o caso da "Adept Prism DT", o classificador também foi capaz de suportar maior nível de ruído. Isto se deve provavelmente ao fato desta \textit{\gls{build-order}} em especial, ser bastante diferente das demais.
 
 %=========================================================================
 % CONCLUSÃO
 	\chapter{Conclusões}
 %=========================================================================
-Conforme visto no teste de autoclassificação, o método possui dificuldade em classificar \textit{build orders} muito genéricas onde há alta possibilidade de variação, conforme é o caso da \textit{build order} "Adept Stargate". No teste de validação cruzada, o método foi capaz de conseguir uma taxa de aproximadamente $85\%$ de acerto, chegando a $100\%$ de acertos em alguns casos específicos, embora com poucas amostras.
+Conforme visto no teste de autoclassificação, o método possui dificuldade em classificar \textit{\glspl{build-order}} muito genéricas onde há alta possibilidade de variação, conforme é o caso da \textit{\gls{build-order}} "Adept Stargate". No teste de validação cruzada, o método foi capaz de conseguir uma taxa de aproximadamente $85\%$ de acerto, chegando a $100\%$ de acertos em alguns casos específicos, embora com poucas amostras.
 
+\textit{\glspl{build-order}} que possuem várias ações opcionais ou alternativas, como é o caso de "Adept Stargate" onde próximo dos 5 minutos de jogo pode ser escolhido entre 3 caminhos possíveis, apresentaram problemas de classificação devido a ponderação de probabilidade devido a frequência de ocorrência das ações. Como as ações alternativas ao final da \textit{\gls{build-order}} não ocorrem em todas as amostras e, portanto, tem sua frequência abaixo de $1.0$, o que implica na redução do valor de probabilidade ao final do método. Este efeito é benéfico, pois permite que sejam feitas classificações em vários níveis de detalhe. Por exemplo, seria possível a criação de um \textit{label} para classificação utilizando uma forma mais genérica, como é o caso da "Adept Stargate" e outos \textit{labels} para classificação individual para cada um de suas alternativas. Isto permita que seja possível de extrair algumas informações sobre uma \textit{\gls{build-order}} desconhecida, mas que segue uma base comum à várias outras.
 
+\textit{\glspl{build-order}} semelhantes com pequena divergência ao final (próximo ao 6 minutos) apresentaram erros de classificação significantes, em especial "Stalker Disruptor" no teste de autoclassificação. Acredita-se que a causa desses erros é devido à grande variabilidade ao final da execução destas ações, inclusive alguns casos em que as ações passavam do limite de 6 minutos.
+
+No teste de qualidade da classificação para simular condições de classificação em tempo real, foi adicionado de ruído (remoção de ações) para simular condizente com uma em que o jogo estivesse sendo jogado em tempo real, como seria caso um algoritmo de inteligência artificial estivesse precisando inferir informações sobre a estratégica de um jogador. Nestes testes, \textit{\glspl{build-order}} mais distintas e características como "Adept Prism DT", onde a classificação mesmo com 30\% conseguiu manter a taxa de acerto. Demais \textit{\glspl{build-order}} perderam significantemente a taxa de acerto com o aumento de ruído.
 
 %=========================================================================
 % PROPOSTA DE TRABALHOS FUTUROS
@@ -651,6 +878,46 @@ Conforme visto no teste de autoclassificação, o método possui dificuldade em 
 	\bibliography{Referencias.bib}
 %=========================================================================
 
+%=========================================================================
+% GLOSSÁRIO
+% ---
+% Define nome e preâmbulo do glossário
+% ---
+\phantompart
+\renewcommand{\glossaryname}{Glossário}
+
+% ---
+% Traduções para o ambiente glossaries
+% ---
+\providetranslation{Glossary}{Glossário}
+\providetranslation{Acronyms}{Siglas}
+\providetranslation{Notation (glossaries)}{Notação}
+\providetranslation{Description (glossaries)}{Descrição}
+\providetranslation{Symbol (glossaries)}{Símbolo}
+\providetranslation{Page List (glossaries)}{Lista de Páginas}
+\providetranslation{Symbols (glossaries)}{Símbolos}
+\providetranslation{Numbers (glossaries)}{Números} 
+% ---
+
+% ---
+% Estilo de glossário
+% ---
+% \setglossarystyle{index}
+% \setglossarystyle{altlisthypergroup}
+\setglossarystyle{altlisthypergroup}
+
+
+% ---
+% Imprime o glossário
+% ---
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\glossaryname}
+\printglossaries
+% ---
+%=========================================================================
+
+
 %%=========================================================================
 %% APÊNDICES
 %\begin{apendicesenv}
@@ -661,12 +928,77 @@ Conforme visto no teste de autoclassificação, o método possui dificuldade em 
 %
 %%=========================================================================
 %% ANEXOS
-%	\begin{anexosenv}
+	\begin{anexosenv}
 %	\partanexos
 %%=========================================================================
-%
-%
+
+\chapter{Lista de nomes de ações utilizadas}
+\label{an:lista-acoes}
+
+\begin{multicols}{2}
+	\begin{itemize}
+		\item Adept
+		\item AdeptPiercingAttack
+		\item Archon
+		\item Assimilator
+		\item BlinkTech
+		\item Carrier
+		\item CarrierLaunchSpeedUpgrade
+		\item Charge
+		\item Colossus
+		\item CyberneticsCore
+		\item DarkShrine
+		\item DarkTemplar
+		\item Disruptor
+		\item ExtendedThermalLance
+		\item FleetBeacon
+		\item Forge
+		\item Gateway
+		\item GraviticDrive
+		\item HighTemplar
+		\item Immortal
+		\item Mothership
+		\item MothershipCore
+		\item Nexus
+		\item Observer
+		\item ObserverGraviticBooster
+		\item Oracle
+		\item Phoenix
+		\item PhoenixRangeUpgrade
+		\item PhotonCannon
+		\item ProtossAirArmorsLevel1
+		\item ProtossAirArmorsLevel2
+		\item ProtossAirArmorsLevel3
+		\item ProtossAirWeaponsLevel1
+		\item ProtossAirWeaponsLevel2
+		\item ProtossAirWeaponsLevel3
+		\item ProtossGroundArmorsLevel1
+		\item ProtossGroundArmorsLevel2
+		\item ProtossGroundArmorsLevel3
+		\item ProtossGroundWeaponsLevel1
+		\item ProtossGroundWeaponsLevel2
+		\item ProtossGroundWeaponsLevel3
+		\item ProtossShieldsLevel1
+		\item ProtossShieldsLevel2
+		\item ProtossShieldsLevel3
+		\item PsiStormTech
+		\item RoboticsBay
+		\item RoboticsFacility
+		\item Sentry
+		\item Stalker
+		\item Stargate
+		\item Tempest
+		\item TemplarArchive
+		\item TwilightCouncil
+		\item VoidRay
+		\item WarpGate
+		\item WarpGateResearch
+		\item WarpPrism
+		\item Zealot
+	\end{itemize}
+\end{multicols}
+
 %%-------------------------------------------------------------------------
-%\end{anexosenv}
+\end{anexosenv}
 
 \end{document}

@@ -212,7 +212,7 @@
 	
 	\begin{center}
 		Aprovado em ??? de dezembro de 2016.
-		\todo{data}
+		%todo folha de aprovação: data
 	\end{center}
 	
 	BANCA EXAMINADORA
@@ -262,10 +262,10 @@
 \begin{resumo}
 
 	RESUMO
-	\todo{resumo}
+	Este trabalhado consiste no desenvolvimento de um método de classificação e comparação de \textit{\glspl{build-order}} de partidas de StarCraft II. O método de classificação utiliza um modelo probabilístico onde é calculado estatísticas do tempo de execução de várias ações de uma \textit{\gls{build-order}} como forma de associar uma probabilidade à um \textit{label} do classificador. O método foi capaz de classificar com taxa de acerto média de 85\%. Um teste de ruído onde foi adicionadas lacunas nas informações das \textit{\glspl{build-order}} para simular a aquisição incompleta de informações numa partida real, o classificador conseguiu trabalhar com aproximadamente 10\% de ruído, a partir deste valor, a taxa de erro aumentou significantemente. A comparação foi feita utilizando dois critérios: taxa de vitória e taxa de sobrevivência até os 10 minutos. A taxa de vitória informa quais \textit{\glspl{build-order}} tem maior probabilidade de vitória independente do tempo de jogo, a taxa de sobrevivência até os 10 minutos indica a probabilidade com a qual uma \textit{\gls{build-order}} consegue extender o jogo até o marco de 10 minutos, sem a derrota ou vitória de algum jogador.
 
 	\vspace{\onelineskip}
-	\textbf{Palavras-chave}: ... \todo{keywords}
+	\textbf{Palavras-chave}: classificador probabilístico de \textit{\glspl{build-order}}; comparação de \textit{\glspl{build-order}}; comparação de estratégias
 \end{resumo}
 
 % resumo em inglês
@@ -273,11 +273,11 @@
  \begin{otherlanguage*}{english}
 	
 	ABSTRACT
-	\todo{abstract}
-	
+	This work consists the development of a classification and comparison method for StarCraft II \glspl{build-order}. The classification method uses a probabilistic model where statistics on the execution time of several \gls{build-order} actions are calculated to be able to infer a associated probability to each classification label. The method was able to classify with a average success rate of 85\%. A noise test was performed to simulate a real gameplay condition where actions were removed from the \glspl{build-order} to emulate the lack of certain information. The classifier was able to cope with up to 10\% of noise, higher values increased the error rate significantly. The comparison was made using two criterium: win rate and survivability rate up to 10 minute mark. The win rate criteria indicates the probability which a \textit{build order} is capable achieving the highest win rate independent from the game length, the survivability rate up to the 10 minute mark indicates the probability in which a \gls{build-order} is able to extend a game past the 10 minute mark without defeat or victory of a player.
+		
 	\vspace{\onelineskip}
 	\noindent 
-	\textbf{Keywords}: ... \todo{keywords}
+	\textbf{Keywords}: \gls{build-order} probabilistic classifier; \gls{build-order} comparison; strategy comparison
  \end{otherlanguage*}
 \end{resumo}
 
@@ -325,7 +325,7 @@ O modo mais comum de execução de uma estratégia é utilização de \textit{\g
 
 Neste trabalho será desenvolvido e implementado um método de classificação para \textit{\gls{build-order}} de partidas de jogadores profissionais de StarCraft II. Foi feita a escolha de utilizar partidas profissionais pois são jogadores com elevado conhecimento do jogo e reagem de forma ótima para várias situações inusitadas ou inesperadas, o que reduz a variabilidade das medidas extraídas dos arquivos de \textit{\gls{replay}} do jogo. Para a extração de dados foi utilizado um pacote de \textit{\glspl{replay}} (arquivo binário que codifica todas as ações tomadas em um jogo) de competições profissionais de StarCraft II durante o ano de 2016.
 
-Uma aplicação direta para o método proposto é o desenvolvimento de uma inteligência artificial que seja capaz de tomar decisões ao longo de um jogo de forma verossímil à um jogador humano, conforme proposto em \cite{synnaeve2011bayesian1}.
+Uma aplicação direta para o método proposto é o desenvolvimento de uma inteligência artificial que seja capaz de tomar decisões ao longo de um jogo de forma verossímil à um jogador humano, conforme proposto em \cite{synnaeve2011bayesian1}. Outras aplicações incluem a otimização de estratégias de logística de transporte ou cálculo de parâmetros de ajuste de algoritmos
 
 %-------------------------------------------------------------------------
 		\section{O uso de aprendizado de máquina em jogos de estratégia em tempo real}
@@ -375,7 +375,7 @@ Para uma \textit{\gls{build-order}} real, haverá uma distribuição de probabil
 %-------------------------------------------------------------------------
 		\section{Fator de \textit{branching} de um jogo de StarCraft: BroodWar}
 %-------------------------------------------------------------------------
-Em teoria dos jogos \todo{referencia}, \textit{branching factor} é o número de nós-filho em cada um dos nós de ações possíveis no jogo, isto é, é o número de opções que um jogador tem disponível em cada momento.
+Em teoria dos jogos, \textit{branching factor} é o número de nós-filho em cada um dos nós de ações possíveis no jogo, isto é, é o número de opções que um jogador tem disponível em cada momento.
 
 Infelizmente não há análises cientificas feitas para a complexidade de um jogo de StarCraft II, mas é possível realizar uma comparação utilizando o jogo antecessor da série, StarCraft: Brood War lançado em 1998. De acordo com \cite{weber2009data}, StarCraft: BroodWar possui um fator de branching estimado médio de $1 \times 10^6$ que, comparado à um jogo de xadrez onde a média é de 35, é um valor extremamente alto. O alto nível de complexidade força que seja utilizado um modelo probabilístico ao invés de uma análise determinista, uma vez que é impossível obter, ou sequer gerar, uma amostra para todas as possibilidades de jogos. Devido a novas mecânicas de jogo introduzidas em StarCraft II espera-se a complexidade seja superior à de seu antecessor.
 
@@ -691,7 +691,7 @@ A implementação do método foi feita em Python 2.7 utilizando a biblioteca s2p
 
 Para realizar a extração dos eventos do uma função chamada \textit{\textit{parse()}} foi definida. Esta função é responsável por extrair todas as \textit{\glspl{build-order}} de todos jogadores que participaram na partida contida num arquivo de \textit{\gls{replay}}. A função pode ser dividida em 3 etapas.
 
-Na primeira etapa, extrai-se do cabeçalho do arquivo informações que associam um identificador inteiro, denominado de \textit{player ID} com o nome do jogador e a \gls{raca}. O identificador inteiro é usado nas estruturas de dados dos eventos para associar o evento com um jogador. Com estes dados, é construído um dicionário contendo as seguintes informações.
+Na primeira etapa, extrai-se do cabeçalho do arquivo informações que associam um identificador inteiro, denominado de \textit{player ID} com o nome do jogador e a \gls{raca}. O identificador inteiro é usado nas estruturas de dados dos eventos para associar o evento com um jogador. A Figura \ref{fig:impl-header-fluxogram} apresenta o fluxograma do processamento do cabeçalho do arquivo de \textit{\gls{replay}}. Com estes dados, é construído um dicionário contendo as seguintes informações.
 
 \begin{lstlisting}
 players = {
@@ -703,7 +703,14 @@ players = {
 }
 \end{lstlisting}
 
-Depois de criada a estrutura de dados do jogador, é possível realizar a extração de cada evento do \textit{\gls{replay}}. Para cada estrutura de dados de evento recebida pela biblioteca de processamento conforme o exemplo abaixo:
+\begin{figure}[htb]
+	\caption{\label{fig:impl-header-fluxogram} Fluxograma do processamento do cabeçalho do arquivo de \textit{\gls{replay}}}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{Images/Replay-Header_Parsing-Fluxogram.pdf}
+	\end{center}
+\end{figure}
+
+Depois de criada a estrutura de dados do jogador, é possível realizar a extração de cada evento do \textit{\gls{replay}}. A Figura \ref{fig:impl-event-fluxogram} apresenta o fluxograma do processamento dos eventos do arquivo de \textit{\gls{replay}}. Para cada estrutura de dados de evento recebida pela biblioteca de processamento conforme o exemplo abaixo:
 
 \begin{lstlisting}
 	{'_bits': 296,
@@ -719,6 +726,13 @@ Depois de criada a estrutura de dados do jogador, é possível realizar a extra�
 	 'm_y': 152}
 \end{lstlisting}
 
+\begin{figure}[htb]
+	\caption{\label{fig:impl-event-fluxogram} Fluxograma do processamento de eventos do arquivo de \textit{\gls{replay}}}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{Images/Replay-Event_Parsing-Fluxogram.pdf}
+	\end{center}
+\end{figure}
+
 Antes de processar qualquer elemento do evento, converte-se o campo \_gameloop que representa o número de loops de jogo transcorridos até o momento do evento. A conversão para tempo em segundos é feita utilizando a expressão da Equação \ref{eq:metodo-conversao-loops-tempo}. Se o tempo de execução é superior à 6 minutos, o evento é descartado.
 
 Caso o tempo seja inferior ou igual à 6 minutos, checa-se o tipo de evento. Se o evento for do tipo \textbf{SUnitBornEvent}, \textbf{SUnitInitEvent} ou \textbf{SUpgradeEvent} extrai-se alguns atributos da sua estrutura de evento. Caso contrário, o evento é descartado.
@@ -731,7 +745,14 @@ Nem todos valores de m\_unitTypeName ou m\_upgradeTypeName são válidos e é ne
 
 É importante observar que não há sobreposição entre os nomes de \glspl{unidade} treinadas em m\_unitTypeName e os nomes dos \glspl{melhoramento} feitos em m\_upgradeTypeName e portanto os próprios nomes são utilizados como ações. Isto é, conforme o exemplo dado, a sua ação correspondente no processo de treinamento do método é chamada de \gls{adept} pois é o valor contido no campo m\_unitTypeName.
 
-Após a construção da estrutura de dados de uma \textit{\gls{build-order}}, é possível executar o algoritmo de treinamento. Este algoritmo é responsável pelo cálculo de média e desvio padrão de cada ação coletada na etapa anterior. O cálculo é feito conforme descrito na seção \ref{sec:treinamento}.
+Após a construção da estrutura de dados de uma \textit{\gls{build-order}}, é possível executar o algoritmo de treinamento. Este algoritmo é responsável pelo cálculo de média e desvio padrão de cada ação coletada na etapa anterior. O cálculo é feito conforme descrito na seção \ref{sec:treinamento}. A Figura \ref{fig:impl-train-fluxogram} apresenta o fluxograma do processo de treinamento.
+
+\begin{figure}[htb]
+	\caption{\label{fig:impl-train-fluxogram} Fluxograma do processo de treino}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{Images/Replay-Action_Training-Fluxogram.pdf}
+	\end{center}
+\end{figure}
 
 O classificador foi implementado numa classe em Python chamada de \textit{BuildOrderMatcher}. Esta classe é responsável pela organização das estruturas de dados do treinamento e classificação das \textit{\glspl{build-order}}.
 
@@ -760,9 +781,18 @@ O objeto representando a função distribuição de probabilidade é adicionado 
 
 Após a chamada do método \textit{build\_distribution()} a classe está pronta para classificação de outras \textit{\glspl{build-order}} desconhecidas através do método \textit{classify()} onde é dado a estrutura de dados de uma \textit{\gls{build-order}} desconhecida e o algoritmo calcula os valores de probabilidade associada à cada \textit{label}. O cálculo é feito conforme descrito na seção \ref{sec:classificacao}.
 
-O método \textit{classify()} itera nos \textit{labels} de treinamento e itera sobre a sequência de ações executadas na \textit{\gls{build-order}} dada. Um contador é mantido por \textit{label} e por ação que indexa o índice de repetição que é incrementado a cada ocorrência de uma ação com mesmo nome. Com isto, dado o \textit{label} da iteração, a ação ta iteração e o índice da repetição da ação, pode-se utilizar a função distribuição de probabilidade e calcular o valor de probabilidade associado ao par ação-repetição. O valor invidual de probabilidade de cada par é multiplicado pelo valor total de probabilidade do \textit{label}. A função retorna um dicionário indexado pelo \textit{label} e cujo valor é produto das probabilidades.
+O método \textit{classify()} itera nos \textit{labels} de treinamento e itera sobre a sequência de ações executadas na \textit{\gls{build-order}} dada. Um contador é mantido por \textit{label} e por ação que indexa o índice de repetição que é incrementado a cada ocorrência de uma ação com mesmo nome. Com isto, dado o \textit{label} da iteração, a ação ta iteração e o índice da repetição da ação, pode-se utilizar a função distribuição de probabilidade e calcular o valor de probabilidade associado ao par ação-repetição. O valor invidual de probabilidade de cada par é multiplicado pelo valor total de probabilidade do \textit{label}. A função retorna um dicionário indexado pelo \textit{label} e cujo valor é produto das probabilidades. A Figura \ref{fig:impl-classify-fluxogram} apresenta o fluxograma do processo de classificação.
+
+\begin{figure}[htb]
+	\caption{\label{fig:impl-classify-fluxogram} Fluxograma do processo de classificação}
+	\begin{center}
+	    \includegraphics[width=\linewidth]{Images/Replay-Action_Classification-Fluxogram.pdf}
+	\end{center}
+\end{figure}
 
 A seleção da \textit{\gls{build-order}} correta é feita escolhendo o label que possui o maior valor de probabilidade agregada.
+
+O código fonte da implementação e os arquivos de \textit{replay} utilizados para treinamento, validação e comparação estão disponíveis em \url{https://github.com/Rogiel/ufrgs-projeto-diplomacao}.
 
 %-------------------------------------------------------------------------
 			\subsection{Ações ignoradas}
@@ -833,11 +863,10 @@ Há uma tendência no desvio-padrão e variância do tempo de execução do par 
 Um exemplo onde o desvio padrão reduz de forma significante é visível na Figura \ref{fig:resultados-protoss-immortal-adept}, a primeira \gls{repeticao} possui um desvio padrão significantemente maior ao da segunda \gls{repeticao}. Este comportamento é esperado quando a primeira ação é considerada opcional e incorre num erro onde a primeira \gls{repeticao} deveria ter frequência menor que a segunda. Infelizmente, devido à forma de como o método de separação foi estabelecido, não é possível evitar este efeito.
 
 \begin{figure}[htb]
-	\caption{\label{fig:resultados-protoss-immortal-adept} Forma gráfica de distribuição estatística de uma ação \textit{Adept} e suas \glspl{repeticao}}
+	\caption{\label{fig:resultados-protoss-immortal-adept} Forma gráfica de distribuição estatística de uma ação \textit{Immortal} e suas \glspl{repeticao}}
 	\begin{center}
-	    \includegraphics[width=\linewidth]{{"../Classifier/Graphs/Protoss/Adept Immortal"}/Adept.png}
+	    \includegraphics[width=\linewidth]{{"../Classifier/Graphs/Protoss/Stalker Disruptor"}/Immortal.png}
 	\end{center}
-	%todo figura errada
 \end{figure}
 
 %-------------------------------------------------------------------------
@@ -849,7 +878,8 @@ Após o treinamento, foi calculado o índice de "autoclassificação" que é a t
 \centering
 \caption{Resultado da autoclassificação}
 \label{tab:resultados-autoclassificacao}
-\begin{tabular}{l|l|l|l}
+\begin{tabular}{llll}
+\toprule
 	\textit{\Gls{build-order}} 		& Acertos 	& Total & Taxa de acerto 	\\ \hline
 	\textbf{Adept Glaives} 		& 6  		& 6  	& 1.0				\\
 	\textbf{Adept Stargate} 		& 7  		& 14 	& 0.5				\\
@@ -857,11 +887,12 @@ Após o treinamento, foi calculado o índice de "autoclassificação" que é a t
 	\textbf{Stalker Immortal} 	& 3  		& 3  	& 1.0				\\
 	\textbf{Adept Prism DT} 		& 5  		& 5  	& 1.0				\\
 	\textbf{Stalker Disruptor} 	& 2  		& 5 	 	& 0.4				\\
-	\textbf{Blink Stalker}	 	& 6  		& 8  	& 0.75	
+	\textbf{Blink Stalker}	 	& 6  		& 8  	& 0.75				\\
+\bottomrule
 \end{tabular}
 \end{table}
 
-Estes resultados apontam para um erro de classificação alto para as \textit{\glspl{build-order}} "Adept Stargate", que engloba 3 \textit{\glspl{build-order}} diferentes, sob uma sequência de ações iniciais semelhantes. A alta taxa de erro é justificada pela frequência de ocorrência das últimas ações com 3 \textit{branches} possíveis, implica na redução do valor da função distribuição de probabilidade do par ação-\gls{repeticao}. A taxa de erro de "Stalker Disruptor" é justificada pelo fato das duas builds "Stalker Disruptor" e "Stalker Immortal" serem muito semelhantes, a divergência entre as duas ocorre muito próximo do marco de 6 minutos onde as ações foram truncadas uma vez que todos os erros de classificação da \textit{\gls{build-order}} "Stalker Disruptor" apontam para "Stalker Immortal".
+Estes resultados apontam para um erro de classificação alto para as \textit{\glspl{build-order}} "Adept Stargate", que engloba 3 \textit{\glspl{build-order}} diferentes, sob uma sequência de ações iniciais semelhantes. A alta taxa de erro é justificada pela frequência de ocorrência das últimas ações com 3 \textit{branches} possíveis, implica na redução do valor da função distribuição de probabilidade do par ação-\gls{repeticao}. A taxa de erro de "Stalker Disruptor" é justificada pelo fato das duas \textit{\glspl{build-order}} "Stalker Disruptor" e "Stalker Immortal" serem extremamente semelhantes. A diferença das duas está no final, ao redor dos 6 minutos de partida, onde as ações são truncadas. A truncagem das ações causa com que a taxa de erro seja maior do que esperada.
 
 %-------------------------------------------------------------------------
 		\section{Validação cruzada}
@@ -872,7 +903,8 @@ A fim de realizar a validação do resultado, utilizou-se um \textit{dataset} in
 \centering
 \caption{Resultado da validação cruzada}
 \label{tab:resultados-cruzada}
-\begin{tabular}{l|l|l|l}
+\begin{tabular}{llll}
+\toprule
 	\textit{\Gls{build-order}} 		& Acertos 	& Total & Taxa de acerto 	\\ \hline
 	\textbf{Adept Glaives} 		& 3  		& 3  	& 1.0				\\
 	\textbf{Adept Stargate} 		& 3  		& 4 		& 0.75				\\
@@ -880,7 +912,8 @@ A fim de realizar a validação do resultado, utilizou-se um \textit{dataset} in
 	\textbf{Stalker Immortal} 	& 6  		& 7  	& 0.85				\\
 	\textbf{Adept Prism DT} 		& 1  		& 1  	& 1.0				\\
 	\textbf{Stalker Disruptor} 	& 14  		& 16  	& 0.875				\\
-	\textbf{Blink Stalker}	 	& 10  		& 12  	& 0.83	
+	\textbf{Blink Stalker}	 	& 10  		& 12  	& 0.83				\\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -893,9 +926,10 @@ Neste teste, foi removido de forma aleatória um percentual de ações de cada \
 
 \begin{table}[H]
 \centering
-\caption{Resultado da validação cruzada}
+\caption{Resultado da validação cruzada com adição de ruído}
 \label{tab:resultados-cruzada}
-\begin{tabular}{l|l|l|l|l|l|l|l|l}
+\begin{tabular}{lllllllll}
+\toprule
 	\textit{\Gls{build-order}} 		& 2\%  & 5\%  & 10\% & 20\% & 30\% & 50\% & 70\% & 80\% \\ \hline
 	\textbf{Stalker Immortal} 	& 0.86 & 0.57 & 0.43 & 0.14 & 0.29 & 0.14 & 0.29 & 0.43 \\
 	\textbf{Adept Glaives} 		& 1.00 & 1.00 & 0.33 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 \\
@@ -904,6 +938,7 @@ Neste teste, foi removido de forma aleatória um percentual de ações de cada \
 	\textbf{Blink Stalker} 		& 0.83 & 0.67 & 0.75 & 0.50 & 0.42 & 0.33 & 0.25 & 0.17 \\
 	\textbf{Adept Immortal} 		& 0.91 & 0.73 & 0.73 & 0.64 & 0.55 & 0.27 & 0.00 & 0.00 \\
 	\textbf{Adept Prism DT} 		& 1.00 & 1.00 & 0.00 & 1.00 & 1.00 & 0.00 & 0.00 & 0.00 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -924,9 +959,9 @@ Para realizar a comparação, foram classificados vários \textit{\glspl{replay}
 \end{adjustbox}
 \end{table}
 
-A partir dos dados da Tabela \ref{tab:resultados-comparacao-win-rate}, uma inteligência artificial que esteja jogando contra um oponente que parece estar executando a \textit{\gls{build-order}} "Stalker Disruptor", a melhor escolha que esta AI poderia tomar é de executar "Stalker Immortal", pois maximiza taxa de vitória.
+A partir dos dados da Tabela \ref{tab:resultados-comparacao-win-rate}, uma inteligência artificial que esteja jogando contra um oponente que parece estar executando a \textit{\gls{build-order}} "Stalker Disruptor", a melhor escolha que esta AI poderia tomar é de executar "Adept Immortal", pois maximiza taxa de vitória.
 
-Embora a taxa de vitória seja uma métrica interessante, ela não é muito significativa: a \textit{\gls{build-order}} de um oponente é apenas o início de uma partida, é comum algumas partidas se estenderem até os 20 minutos. Logo, a vitória ou derrota de um jogador pode não ser diretamente relacionada à \textit{\gls{build-order}}, mas sim devido a outras decisões ao longo da partida. Dessa forma, uma métrica melhor seria a taxa de sobrevivência após os 10 minutos de jogo, isto, a frequência com que uma \textit{\gls{build-order}} garante que o jogador \textbf{não perca} antes dos 10 minutos.
+A vitória ou derrota de um jogador pode não ser diretamente relacionada à \textit{\gls{build-order}}, mas sim devido a outras decisões ao longo da partida, em especial quando a partida se extende além dos 10 minutos iniciais. Dessa forma, uma métrica para estes casos seria a taxa de sobrevivência após os 10 minutos de jogo, isto, a frequência com que uma \textit{\gls{build-order}} garante que o jogador \textbf{não perca} antes dos 10 minutos. É importante observar que o critério é não perder, ou seja, não se tem interesse na vitória ou derrota do jogador após os 10 minutos.
 
 \begin{table}[H]
 \centering
@@ -939,20 +974,19 @@ Embora a taxa de vitória seja uma métrica interessante, ela não é muito sign
 
 Na Tabela \ref{tab:resultados-comparacao-survive}, é possível tomar decisões de qual \textit{\gls{build-order}} garante a maior chance de sobreviver até estágios finais de uma partida. Por exemplo, dado que um oponente esteja executando "Stalker Disruptor" (coluna), a que melhor garante a sobrevivência até os 10 minutos de jogo é "Adept Immortal" (linha).
 
-
 %=========================================================================
 % CONCLUSÃO
 	\chapter{Conclusões}
 %=========================================================================
 Conforme visto no teste de autoclassificação, o método possui dificuldade em classificar \textit{\glspl{build-order}} muito genéricas onde há alta possibilidade de variação, conforme é o caso da \textit{\gls{build-order}} "Adept Stargate". No teste de validação cruzada, o método foi capaz de conseguir uma taxa de aproximadamente $85\%$ de acerto, chegando a $100\%$ de acertos em alguns casos específicos, embora com poucas amostras.
 
-\textit{\glspl{build-order}} que possuem várias ações opcionais ou alternativas, como é o caso de "Adept Stargate" onde próximo dos 5 minutos de jogo pode ser escolhido entre 3 caminhos possíveis, apresentaram problemas de classificação devido a ponderação de probabilidade devido a frequência de ocorrência das ações. Como as ações alternativas ao final da \textit{\gls{build-order}} não ocorrem em todas as amostras e, portanto, tem sua frequência abaixo de $1.0$, o que implica na redução do valor de probabilidade ao final do método. Este efeito é benéfico, pois permite que sejam feitas classificações em vários níveis de detalhe. Por exemplo, seria possível a criação de um \textit{label} para classificação utilizando uma forma mais genérica, como é o caso da "Adept Stargate" e outos \textit{labels} para classificação individual para cada um de suas alternativas. Isto permita que seja possível de extrair algumas informações sobre uma \textit{\gls{build-order}} desconhecida, mas que segue uma base comum à várias outras.
+\textit{\Glspl{build-order}} que possuem várias ações opcionais ou alternativas, como é o caso de "Adept Stargate" onde próximo dos 5 minutos de jogo pode ser escolhido entre 3 opções diferentes. \textit{\Glspl{build-order}} com esta caraterística apresentaram problemas de classificação devido ao fator $A$ presente na função distribuição de probabilidade (Equação \ref{eq:metodo-funcao-distribuicao-de-probabilidade}) pois a frequência de ocorrência das ações é menor. Se uma ação é opcional, sua frequência é menor do que $1.0$, implicando com que o valor máximo da função distribuição de probabilidade, $A$, seja menor. A vantagem desde efeito é que ele permite que seja possível classificar \textit{\glspl{build-order}} em vários níveis de especificidade. É possível ter uma \textit{\gls{build-order}} bastante genérica que engloba uma raíz comum à várias outras ou uma \textit{\gls{build-order}} bastante específica. A utilização de uma \textit{\gls{build-order}} genérica permite que seja viável classificar em função de "troncos" comuns à várias estratégias, que permite que o algoritmo seja reforçado para novas \textit{\glspl{build-order}} desconhecidas.
 
-\textit{\glspl{build-order}} semelhantes com pequena divergência ao final (próximo ao 6 minutos) apresentaram erros de classificação significantes, em especial "Stalker Disruptor" no teste de autoclassificação. Acredita-se que a causa desses erros é devido à grande variabilidade ao final da execução destas ações, inclusive alguns casos em que as ações passavam do limite de 6 minutos.
+\textit{\Glspl{build-order}} semelhantes com pequena divergência ao final (próximo ao 6 minutos) apresentaram erros de classificação significantes, em especial "Stalker Disruptor" no teste de autoclassificação. Acredita-se que a causa desses erros é devido à grande variabilidade ao final da execução destas ações, inclusive alguns casos em que as ações passavam do limite de 6 minutos.
 
 No teste de qualidade da classificação para simular condições de classificação em tempo real, foi adicionado de ruído (remoção de ações) para simular condizente com uma em que o jogo estivesse sendo jogado em tempo real, como seria caso um algoritmo de inteligência artificial estivesse precisando inferir informações sobre a estratégica de um jogador. Nestes testes, \textit{\glspl{build-order}} mais distintas e características como "Adept Prism DT", onde a classificação mesmo com 30\% conseguiu manter a taxa de acerto. Demais \textit{\glspl{build-order}} perderam significantemente a taxa de acerto com o aumento de ruído.
 
-As Tabelas \ref{tab:resultados-comparacao-win-rate} e \ref{tab:resultados-comparacao-survive} apresentaram as taxas de vitória e de sobrevivência de cada \textit{\gls{build-order}}\todo{continuar}
+As Tabelas \ref{tab:resultados-comparacao-win-rate} e \ref{tab:resultados-comparacao-survive} apresentaram as taxas de vitória e de sobrevivência de cada \textit{\gls{build-order}}. A taxa de vitória é uma métrica importante para partidas mais curtas, pois com o decorrer do tempo, o efeito da \textit{\gls{build-order}} inicial perde importância. A taxa de vitória permite com que seja possível escolher a combinação com a melhor possibilidade de vitória dada a \textit{\gls{build-order}} do oponente. A taxa de sobrevivência indica a possibilidade de um jogador sobrevier por no mínimo 10 minutos de jogo, dada uma estratégia do oponente, permitindo que seja possível selecionar a \textit{\gls{build-order}} que permite com que o jogo seja levado até os estágios mais avançados e finais da partida. Esta decisão pode ser útil caso o jogador possua algum plano que só pode ser executado com eficácia nos instantes mais tardios de uma partida.
 
 %=========================================================================
 % PROPOSTA DE TRABALHOS FUTUROS
@@ -960,6 +994,7 @@ As Tabelas \ref{tab:resultados-comparacao-win-rate} e \ref{tab:resultados-compar
 %=========================================================================
 \begin{itemize}
 	\item Utilização de um refinamento utilizando ações-chave
+	\item Classificação online: classificar a taxa de acerto de classificação ao longo do tempo
 \end{itemize}
 
 %=========================================================================

@@ -478,8 +478,7 @@ O treinamento foi realizado de forma simples: a sequência de ações para cada 
 
 \begin{table}[H]
 \centering
-\caption{Um exemplo de uma \textit{\gls{build-order}} com as ações $A_1$ e $A_2$ ocorrendo nos tempos $t_n$. Observa-se nas últimas 2 linhas da tabela que há uma inversão de sequência de execução das ações. Esta alteração não implica que as \textit{\gls{build-order}} sejam diferentes, é muito provável que os tempos $t_5$, $t_6$, $t_7$ e $t_8$ sejam muitos próximos e são independentes.}
-\label{my-label}
+\caption{\label{tab:treinamento-exemplo} Um exemplo de uma \textit{\gls{build-order}} com as ações $A_1$ e $A_2$ ocorrendo nos tempos $t_n$.}
 \begin{tabular}{|l|l||l|l|}
 \hline
 \multicolumn{2}{|l||}{\centering $BO_1$} & \multicolumn{2}{l|}{\centering $BO_2$} \\ \hline
@@ -491,7 +490,7 @@ $t_7$       & $A_1$       & $t_8$       & $A_2$      \\ \hline
 \end{tabular}
 \end{table}
 
-Dessa forma, as duas listas terão o seguinte conteúdo:
+Na Tabela \ref{tab:treinamento-exemplo}, observa-se nas últimas 2 linhas da tabela que há uma inversão de sequência de execução das ações. Esta alteração não implica que as \textit{\gls{build-order}} sejam diferentes, é muito provável que os tempos $t_5$, $t_6$, $t_7$ e $t_8$ sejam muitos próximos e são independentes. Dessa forma, as duas listas terão o seguinte conteúdo:
 
 \begin{align}
 \begin{split}
@@ -570,18 +569,22 @@ Neste exemplo, de forma a simplificar o cálculo, assume-se que a frequência de
 Com os resultados de média (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-media} e \ref{eq:metodo-exemplo-vetor-tempos-a2-media}) e desvio padrão (Equações \ref{eq:metodo-exemplo-vetor-tempos-a1-desvio} e \ref{eq:metodo-exemplo-vetor-tempos-a2-desvio}), é possível obter um gráfico do formato da distribuição de probabilidade conforme representado nas Figuras \ref{fig:metodo-exemplo-bo-media-a1} e \ref{fig:metodo-exemplo-bo-media-a2}.
 
 \begin{figure}[htb]
-	\caption{\label{fig:metodo-exemplo-bo-media-a1} Exemplo da distribuição de probabilidade da ação $A_1$. A curva em azul representa a primeira \gls{repeticao} da ação (nos tempos $t_1$ e $t_2$), a curva em laranja representa a segunda \gls{repeticao} (nos tempos $t_3$ e $t_4$) e a curva em verde representa a terceira \gls{repeticao} da ação (tempos $t_6$ e $t_7$).}
+	\caption{\label{fig:metodo-exemplo-bo-media-a1} Exemplo da distribuição de probabilidade da ação $A_1$.}
 	\begin{center}
 	    \includegraphics[width=\linewidth]{../Mathematica/Images/Exemplo_BO_Media_A1.pdf}
 	\end{center}
 \end{figure}
 
+Na Figura \ref{fig:metodo-exemplo-bo-media-a1}, a curva em azul representa a primeira \gls{repeticao} da ação (nos tempos $t_1$ e $t_2$), a curva em laranja representa a segunda \gls{repeticao} (nos tempos $t_3$ e $t_4$) e a curva em verde representa a terceira \gls{repeticao} da ação (tempos $t_6$ e $t_7$).
+
 \begin{figure}[htb]
-	\caption{\label{fig:metodo-exemplo-bo-media-a2} Exemplo da distribuição de probabilidade da ação $A_1$. Como a ação $A_2$ somente é executada uma única vez no exemplo, apenas uma \gls{repeticao} é mostrada no gráfico. A ação corresponde aos instantes de tempo $t_5$ e $t_8$.}
+	\caption{\label{fig:metodo-exemplo-bo-media-a2} Exemplo da distribuição de probabilidade da ação $A_1$.}
 	\begin{center}
 	    \includegraphics[width=\linewidth]{../Mathematica/Images/Exemplo_BO_Media_A2.pdf}
 	\end{center}
 \end{figure}
+
+Na Figura \ref{fig:metodo-exemplo-bo-media-a2} a ação $A_2$ somente é executada uma única vez no exemplo, então apenas uma \gls{repeticao} é mostrada no gráfico. A ação corresponde aos instantes de tempo $t_5$ e $t_8$.
 
 %-------------------------------------------------------------------------
 			\subsection{Forma Matricial}
@@ -992,10 +995,11 @@ As Tabelas \ref{tab:resultados-comparacao-win-rate} e \ref{tab:resultados-compar
 % PROPOSTA DE TRABALHOS FUTUROS
 	\chapter{Propostas de Trabalhos Futuros}
 %=========================================================================
-\begin{itemize}
-	\item Utilização de um refinamento utilizando ações-chave
-	\item Classificação online: classificar a taxa de acerto de classificação ao longo do tempo
-\end{itemize}
+O método de classificação poderia utilizar um mecanismo de ações-chave para reforço dos resultados. Uma ação-chave é uma ação que é uma única ação capaz de definir com bastante exatidão. Caso não consiga reduzir as possibilidades para uma única, ao menos consegue reduzir significantemente a lista de possíveis resultados.
+
+O método proposto é completamente \textit{offline}. Isto é, não é capaz de classificar as ações dos jogadores conforme estas vão acontecendo. Uma sugestão é que o algoritmo seja implementado utilizando um método \textit{online}, isto é, possa classificar e obter resultados da classificação ao decorrer da partida. Também é possível a implementação direto no jogo através da linguagem de programação Galaxy, integrada ao jogo e utilizada para desenvolvimento de inteligências artificiais e \textit{scripts} customizados para mapas.
+
+O desenvolvimento de um banco de dados de arquivos de \textit{\glspl{replay}} utilizando métodos de \textit{crowd sourcing} é capaz de coletar quantidades enormes de dados que podem ser utilizados para expandir o universo restrito de \textit{\glspl{build-order}} utilizadas neste trabalho. Para auxiliar o trabalho, um método heurístico de segmentação e uma realimentação do classificador é possível para que o resultado seja refinado ao longo do processo.
 
 %=========================================================================
 % REFERÊNCIAS BIBLIOGRÁFICAS

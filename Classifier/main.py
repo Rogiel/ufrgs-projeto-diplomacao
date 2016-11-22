@@ -83,36 +83,40 @@ for matcher in matchers.itervalues():
 #     print name, float(rate['OK']) / float(rate['Total']), "(" + str(rate['OK']) + "/" + str(rate['Total']) + ")"
 #
 # print ' == VALIDATION =='
-# rates = dict()
-#
+rates = dict()
+classification_thresholds = dict()
+
 validationSet = imp.load_source('ValidationSet.index', 'TrainingSet/validation.py')
-# for (race, builds) in validationSet.validation_set_replays.iteritems():
-#     for (name, replay_files) in builds.iteritems():
-#         if name not in rates:
-#             rates[name] = {
-#                 'Total': 0,
-#                 'OK': 0
-#             }
-#
-#         # skip = int(len(replay_files) * 0.2)
-#         # n = 0
-#
-#         for (replay_file, pid) in replay_files.iteritems():
-#             bos = parser.parse(replay_file, truncate=True)
-#             for (playerID, bo) in bos.iteritems():
-#                 if playerID != pid:
-#                     continue
-#                 results = matchers[bo['Race']].classify(bo['BuildOrder'])
-#                 (probable, p) = utils.get_most_probable_build(results)
-#
-#                 rates[name]['Total'] += 1
-#                 if probable == name:
-#                     rates[name]['OK'] += 1
-#
-#                 print name, "->", probable, p
-#
-# for (name, rate) in rates.iteritems():
-#     print name, float(rate['OK']) / float(rate['Total']), "(" + str(rate['OK']) + "/" + str(rate['Total']) + ")"
+for (race, builds) in validationSet.validation_set_replays.iteritems():
+    for (name, replay_files) in builds.iteritems():
+        if name not in rates:
+            rates[name] = {
+                'Total': 0,
+                'OK': 0
+            }
+
+        # skip = int(len(replay_files) * 0.2)
+        # n = 0
+
+        for (replay_file, pid) in replay_files.iteritems():
+            bos = parser.parse(replay_file, truncate=True)
+            for (playerID, bo) in bos.iteritems():
+                if playerID != pid:
+                    continue
+                results = matchers[bo['Race']].classify(bo['BuildOrder'])
+                (probable, p) = utils.get_most_probable_build(results)
+
+                if probable not in classification_thresholds or classification_thresholds[probable] > p:
+                    classification_thresholds[probable] = p
+
+                rates[name]['Total'] += 1
+                if probable == name:
+                    rates[name]['OK'] += 1
+
+                print name, "->", probable, p
+
+for (name, rate) in rates.iteritems():
+    print name, float(rate['OK']) / float(rate['Total']), "(" + str(rate['OK']) + "/" + str(rate['Total']) + ")"
 
 noise_results = dict()
 
@@ -155,11 +159,104 @@ for (race, builds) in validationSet.validation_set_replays.iteritems():
                         noise_results[name][i]['OK'] += 1
 
 for (name, rates) in noise_results.iteritems():
-    print '\\textbf{'+name+'}',
+    print '\\textbf{' + name + '}',
     for (percent, rate) in rates.iteritems():
         print "&", round(float(rate['OK']) / float(rate['Total']), 2),
     print "\\\\"
 
-# print "Terran:  ", len(matchers['Terran'].training)
-# print "Zerg:    ", len(matchers['Zerg'].training)
-# print "Protoss: ", len(matchers['Protoss'].training)
+print
+print ' == WON TEST =='
+print
+
+won_rates = dict()
+
+for replay_file in list_replays('Replays'):
+    try:
+        bos = parser.parse(replay_file, truncate=True, lastedTime=True)
+        classified = 0
+        for (playerID, bo) in bos.iteritems():
+            if bo['Race'] != 'Protoss':
+                continue
+
+            results = matchers[bo['Race']].classify(bo['BuildOrder'])
+            (probable, p) = utils.get_most_probable_build(results)
+
+            if p < classification_thresholds[probable]:
+                continue
+
+            bo['Classified'] = probable
+            classified += 1
+
+        if classified == 2:
+            bo1 = bos[1]['Classified']
+            bo2 = bos[2]['Classified']
+
+            if bo1 not in won_rates:
+                won_rates[bo1] = dict()
+            if bo2 not in won_rates[bo1]:
+                won_rates[bo1][bo2] = {
+                    'Total': 0,
+                    'Won': 0,
+                    'Survive': 0
+                }
+
+            if bo2 not in won_rates:
+                won_rates[bo2] = dict()
+            if bo1 not in won_rates[bo2]:
+                won_rates[bo2][bo1] = {
+                    'Total': 0,
+                    'Won': 0,
+                    'Survive': 0
+                }
+
+            won_rates[bo1][bo2]['Total'] += 1
+            won_rates[bo2][bo1]['Total'] += 1
+
+            if bos[1]['Win']:
+                won_rates[bo1][bo2]['Won'] += 1
+            if bos[2]['Win']:
+                won_rates[bo2][bo1]['Won'] += 1
+
+            if bos[1]['SurvivedUntil'] > 10 * 60:
+                won_rates[bo1][bo2]['Survive'] += 1
+            if bos[2]['SurvivedUntil'] > 10 * 60:
+                won_rates[bo2][bo1]['Survive'] += 1
+    except:
+        continue
+
+print won_rates
+
+import pandas
+
+pandas.options.display.float_format = '{:.2f}'.format
+
+dataframe = pandas.DataFrame()
+for (bo1, level1) in won_rates.iteritems():
+    for (bo2, rate) in level1.iteritems():
+        # print bo1, bo2, float(rate['Won']) / float(rate['Total']), "(" + str(rate['Won']) + "/" + str(
+        #     rate['Total']) + ")"
+        dataframe.set_value(bo1, bo2, float(rate['Won']) / float(rate['Total']))
+dataframe = dataframe.sort_index(axis=0)
+dataframe = dataframe.sort_index(axis=1)
+print dataframe.to_latex(na_rep='-', bold_rows=True)
+
+with open('../Report/Tables/Win-rate.tex', 'wb') as f:
+    f.write(dataframe.to_latex(na_rep='-', bold_rows=True))
+
+print
+print ' == NOT LOSE UNTIL 10 MIN =='
+print
+
+dataframe = pandas.DataFrame()
+for (bo1, level1) in won_rates.iteritems():
+    for (bo2, rate) in level1.iteritems():
+        # print bo1, bo2, float(rate['Survive']) / float(rate['Total']), "(" + str(rate['Survive']) + "/" + str(
+        #     rate['Total']) + ")"
+        dataframe.set_value(bo1, bo2, float(rate['Survive']) / float(rate['Total']))
+dataframe = dataframe.sort_index(axis=0)
+dataframe = dataframe.sort_index(axis=1)
+print dataframe.to_latex(na_rep='-', bold_rows=True)
+
+
+with open('../Report/Tables/Survival-rate.tex', 'wb') as f:
+    f.write(dataframe.to_latex(na_rep='-', bold_rows=True))

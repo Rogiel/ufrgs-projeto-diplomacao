@@ -7,7 +7,7 @@ import build_order
 import game_data
 import utils
 
-def parse(replay_file, truncate=True):
+def parse(replay_file, truncate=True, lastedTime=False):
     archive = mpyq.MPQArchive(replay_file)
 
     # Read the protocol header, this can be read with any protocol
@@ -30,6 +30,7 @@ def parse(replay_file, truncate=True):
     details = protocol.decode_replay_details(contents)
 
     unitTags = dict()
+    userIdMap = dict()
 
     playerIndex = 1
     for player in details['m_playerList']:
@@ -37,7 +38,8 @@ def parse(replay_file, truncate=True):
         players[playerIndex] = {
             'Name': player['m_name'],
             'BuildOrder': build_order.BuildOrder(player['m_race']),
-            'Race': player['m_race']
+            'Race': player['m_race'],
+            'SurvivedUntil': 0.0
         }
         bos[playerIndex] = players[playerIndex]['BuildOrder']
         bos[playerIndex].worker_kills = 0
@@ -54,8 +56,15 @@ def parse(replay_file, truncate=True):
         eventName = event['_event']
 
         gameLoop = event['_gameloop']
+        if 'm_playerId' in event:
+            players[event['m_playerId']]['SurvivedUntil'] = utils.convert_gameloops_to_seconds(gameLoop)
         if truncate and utils.convert_gameloops_to_seconds(gameLoop) > 6 * 60:
-            break
+            continue
+
+        if eventName == 'NNet.Replay.Tracker.SPlayerSetupEvent':
+            playerID = event['m_playerId']
+            userId = event['m_userId']
+            userIdMap[userId] = playerID
 
         if eventName == 'NNet.Replay.Tracker.SPlayerStatsEvent':
             playerID = event['m_playerId']
@@ -85,52 +94,30 @@ def parse(replay_file, truncate=True):
             playerStats = stats[playerID]
             buildOrder = bos[playerID]
 
+            if buildOrder.race not in game_data.races:
+                continue
+
             valid_units = game_data.races[buildOrder.race]
             if unit not in valid_units:
                 continue
 
             buildOrder.add_action(utils.convert_gameloops_to_seconds(gameLoop), build_order.BuildUnitAction(playerStats['m_stats'], unit))
 
-        # if eventName == 'NNet.Replay.Tracker.SUpgradeEvent':
-        #     print event
-        #     exit()
-
-        # if truncate and eventName == 'NNet.Replay.Tracker.SUnitDiedEvent':
-        #     if event['m_unitTagIndex'] not in unitTags:
-        #         continue
-        #     killedUnit = unitTags[event['m_unitTagIndex']]
-        #
-        #     playerID = killedUnit['m_upkeepPlayerId']
-        #     unit = killedUnit['m_unitTypeName']
-        #     if playerID not in bos:
-        #         continue
-        #     buildOrder = bos[playerID]
-        #     valid_units = game_data.races[buildOrder.race]
-        #
-        #     if unit in game_data.workers:
-        #         continue
-        #     if unit not in valid_units:
-        #         continue
-        #     if unit in game_data.ignore_killed:
-        #         continue
-        #
-        #     buildOrder.worker_kills += 1
-        #     if buildOrder.worker_kills < 15:
-        #         continue
-        #
-        #     break
-
-    # contents = archive.read_file('replay.game.events')
-    # for event in protocol.decode_replay_game_events(contents):
-    #     eventName = event['_event']
+    # if lastedTime is True:
+    #     contents = archive.read_file('replay.game.events')
+    #     for event in protocol.decode_replay_game_events(contents):
+    #         eventName = event['_event']
+    #         if eventName == 'NNet.Game.SGameUserLeaveEvent':
+    #             if not event['_userid']['m_userId'] in userIdMap:
+    #                 continue
     #
-    #     if eventName == 'NNet.Game.SGameUserLeaveEvent':
-    #         userid = event['_userid']['m_userId']
+    #             gameLoop = event['_gameloop']
+    #             eventPlayerID = userIdMap[event['_userid']['m_userId']]
+    #             for (playerID, player) in players.iteritems():
+    #                 if player['SurvivedUntil'] == 0:
+    #                     player['SurvivedUntil'] = utils.convert_gameloops_to_seconds(gameLoop)
     #
-    #         if userid in bos:
-    #
-    #
-    #         print event
-    #         exit()
+    #             # print bos[event['_userid']['m_userId']]['Name']
+    #             # exit()
 
     return players
